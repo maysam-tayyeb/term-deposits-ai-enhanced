@@ -15,18 +15,21 @@ This document tracks all recommended improvements for the Term Deposits Calculat
 ## 🔴 High Priority Improvements
 
 ### 1. Add Component Tests for SavingsAndDepositCalculator.tsx
-- **Status**: 🔴 Not Started
-- **Effort**: Medium (4-6 hours)
+- **Status**: 🟢 Completed
+- **Effort**: Medium (4-6 hours) - **Actual**: ~4 hours
 - **Description**: The main React component lacks unit tests despite complex state logic
 - **Tasks**:
-  - [ ] Install @testing-library/react and @testing-library/user-event
-  - [ ] Configure Vitest for DOM testing (add jsdom)
-  - [ ] Test input validation
-  - [ ] Test state updates
-  - [ ] Test error handling
-  - [ ] Test UI rendering based on state
-- **Files to create**: `src/features/savingsAndDepositCalculator/SavingsAndDepositCalculator.test.tsx`
-- **Note**: Vitest is already installed and can handle component testing with proper setup
+  - [x] Install @testing-library/react and @testing-library/user-event
+  - [x] Configure Vitest for DOM testing (add jsdom)
+  - [x] Test input validation
+  - [x] Test state updates
+  - [x] Test error handling  
+  - [x] Test UI rendering based on state
+- **Files created**: 
+  - `src/features/savingsAndDepositCalculator/SavingsAndDepositCalculator.test.tsx` (17 tests)
+  - `vitest.config.ts` (Vitest configuration for DOM testing)
+  - `src/test/setup.ts` (Test setup file)
+- **Note**: Successfully implemented with 17 comprehensive tests covering rendering, calculations, user interactions, and accessibility
 
 ### 2. Implement Input Validation for Principal Amount
 - **Status**: 🔴 Not Started
