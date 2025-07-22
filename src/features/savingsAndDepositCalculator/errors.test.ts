@@ -163,7 +163,7 @@ describe("ConsoleErrorLogger", () => {
   };
 
   beforeEach(() => {
-    logger = new ConsoleErrorLogger();
+    logger = new ConsoleErrorLogger("Calculator");
     consoleSpy = {
       error: vi.spyOn(console, "error").mockImplementation(() => {}),
       warn: vi.spyOn(console, "warn").mockImplementation(() => {}),

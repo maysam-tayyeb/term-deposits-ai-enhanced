@@ -1,7 +1,6 @@
 import React from "react";
 import {
   type BaseCalculatorError,
-  type ErrorSeverity,
   ErrorSeverity as ErrorSeverityValues,
 } from "./errors";
 import { TEST_IDS } from "./SavingsAndDepositCalculator.constants";
@@ -15,7 +14,7 @@ export function ErrorDisplay({
   error,
   onDismiss,
 }: ErrorDisplayProps): React.JSX.Element {
-  const getSeverityStyles = (severity: ErrorSeverity): string => {
+  const getSeverityStyles = (severity: string): string => {
     switch (severity) {
       case ErrorSeverityValues.CRITICAL:
       case ErrorSeverityValues.HIGH:
@@ -29,7 +28,7 @@ export function ErrorDisplay({
     }
   };
 
-  const getSeverityIcon = (severity: ErrorSeverity): React.JSX.Element => {
+  const getSeverityIcon = (severity: string): React.JSX.Element => {
     const iconClass = "h-5 w-5";
 
     switch (severity) {
