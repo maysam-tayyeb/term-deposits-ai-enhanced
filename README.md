@@ -16,15 +16,17 @@ The app instantly recalculates and displays a month-by-month breakdown, total in
 * Assumes all earned interest is reinvested at the selected frequency.
 * Interest rate is constant for the entire term.
 * No partial withdrawals or additional deposits during the term.
-* Allows calculating up to 15.00% interest rate
-* Minimum investment term is 3 months and maximum is 5 years(60 months)
-* Re-investment periods are 
+* **Principal amount**: Validates range from $1 to $10,000,000 with error handling for invalid inputs
+* **Interest rate**: Allows calculating from 0.00% to 15.00% with validation
+* **Investment term**: Minimum 3 months and maximum 5 years (60 months) with validation
+* **Re-investment periods**: 
   * Monthly
   * Quarterly
   * Annually
   * At Maturity
-* Fully unit tested
-* Only provide e2e tests for UI
+* **Testing**: Comprehensive unit tests for all business logic, factories, and components
+* **E2E Testing**: UI validation with Playwright
+* **Validation**: All inputs use factory pattern with branded types for type safety
 
 ---
 
