@@ -45,6 +45,7 @@ export interface CalculatorActions {
   setMonths: (value: number) => void;
   setFrequency: (value: PayFrequency) => void;
   setError: (error: BaseCalculatorError | null) => void;
+  resetToDefaults: () => void;
 }
 
 export function useCalculator(): CalculatorState & CalculatorActions {
@@ -195,6 +196,14 @@ export function useCalculator(): CalculatorState & CalculatorActions {
     }
   }, [annualRate, frequency, months, principal, errorService]);
 
+  const resetToDefaults = (): void => {
+    setPrincipal(DEFAULT_VALUES.PRINCIPAL);
+    setAnnualRate(DEFAULT_VALUES.INTEREST_RATE);
+    setMonths(DEFAULT_VALUES.INVESTMENT_TERM_MONTHS);
+    setFrequency(DEFAULT_VALUES.FREQUENCY);
+    setError(null);
+  };
+
   return {
     // State
     principal,
@@ -209,5 +218,6 @@ export function useCalculator(): CalculatorState & CalculatorActions {
     setMonths: setMonthsWithFrequencyCheck,
     setFrequency,
     setError,
+    resetToDefaults,
   };
 }

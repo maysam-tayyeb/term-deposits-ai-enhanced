@@ -22,7 +22,13 @@ import {
   UI_TEXT,
   FREQUENCY_OPTIONS,
   TEST_IDS,
+  DEFAULT_VALUES,
 } from "../../config/constants";
+import {
+  FormField,
+  NumberInput,
+  RadioGroup,
+} from "../../../../shared/components/FormFields";
 
 interface CalculatorFormProps {
   principal: number;
@@ -34,6 +40,7 @@ interface CalculatorFormProps {
   onAnnualRateChange: (value: number) => void;
   onMonthsChange: (value: number) => void;
   onFrequencyChange: (value: PayFrequency) => void;
+  onReset?: () => void;
 }
 
 export function CalculatorForm({
@@ -46,6 +53,7 @@ export function CalculatorForm({
   onAnnualRateChange,
   onMonthsChange,
   onFrequencyChange,
+  onReset,
 }: CalculatorFormProps): React.JSX.Element {
   // Parse the combined error message into individual field errors
   const parseFieldErrors = (): { [key: string]: string[] } => {
@@ -79,127 +87,96 @@ export function CalculatorForm({
     return fieldErrors[fieldKey]?.length > 0;
   };
 
-  // Helper function to get error class for input styling
-  const getInputClassName = (hasError: boolean): string => {
-    const baseClass = "w-full border rounded p-2";
-    return hasError 
-      ? `${baseClass} border-red-500 bg-red-50 focus:border-red-500 focus:ring-red-500` 
-      : `${baseClass} border-gray-300 focus:border-blue-500 focus:ring-blue-500`;
-  };
 
   // Helper function to get field-specific error messages
   const getFieldErrorMessages = (fieldKey: string): string[] => {
     return fieldErrors[fieldKey] || [];
   };
+  const handleReset = () => {
+    if (onReset) {
+      onReset();
+    } else {
+      onPrincipalChange(DEFAULT_VALUES.PRINCIPAL);
+      onAnnualRateChange(DEFAULT_VALUES.INTEREST_RATE);
+      onMonthsChange(DEFAULT_VALUES.INVESTMENT_TERM_MONTHS);
+      onFrequencyChange(DEFAULT_VALUES.FREQUENCY);
+    }
+  };
+
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-      <div>
-        <label className="block text-sm font-medium mb-1">
-          {UI_TEXT.LABELS.PRINCIPAL}
-        </label>
-        <input
-          type="number"
+    <div className="space-y-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <FormField
+        label={UI_TEXT.LABELS.PRINCIPAL}
+        error={getFieldErrorMessages('principal')}
+        helpText={`Min ${DESCRIPTION_MIN_ALLOWED_PRINCIPAL} and max ${DESCRIPTION_MAX_ALLOWED_PRINCIPAL}`}
+      >
+        <NumberInput
           value={principal}
-          onChange={(e) => onPrincipalChange(parseFloat(e.target.value))}
+          onChange={onPrincipalChange}
           min={MIN_ALLOWED_PRINCIPAL}
           max={MAX_ALLOWED_PRINCIPAL}
-          className={getInputClassName(hasFieldError('principal'))}
-          data-testid={TEST_IDS.PRINCIPAL_INPUT}
+          hasError={hasFieldError('principal')}
+          testId={TEST_IDS.PRINCIPAL_INPUT}
         />
-        {getFieldErrorMessages('principal').length > 0 ? (
-          <div className="mt-1">
-            {getFieldErrorMessages('principal').map((errMsg, index) => (
-              <p key={index} className="text-xs text-red-600">
-                {errMsg}
-              </p>
-            ))}
-          </div>
-        ) : (
-          <p className="text-xs text-gray-500">
-            Min {DESCRIPTION_MIN_ALLOWED_PRINCIPAL} and max{" "}
-            {DESCRIPTION_MAX_ALLOWED_PRINCIPAL}
-          </p>
-        )}
-      </div>
-      <div>
-        <label className="block text-sm font-medium mb-1">
-          {UI_TEXT.LABELS.INTEREST_RATE}
-        </label>
-        <input
-          type="number"
-          step={UI_CONFIG.INTEREST_RATE_STEP}
+      </FormField>
+
+      <FormField
+        label={UI_TEXT.LABELS.INTEREST_RATE}
+        error={getFieldErrorMessages('interestRate')}
+        helpText={`Min ${DESCRIPTION_MIN_ALLOWED_INTEREST_RATE} and max ${DESCRIPTION_MAX_ALLOWED_INTEREST_RATE}`}
+      >
+        <NumberInput
           value={annualRate}
-          onChange={(e) => onAnnualRateChange(parseFloat(e.target.value))}
+          onChange={onAnnualRateChange}
           min={MIN_ALLOWED_INTEREST_RATE}
           max={MAX_ALLOWED_INTEREST_RATE}
-          className={getInputClassName(hasFieldError('interestRate'))}
-          data-testid={TEST_IDS.INTEREST_RATE_INPUT}
+          step={parseFloat(UI_CONFIG.INTEREST_RATE_STEP)}
+          hasError={hasFieldError('interestRate')}
+          testId={TEST_IDS.INTEREST_RATE_INPUT}
         />
-        {getFieldErrorMessages('interestRate').length > 0 ? (
-          <div className="mt-1">
-            {getFieldErrorMessages('interestRate').map((errMsg, index) => (
-              <p key={index} className="text-xs text-red-600">
-                {errMsg}
-              </p>
-            ))}
-          </div>
-        ) : (
-          <p className="text-xs text-gray-500">
-            Min {DESCRIPTION_MIN_ALLOWED_INTEREST_RATE} and max{" "}
-            {DESCRIPTION_MAX_ALLOWED_INTEREST_RATE}
-          </p>
-        )}
-      </div>
-      <div>
-        <label className="block text-sm font-medium mb-1">
-          {UI_TEXT.LABELS.INVESTMENT_TERM}
-        </label>
-        <input
-          type="number"
+      </FormField>
+
+      <FormField
+        label={UI_TEXT.LABELS.INVESTMENT_TERM}
+        error={getFieldErrorMessages('duration')}
+        helpText={`Min ${MIN_ALLOWED_COMPOUNDING_MONTHS} and max ${MAX_ALLOWED_COMPOUNDING_MONTHS} months`}
+      >
+        <NumberInput
           value={months}
-          onChange={(e) => onMonthsChange(parseInt(e.target.value, 10))}
+          onChange={(value) => onMonthsChange(Math.floor(value))}
           min={MIN_ALLOWED_COMPOUNDING_MONTHS}
           max={MAX_ALLOWED_COMPOUNDING_MONTHS}
-          className={getInputClassName(hasFieldError('duration'))}
-          data-testid={TEST_IDS.INVESTMENT_TERM_INPUT}
+          hasError={hasFieldError('duration')}
+          testId={TEST_IDS.INVESTMENT_TERM_INPUT}
         />
-        {getFieldErrorMessages('duration').length > 0 ? (
-          <div className="mt-1">
-            {getFieldErrorMessages('duration').map((errMsg, index) => (
-              <p key={index} className="text-xs text-red-600">
-                {errMsg}
-              </p>
-            ))}
-          </div>
-        ) : (
-          <p className="text-xs text-gray-500">
-            Min {MIN_ALLOWED_COMPOUNDING_MONTHS} and max{" "}
-            {MAX_ALLOWED_COMPOUNDING_MONTHS} months
-          </p>
-        )}
-      </div>
-      <div>
-        <label className="block text-sm font-medium mb-1">
-          {UI_TEXT.LABELS.INTEREST_PAID}
-        </label>
-        <div className="flex gap-4">
-          {FREQUENCY_OPTIONS.filter(
+      </FormField>
+
+      <FormField
+        label={UI_TEXT.LABELS.INTEREST_PAID}
+        className="space-y-3"
+      >
+        <RadioGroup
+          options={FREQUENCY_OPTIONS.filter(
             (opt) => opt.value !== "annually" || months >= 12,
-          ).map((opt) => (
-            <label key={opt.value} className="inline-flex items-center">
-              <input
-                type="radio"
-                name="frequency"
-                value={opt.value}
-                checked={frequency === opt.value}
-                onChange={() => onFrequencyChange(opt.value)}
-                className="form-radio mr-2"
-                data-testid={`${TEST_IDS.RADIO_PREFIX}${opt.value.toLowerCase()}`}
-              />
-              {opt.label}
-            </label>
-          ))}
-        </div>
+          )}
+          value={frequency}
+          onChange={(value) => onFrequencyChange(value as PayFrequency)}
+          name="frequency"
+          testIdPrefix={TEST_IDS.RADIO_PREFIX}
+        />
+      </FormField>
+      </div>
+      
+      {/* Reset Button */}
+      <div className="flex justify-center pt-4 border-t border-slate-200">
+        <button
+          type="button"
+          onClick={handleReset}
+          className="px-6 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-medium text-sm transition-all duration-200 border border-slate-200 hover:border-slate-300"
+        >
+          Reset to Default
+        </button>
       </div>
     </div>
   );

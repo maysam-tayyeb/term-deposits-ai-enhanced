@@ -4,6 +4,7 @@ import { useCalculator } from "../../logic/hooks";
 import { ErrorDisplay } from "../ErrorHandling";
 import { CalculatorForm } from "../CalculatorForm";
 import { ResultsDisplay } from "../ResultsDisplay";
+import { AppLogoIcon, CalculatorIcon, ClockIcon } from "../../../../shared/components/Icons";
 
 export function SavingsAndDepositCalculator(): React.JSX.Element {
   const {
@@ -17,81 +18,90 @@ export function SavingsAndDepositCalculator(): React.JSX.Element {
     setAnnualRate,
     setMonths,
     setFrequency,
+    resetToDefaults,
   } = useCalculator();
 
   return (
-    <div className="max-w-4xl mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-4 text-[#de313b]">
-        {UI_TEXT.TITLE}
-      </h1>
-      {error && <ErrorDisplay error={error} />}
-      <CalculatorForm
-        principal={principal}
-        annualRate={annualRate}
-        months={months}
-        frequency={frequency}
-        error={error}
-        onPrincipalChange={setPrincipal}
-        onAnnualRateChange={setAnnualRate}
-        onMonthsChange={setMonths}
-        onFrequencyChange={setFrequency}
-      />
-      {error ? (
-        <div className="flex gap-4">
-          <div className="max-h-[32rem] overflow-y-auto flex-2">
-            <div className="bg-gray-50 border border-gray-200 rounded-lg p-6 text-center">
-              <div className="text-gray-500 mb-2">
-                <svg
-                  className="h-12 w-12 mx-auto mb-4 text-gray-400"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={1}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M9 19v-6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2Zm0 0V9a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v10m-6 0a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2m0 0V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2Z"
-                  />
-                </svg>
-              </div>
-              <h3 className="text-lg font-medium text-gray-700 mb-2">
-                No Results Available
-              </h3>
-              <p className="text-sm text-gray-500">
-                Please fix the validation errors above to view your projected savings and calculation results.
-              </p>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
+      {/* Header Section */}
+      <div className="bg-white/80 backdrop-blur-sm border-b border-white/20 sticky top-0 z-10">
+        <div className="max-w-7xl mx-auto px-4 py-6">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-gradient-to-br from-[#de313b] to-red-600 rounded-xl flex items-center justify-center shadow-lg">
+              <AppLogoIcon className="w-6 h-6 text-white" />
             </div>
-          </div>
-          <div className="flex flex-col justify-start border p-4 flex-1">
-            <div className="bg-gray-50 border border-gray-200 rounded-lg p-6 text-center">
-              <div className="text-gray-500 mb-2">
-                <svg
-                  className="h-8 w-8 mx-auto mb-3 text-gray-400"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={1}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.897-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                  />
-                </svg>
-              </div>
-              <h4 className="text-base font-medium text-gray-700 mb-1">
-                Summary Unavailable
-              </h4>
-              <p className="text-xs text-gray-500">
-                Enter valid values to see your final balance and total interest earned.
-              </p>
+            <div>
+              <h1 className="text-3xl font-bold bg-gradient-to-r from-[#de313b] to-red-600 bg-clip-text text-transparent">
+                {UI_TEXT.TITLE}
+              </h1>
+              <p className="text-slate-600 text-sm mt-1">Calculate your compound interest returns with precision</p>
             </div>
           </div>
         </div>
-      ) : (
-        schedule.length > 0 && <ResultsDisplay schedule={schedule} />
-      )}
+      </div>
+
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto p-6">
+        {error && (
+          <div className="mb-8">
+            <ErrorDisplay error={error} />
+          </div>
+        )}
+        {/* Calculator Card */}
+        <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-8 mb-8">
+          <div className="flex items-center gap-2 mb-6">
+            <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center">
+              <CalculatorIcon className="w-4 h-4 text-white" />
+            </div>
+            <h2 className="text-xl font-semibold text-slate-700">Investment Calculator</h2>
+          </div>
+          
+          <CalculatorForm
+            principal={principal}
+            annualRate={annualRate}
+            months={months}
+            frequency={frequency}
+            error={error}
+            onPrincipalChange={setPrincipal}
+            onAnnualRateChange={setAnnualRate}
+            onMonthsChange={setMonths}
+            onFrequencyChange={setFrequency}
+            onReset={resetToDefaults}
+          />
+        </div>
+
+        {/* Results Section */}
+        {error ? (
+          <div className="grid lg:grid-cols-2 gap-6">
+            <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-8">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-gradient-to-br from-orange-400 to-red-500 rounded-2xl mx-auto mb-6 flex items-center justify-center shadow-lg">
+                  <ClockIcon className="w-8 h-8 text-white" />
+                </div>
+                <h3 className="text-xl font-semibold text-slate-700 mb-3">Results Pending</h3>
+                <p className="text-slate-500 leading-relaxed">
+                  Complete the form above with valid values to see your projected investment growth and detailed breakdown.
+                </p>
+              </div>
+            </div>
+            <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-8">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-2xl mx-auto mb-6 flex items-center justify-center shadow-lg">
+                  <svg className="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
+                  </svg>
+                </div>
+                <h4 className="text-xl font-semibold text-slate-700 mb-3">Summary Coming Soon</h4>
+                <p className="text-slate-500 leading-relaxed">
+                  Your final balance and total interest earned will appear here once all fields are properly filled.
+                </p>
+              </div>
+            </div>
+          </div>
+        ) : (
+          schedule.length > 0 && <ResultsDisplay schedule={schedule} />
+        )}
+      </div>
     </div>
   );
 }
