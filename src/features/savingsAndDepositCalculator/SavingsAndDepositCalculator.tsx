@@ -23,6 +23,13 @@ import {
   MIN_ALLOWED_INTEREST_RATE,
 } from "./annualInterestRate.factory.ts";
 import {
+  createPrincipalAmount,
+  DESCRIPTION_MAX_ALLOWED_PRINCIPAL,
+  DESCRIPTION_MIN_ALLOWED_PRINCIPAL,
+  MAX_ALLOWED_PRINCIPAL,
+  MIN_ALLOWED_PRINCIPAL,
+} from "./principal.factory.ts";
+import {
   DEFAULT_VALUES,
   UI_CONFIG,
   UI_TEXT,
@@ -47,33 +54,34 @@ export function SavingsAndDepositCalculator() {
   useEffect(() => {
     setError("");
     try {
+      const principalAmount = createPrincipalAmount(principal);
       const annualInterestRate = createAnnualInterestRate(annualRate);
       const duration = createDurationMonths(months);
       let result: CalculationResult[];
       switch (frequency) {
         case "monthly":
           result = calculateMonthlyCompounding(
-            principal,
+            principalAmount,
             annualInterestRate,
             duration,
           );
           break;
         case "quarterly":
           result = calculateQuarterlyCompounding(
-            principal,
+            principalAmount,
             annualInterestRate,
             duration,
           );
           break;
         case "annually":
           result = calculateAnnuallyCompounding(
-            principal,
+            principalAmount,
             annualInterestRate,
             duration,
           );
           break;
         case "atMaturity":
-          result = calculateAtMaturity(principal, annualInterestRate, duration);
+          result = calculateAtMaturity(principalAmount, annualInterestRate, duration);
           break;
       }
       setSchedule(result);
@@ -107,9 +115,15 @@ export function SavingsAndDepositCalculator() {
             type="number"
             value={principal}
             onChange={(e) => setPrincipal(parseFloat(e.target.value))}
+            min={MIN_ALLOWED_PRINCIPAL}
+            max={MAX_ALLOWED_PRINCIPAL}
             className="w-full border rounded p-2"
             data-testid={TEST_IDS.PRINCIPAL_INPUT}
           />
+          <p className="text-xs text-gray-500">
+            Min {DESCRIPTION_MIN_ALLOWED_PRINCIPAL} and max{" "}
+            {DESCRIPTION_MAX_ALLOWED_PRINCIPAL}
+          </p>
         </div>
         <div>
           <label className="block text-sm font-medium mb-1">

@@ -32,16 +32,22 @@ This document tracks all recommended improvements for the Term Deposits Calculat
 - **Note**: Successfully implemented with 17 comprehensive tests covering rendering, calculations, user interactions, and accessibility
 
 ### 2. Implement Input Validation for Principal Amount
-- **Status**: 🔴 Not Started
-- **Effort**: Small (2-3 hours)
-- **Description**: Currently accepts negative values with no validation
+- **Status**: 🟢 Completed
+- **Effort**: Small (2-3 hours) - **Actual**: ~2.5 hours
+- **Description**: Previously accepted negative values with no validation
 - **Tasks**:
-  - [ ] Create `principal.factory.ts` with validation
-  - [ ] Define min/max limits (e.g., $1 - $10,000,000)
-  - [ ] Add error messages for invalid amounts
-  - [ ] Update component to use factory
-  - [ ] Add unit tests
-- **Files to create**: `src/features/savingsAndDepositCalculator/principal.factory.ts`
+  - [x] Create `principal.factory.ts` with validation
+  - [x] Define min/max limits ($1 - $10,000,000)
+  - [x] Add error messages for invalid amounts
+  - [x] Update component to use factory
+  - [x] Add unit tests
+- **Files created**: 
+  - `src/features/savingsAndDepositCalculator/principal.factory.ts`
+  - `src/features/savingsAndDepositCalculator/principal.factory.test.ts` (6 tests)
+- **Files modified**:
+  - `compoundingInterestCalculators.types.ts` (added PrincipalAmount branded type)
+  - `SavingsAndDepositCalculator.tsx` (integrated validation and UI constraints)
+- **Note**: Successfully implemented with comprehensive validation, error handling, and UI constraints. Principal input now validates range, NaN, and Infinity values.
 
 ### 3. Improve Error Handling
 - **Status**: 🔴 Not Started
