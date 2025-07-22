@@ -3,7 +3,8 @@ import type { Brand } from "../types/brandedTypes";
 /**
  * Configuration for creating a value object factory
  */
-export interface ValueObjectConfig<_T extends number & Brand<number, string>> {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export interface ValueObjectConfig<T extends number & Brand<number, string>> {
   /** Minimum allowed value (inclusive) */
   min: number;
   /** Maximum allowed value (inclusive) */

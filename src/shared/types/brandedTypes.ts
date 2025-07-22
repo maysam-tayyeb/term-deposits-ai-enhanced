@@ -18,6 +18,6 @@ export type StringBrand<B extends string> = Brand<string, B>;
  * const createUserId = createBrandedType<number, "UserId">("UserId");
  * const userId = createUserId(123);
  */
-export function createBrandedType<T, B extends string>(_brand: B) {
+export function createBrandedType<T, B extends string>() {
   return (value: T): Brand<T, B> => value as Brand<T, B>;
 }

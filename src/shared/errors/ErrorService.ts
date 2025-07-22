@@ -44,6 +44,6 @@ export class ErrorService {
    * Reset the singleton instance (useful for testing)
    */
   static reset(): void {
-    ErrorService.instance = undefined as any;
+    ErrorService.instance = undefined as unknown as ErrorService;
   }
 }

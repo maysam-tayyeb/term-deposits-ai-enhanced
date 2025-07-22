@@ -1,6 +1,5 @@
 import { describe, it, expect, vi, beforeAll, afterAll } from "vitest";
 import { render, screen } from "@testing-library/react";
-import React from "react";
 import { CalculatorErrorBoundary } from "./ErrorBoundary";
 import { DefaultErrorFallback } from "./ErrorBoundary";
 

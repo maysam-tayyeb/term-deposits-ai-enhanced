@@ -48,7 +48,7 @@ export class ConsoleErrorLogger implements ErrorLogger {
  * No-op error logger for testing or when logging is disabled
  */
 export class NoOpErrorLogger implements ErrorLogger {
-  log(_error: BaseError): void {
+  log(): void {
     // Intentionally empty
   }
 }
