@@ -2,8 +2,8 @@ import React from "react";
 import {
   type BaseCalculatorError,
   ErrorSeverity as ErrorSeverityValues,
-} from "./errors";
-import { TEST_IDS } from "./SavingsAndDepositCalculator.constants";
+} from "../../config/errors";
+import { TEST_IDS } from "../../config/constants";
 
 interface ErrorDisplayProps {
   error: BaseCalculatorError;

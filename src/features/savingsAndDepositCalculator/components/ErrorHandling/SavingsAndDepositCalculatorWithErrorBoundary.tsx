@@ -1,6 +1,6 @@
 import React from "react";
 import { CalculatorErrorBoundary } from "./ErrorBoundary";
-import { SavingsAndDepositCalculator } from "./SavingsAndDepositCalculator";
+import { SavingsAndDepositCalculator } from "../SavingsAndDepositCalculator";
 
 /**
  * SavingsAndDepositCalculator wrapped with error boundary

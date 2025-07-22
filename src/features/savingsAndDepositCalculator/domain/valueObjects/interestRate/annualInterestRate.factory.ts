@@ -1,8 +1,8 @@
-import type { AnnualInterestRate } from "./compoundingInterestCalculators.types.ts";
+import type { AnnualInterestRate } from "../../types/compoundingInterestCalculators.types";
 import { 
   createValueObjectFactory, 
   createPercentageFormatter 
-} from "../../shared/utils/valueObjectFactory";
+} from "../../../../../shared/utils/valueObjectFactory";
 
 export const MIN_ALLOWED_INTEREST_RATE = 0;
 export const MAX_ALLOWED_INTEREST_RATE = 15;

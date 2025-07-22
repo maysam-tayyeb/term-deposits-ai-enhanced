@@ -1,27 +1,27 @@
 import React from "react";
-import type { PayFrequency } from "./compoundingInterestCalculators.types";
+import type { PayFrequency } from "../../domain/types";
 import {
   MAX_ALLOWED_COMPOUNDING_MONTHS,
   MIN_ALLOWED_COMPOUNDING_MONTHS,
-} from "./durationMonths.factory.ts";
+} from "../../domain/valueObjects/duration";
 import {
   DESCRIPTION_MAX_ALLOWED_INTEREST_RATE,
   DESCRIPTION_MIN_ALLOWED_INTEREST_RATE,
   MAX_ALLOWED_INTEREST_RATE,
   MIN_ALLOWED_INTEREST_RATE,
-} from "./annualInterestRate.factory.ts";
+} from "../../domain/valueObjects/interestRate";
 import {
   DESCRIPTION_MAX_ALLOWED_PRINCIPAL,
   DESCRIPTION_MIN_ALLOWED_PRINCIPAL,
   MAX_ALLOWED_PRINCIPAL,
   MIN_ALLOWED_PRINCIPAL,
-} from "./principal.factory.ts";
+} from "../../domain/valueObjects/principalAmount";
 import {
   UI_CONFIG,
   UI_TEXT,
   FREQUENCY_OPTIONS,
   TEST_IDS,
-} from "./SavingsAndDepositCalculator.constants";
+} from "../../config/constants";
 
 interface CalculatorFormProps {
   principal: number;

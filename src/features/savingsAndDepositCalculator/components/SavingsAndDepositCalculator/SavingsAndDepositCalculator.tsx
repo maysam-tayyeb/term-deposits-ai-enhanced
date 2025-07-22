@@ -1,9 +1,9 @@
 import React from "react";
-import { UI_TEXT } from "./SavingsAndDepositCalculator.constants";
-import { useCalculator } from "./useCalculator";
-import { ErrorDisplay } from "./ErrorDisplay";
-import { CalculatorForm } from "./CalculatorForm";
-import { ResultsDisplay } from "./ResultsDisplay";
+import { UI_TEXT } from "../../config/constants";
+import { useCalculator } from "../../logic/hooks";
+import { ErrorDisplay } from "../ErrorHandling";
+import { CalculatorForm } from "../CalculatorForm";
+import { ResultsDisplay } from "../ResultsDisplay";
 
 export function SavingsAndDepositCalculator(): React.JSX.Element {
   const {

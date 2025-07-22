@@ -6,19 +6,19 @@ import {
   calculateAtMaturity,
   compoundingPeriods,
   calculateCompoundingInterestAmounts,
-} from "./compoundingInterestCalculators.ts";
+} from "./compoundingInterestCalculators";
 import {
   MIN_ALLOWED_INTEREST_RATE,
   MAX_ALLOWED_INTEREST_RATE,
   DESCRIPTION_MIN_ALLOWED_INTEREST_RATE,
   DESCRIPTION_MAX_ALLOWED_INTEREST_RATE,
   createAnnualInterestRate,
-} from "./annualInterestRate.factory.ts";
+} from "../../domain/valueObjects/interestRate/annualInterestRate.factory";
 import {
   MIN_ALLOWED_COMPOUNDING_MONTHS,
   MAX_ALLOWED_COMPOUNDING_MONTHS,
   createDurationMonths,
-} from "./durationMonths.factory.ts";
+} from "../../domain/valueObjects/duration/durationMonths.factory";
 
 describe("Calculate compounding interest amounts", () => {
   describe("throws range error when", () => {

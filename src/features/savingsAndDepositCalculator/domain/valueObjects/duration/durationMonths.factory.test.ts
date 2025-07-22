@@ -3,7 +3,7 @@ import {
   MIN_ALLOWED_COMPOUNDING_MONTHS,
   MAX_ALLOWED_COMPOUNDING_MONTHS,
   createDurationMonths,
-} from "./durationMonths.factory.ts";
+} from "./durationMonths.factory";
 
 describe("Duration Months factory", () => {
   test("should return a branded DurationMonths for valid input", () => {

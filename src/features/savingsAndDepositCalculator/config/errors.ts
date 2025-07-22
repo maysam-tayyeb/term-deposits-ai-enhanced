@@ -13,13 +13,13 @@ export {
   ErrorFactory,
   ErrorService,
   ConsoleErrorLogger,
-} from "../../shared/errors";
+} from "../../../shared/errors";
 
 // Re-export types
 export type { 
   ErrorContext,
   ErrorLogger 
-} from "../../shared/errors";
+} from "../../../shared/errors";
 
 // Import and re-export constant values for backward compatibility
 import { 
@@ -28,7 +28,7 @@ import {
   ErrorTypeValues,
   ErrorSeverityValues,
   ConsoleErrorLogger 
-} from "../../shared/errors";
+} from "../../../shared/errors";
 
 // Export types with original names
 export type ErrorType = ErrorTypeType;

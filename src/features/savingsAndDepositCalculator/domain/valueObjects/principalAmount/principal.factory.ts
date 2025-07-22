@@ -1,8 +1,8 @@
-import type { PrincipalAmount } from "./compoundingInterestCalculators.types.ts";
+import type { PrincipalAmount } from "../../types/compoundingInterestCalculators.types";
 import { 
   createValueObjectFactory, 
   createNumberValidation
-} from "../../shared/utils/valueObjectFactory";
+} from "../../../../../shared/utils/valueObjectFactory";
 
 export const MIN_ALLOWED_PRINCIPAL = 1;
 export const MAX_ALLOWED_PRINCIPAL = 10_000_000;

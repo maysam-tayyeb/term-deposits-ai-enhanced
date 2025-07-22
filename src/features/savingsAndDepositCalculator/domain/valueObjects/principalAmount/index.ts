@@ -1,0 +1,7 @@
+export { 
+  createPrincipalAmount,
+  MIN_ALLOWED_PRINCIPAL,
+  MAX_ALLOWED_PRINCIPAL,
+  DESCRIPTION_MIN_ALLOWED_PRINCIPAL,
+  DESCRIPTION_MAX_ALLOWED_PRINCIPAL
+} from "./principal.factory";

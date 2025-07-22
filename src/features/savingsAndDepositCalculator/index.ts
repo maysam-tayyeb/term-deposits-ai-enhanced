@@ -1,2 +1,2 @@
-export { SavingsAndDepositCalculator } from "./SavingsAndDepositCalculator.tsx";
-export { SavingsAndDepositCalculatorWithErrorBoundary } from "./SavingsAndDepositCalculatorWithErrorBoundary.tsx";
+export { SavingsAndDepositCalculator } from "./components/SavingsAndDepositCalculator";
+export { SavingsAndDepositCalculatorWithErrorBoundary } from "./components/ErrorHandling";

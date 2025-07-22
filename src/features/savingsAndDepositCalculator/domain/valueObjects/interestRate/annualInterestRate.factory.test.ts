@@ -5,7 +5,7 @@ import {
   DESCRIPTION_MIN_ALLOWED_INTEREST_RATE,
   DESCRIPTION_MAX_ALLOWED_INTEREST_RATE,
   createAnnualInterestRate,
-} from "./annualInterestRate.factory.ts";
+} from "./annualInterestRate.factory";
 
 describe("Annual interest rate factory", () => {
   test("should return a branded AnnualInterestRate for valid input", () => {

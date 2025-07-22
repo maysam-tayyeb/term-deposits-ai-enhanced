@@ -1,6 +1,6 @@
 import React from "react";
-import type { CalculationResult } from "./compoundingInterestCalculators.types";
-import { UI_CONFIG, UI_TEXT, TEST_IDS } from "./SavingsAndDepositCalculator.constants";
+import type { CalculationResult } from "../../domain/types";
+import { UI_CONFIG, UI_TEXT, TEST_IDS } from "../../config/constants";
 
 interface ResultsDisplayProps {
   schedule: CalculationResult[];

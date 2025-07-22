@@ -1,8 +1,8 @@
-import type { DurationMonths } from "./compoundingInterestCalculators.types.ts";
+import type { DurationMonths } from "../../types/compoundingInterestCalculators.types";
 import { 
   createValueObjectFactory, 
   createUnitFormatter 
-} from "../../shared/utils/valueObjectFactory";
+} from "../../../../../shared/utils/valueObjectFactory";
 
 export const MIN_ALLOWED_COMPOUNDING_MONTHS = 3;
 export const MAX_ALLOWED_COMPOUNDING_MONTHS = 5 * 12;

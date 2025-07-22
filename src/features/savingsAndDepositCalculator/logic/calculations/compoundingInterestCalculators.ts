@@ -1,10 +1,10 @@
-import { round } from "../../utils/currency.ts";
+import { round } from "../../../../utils/currency";
 import type {
   AnnualInterestRate,
   DurationMonths,
   CalculationResult,
   PeriodicFrequency,
-} from "./compoundingInterestCalculators.types.ts";
+} from "../../domain/types/compoundingInterestCalculators.types";
 
 export const compoundingPeriods: Record<PeriodicFrequency, number> = {
   monthly: 12,

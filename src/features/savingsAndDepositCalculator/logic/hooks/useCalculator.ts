@@ -1,31 +1,31 @@
 import { useEffect, useState } from "react";
 import {
   createDurationMonths,
-} from "./durationMonths.factory.ts";
+} from "../../domain/valueObjects/duration/durationMonths.factory";
 import {
   calculateMonthlyCompounding,
   calculateQuarterlyCompounding,
   calculateAnnuallyCompounding,
   calculateAtMaturity,
-} from "./compoundingInterestCalculators";
+} from "../calculations/compoundingInterestCalculators";
 import type {
   CalculationResult,
   PayFrequency,
-} from "./compoundingInterestCalculators.types";
+} from "../../domain/types/compoundingInterestCalculators.types";
 import {
   createAnnualInterestRate,
-} from "./annualInterestRate.factory.ts";
+} from "../../domain/valueObjects/interestRate/annualInterestRate.factory";
 import {
   createPrincipalAmount,
-} from "./principal.factory.ts";
+} from "../../domain/valueObjects/principalAmount/principal.factory";
 import {
   DEFAULT_VALUES,
-} from "./SavingsAndDepositCalculator.constants";
+} from "../../config/constants";
 import {
   BaseCalculatorError,
   ErrorFactory,
   ErrorService,
-} from "./errors";
+} from "../../config/errors";
 
 export interface CalculatorState {
   principal: number;

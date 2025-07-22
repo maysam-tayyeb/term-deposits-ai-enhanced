@@ -7,7 +7,7 @@ import {
   UI_TEXT,
   TEST_IDS,
   FREQUENCY_OPTIONS,
-} from "./SavingsAndDepositCalculator.constants";
+} from "../../config/constants";
 
 // Additional test values not in component constants
 const TEST_VALUES = {

@@ -1,5 +1,5 @@
 import React, { Component, type ErrorInfo, type ReactNode } from "react";
-import { type BaseCalculatorError, ErrorFactory, ErrorService } from "./errors";
+import { type BaseCalculatorError, ErrorFactory, ErrorService } from "../../config/errors";
 
 interface ErrorBoundaryState {
   hasError: boolean;

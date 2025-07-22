@@ -1,4 +1,4 @@
-import type { PayFrequency } from "./compoundingInterestCalculators.types";
+import type { PayFrequency } from "../domain/types/compoundingInterestCalculators.types";
 
 // Default component values
 export const DEFAULT_VALUES = {
