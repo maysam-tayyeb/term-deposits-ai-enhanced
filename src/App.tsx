@@ -1,10 +1,10 @@
 import "./App.css";
-import { SavingsAndDepositCalculator } from "./features/savingsAndDepositCalculator";
+import { SavingsAndDepositCalculatorWithErrorBoundary } from "./features/savingsAndDepositCalculator";
 
 function App() {
   return (
     <>
-      <SavingsAndDepositCalculator />
+      <SavingsAndDepositCalculatorWithErrorBoundary />
     </>
   );
 }
