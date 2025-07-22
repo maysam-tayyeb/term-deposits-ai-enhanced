@@ -151,7 +151,14 @@ export function SavingsAndDepositCalculator() {
           <input
             type="number"
             value={months}
-            onChange={(e) => setMonths(parseInt(e.target.value, 10))}
+            onChange={(e) => {
+              const newMonths = parseInt(e.target.value, 10);
+              setMonths(newMonths);
+              // If annually is selected but new term is < 12 months, change to at maturity
+              if (frequency === "annually" && newMonths < 12) {
+                setFrequency("atMaturity");
+              }
+            }}
             min={MIN_ALLOWED_COMPOUNDING_MONTHS}
             max={MAX_ALLOWED_COMPOUNDING_MONTHS}
             className="w-full border rounded p-2"
@@ -167,7 +174,7 @@ export function SavingsAndDepositCalculator() {
             {UI_TEXT.LABELS.INTEREST_PAID}
           </label>
           <div className="flex gap-4">
-            {FREQUENCY_OPTIONS.map((opt) => (
+            {FREQUENCY_OPTIONS.filter(opt => opt.value !== "annually" || months >= 12).map((opt) => (
               <label key={opt.value} className="inline-flex items-center">
                 <input
                   type="radio"

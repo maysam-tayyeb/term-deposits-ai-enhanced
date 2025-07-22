@@ -66,10 +66,12 @@ describe("SavingsAndDepositCalculator", () => {
       expect(screen.getByText("Min 3 and max 60 months")).toBeInTheDocument();
     });
 
-    it("should render all frequency options", () => {
-      FREQUENCY_OPTIONS.forEach((option) => {
-        expect(screen.getByText(option.label)).toBeInTheDocument();
-      });
+    it("should render frequency options appropriate for current investment term", () => {
+      // With default 3 months, annually should not be visible
+      expect(screen.getByText("Monthly")).toBeInTheDocument();
+      expect(screen.getByText("Quarterly")).toBeInTheDocument();
+      expect(screen.getByText("At Maturity")).toBeInTheDocument();
+      expect(screen.queryByText("Annually")).not.toBeInTheDocument();
     });
   });
 
@@ -140,6 +142,15 @@ describe("SavingsAndDepositCalculator", () => {
       (option) => option.value !== DEFAULT_VALUES.FREQUENCY,
     ).forEach((option) => {
       it(`should update calculations when frequency changes to ${option.label.toLowerCase()}`, async () => {
+        const user = userEvent.setup();
+        
+        // If testing annually, first set investment term to 12+ months
+        if (option.value === "annually") {
+          const investmentTermInput = screen.getByTestId(TEST_IDS.INVESTMENT_TERM_INPUT);
+          await user.clear(investmentTermInput);
+          await user.type(investmentTermInput, "12");
+        }
+        
         const radio = screen.getByTestId(
           `${TEST_IDS.RADIO_PREFIX}${option.value.toLowerCase()}`,
         );
@@ -155,14 +166,19 @@ describe("SavingsAndDepositCalculator", () => {
       });
     });
 
-    it("should have all frequency options available", () => {
-      FREQUENCY_OPTIONS.forEach((option) => {
+    it("should have appropriate frequency options available for current investment term", () => {
+      // With default 3 months, annually should not be available
+      const availableOptions = FREQUENCY_OPTIONS.filter(option => option.value !== "annually");
+      availableOptions.forEach((option) => {
         const radio = screen.getByTestId(
           `${TEST_IDS.RADIO_PREFIX}${option.value.toLowerCase()}`,
         );
         expect(radio).toBeInTheDocument();
         expect(radio).toHaveAttribute("value", option.value);
       });
+      
+      // Annually should not be available with default 3 month term
+      expect(screen.queryByTestId(TEST_IDS.RADIO_PREFIX + "annually")).not.toBeInTheDocument();
     });
   });
 
@@ -268,6 +284,83 @@ describe("SavingsAndDepositCalculator", () => {
       expect(
         screen.getByText(UI_TEXT.LABELS.INTEREST_PAID),
       ).toBeInTheDocument();
+    });
+  });
+
+  describe("Frequency Option Visibility", () => {
+    it("should show annually option when investment term is 12 months or more", async () => {
+      const user = userEvent.setup();
+      const investmentTermInput = screen.getByTestId(TEST_IDS.INVESTMENT_TERM_INPUT);
+
+      await user.clear(investmentTermInput);
+      await user.type(investmentTermInput, "12");
+
+      await waitFor(() => {
+        expect(screen.getByTestId(TEST_IDS.RADIO_PREFIX + "annually")).toBeInTheDocument();
+      });
+    });
+
+    it("should hide annually option when investment term is less than 12 months", async () => {
+      const user = userEvent.setup();
+      const investmentTermInput = screen.getByTestId(TEST_IDS.INVESTMENT_TERM_INPUT);
+
+      await user.clear(investmentTermInput);
+      await user.type(investmentTermInput, "6");
+
+      await waitFor(() => {
+        expect(screen.queryByTestId(TEST_IDS.RADIO_PREFIX + "annually")).not.toBeInTheDocument();
+      });
+    });
+
+    it("should automatically change frequency from annually to at maturity when term becomes less than 12 months", async () => {
+      const user = userEvent.setup();
+      const investmentTermInput = screen.getByTestId(TEST_IDS.INVESTMENT_TERM_INPUT);
+      const atMaturityRadio = screen.getByTestId(TEST_IDS.RADIO_PREFIX + "atmaturity");
+
+      // First set to 12 months to ensure annually option is visible
+      await user.clear(investmentTermInput);
+      await user.type(investmentTermInput, "12");
+
+      // Wait for annually option to appear and then select it
+      await waitFor(() => {
+        expect(screen.getByTestId(TEST_IDS.RADIO_PREFIX + "annually")).toBeInTheDocument();
+      });
+      
+      const annuallyRadio = screen.getByTestId(TEST_IDS.RADIO_PREFIX + "annually");
+      await user.click(annuallyRadio);
+      expect(annuallyRadio).toBeChecked();
+
+      // Change to less than 12 months
+      await user.clear(investmentTermInput);
+      await user.type(investmentTermInput, "6");
+
+      await waitFor(() => {
+        // Annually option should be hidden
+        expect(screen.queryByTestId(TEST_IDS.RADIO_PREFIX + "annually")).not.toBeInTheDocument();
+        // At Maturity should be automatically selected
+        expect(atMaturityRadio).toBeChecked();
+      });
+    });
+
+    it("should maintain other frequency selections when changing term to less than 12 months", async () => {
+      const user = userEvent.setup();
+      const investmentTermInput = screen.getByTestId(TEST_IDS.INVESTMENT_TERM_INPUT);
+      const quarterlyRadio = screen.getByTestId(TEST_IDS.RADIO_PREFIX + "quarterly");
+
+      // Select quarterly
+      await user.click(quarterlyRadio);
+      expect(quarterlyRadio).toBeChecked();
+
+      // Change to less than 12 months
+      await user.clear(investmentTermInput);
+      await user.type(investmentTermInput, "9");
+
+      await waitFor(() => {
+        // Quarterly should still be selected
+        expect(quarterlyRadio).toBeChecked();
+        // Annually option should be hidden
+        expect(screen.queryByTestId(TEST_IDS.RADIO_PREFIX + "annually")).not.toBeInTheDocument();
+      });
     });
   });
 });
