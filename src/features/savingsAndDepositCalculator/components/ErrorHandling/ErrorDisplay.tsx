@@ -7,12 +7,10 @@ import { TEST_IDS } from "../../config/constants";
 
 interface ErrorDisplayProps {
   error: BaseCalculatorError;
-  onDismiss: () => void;
 }
 
 export function ErrorDisplay({
   error,
-  onDismiss,
 }: ErrorDisplayProps): React.JSX.Element {
   const getSeverityStyles = (severity: string): string => {
     switch (severity) {
@@ -108,60 +106,30 @@ export function ErrorDisplay({
       <div className="flex items-start">
         <div className="flex-shrink-0">{getSeverityIcon(error.severity)}</div>
         <div className="ml-3 flex-1">
-          <h3 className="text-sm font-semibold mb-1">
-            {error.type === "VALIDATION" ? "Input Error" : "Calculation Error"}
+          <h3 className="text-sm font-semibold mb-2">
+            {error.type === "VALIDATION" ? "Please Check Your Input:" : "Calculation Error"}
           </h3>
-          <p className="text-sm mb-2">{error.userMessage}</p>
-
-          {process.env.NODE_ENV === "development" && (
-            <details className="text-xs mt-2">
-              <summary className="cursor-pointer hover:underline">
-                Debug Information
-              </summary>
-              <div className="mt-1 p-2 bg-white bg-opacity-50 rounded text-xs font-mono">
-                <p>
-                  <strong>Type:</strong> {error.type}
-                </p>
-                <p>
-                  <strong>Severity:</strong> {error.severity}
-                </p>
-                <p>
-                  <strong>Message:</strong> {error.message}
-                </p>
-                <p>
-                  <strong>Component:</strong> {error.context.component}
-                </p>
-                <p>
-                  <strong>Action:</strong> {error.context.action}
-                </p>
-                <p>
-                  <strong>Time:</strong>{" "}
-                  {new Date(error.context.timestamp).toLocaleString()}
-                </p>
-              </div>
-            </details>
+          
+          {error.type === "VALIDATION" && (
+            <ul className="list-disc list-inside text-sm space-y-1">
+              {error.message?.toLowerCase().includes('principal') && (
+                <li>Enter a valid principal amount between $1 and $10,000,000</li>
+              )}
+              {error.message?.toLowerCase().includes('interest') && (
+                <li>Enter an interest rate between 0.00% and 15.00%</li>
+              )}
+              {error.message?.toLowerCase().includes('duration') && (
+                <li>Choose an investment term between 3 and 60 months</li>
+              )}
+              {error.message?.toLowerCase().includes('valid number') && (
+                <li>Make sure all fields contain valid numbers</li>
+              )}
+            </ul>
           )}
-        </div>
-        <div className="flex-shrink-0">
-          <button
-            onClick={onDismiss}
-            className="text-gray-400 hover:text-gray-600 transition-colors"
-            aria-label="Dismiss error"
-          >
-            <svg
-              className="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M6 18 18 6M6 6l12 12"
-              />
-            </svg>
-          </button>
+          
+          {error.type !== "VALIDATION" && (
+            <p className="text-sm">{error.userMessage}</p>
+          )}
         </div>
       </div>
     </div>

@@ -14,7 +14,8 @@ export class ErrorFactory {
     message: string,
     context: ErrorContext,
   ): ValidationError {
-    const userMessage = `Please check the ${field.toLowerCase()} value. ${message}`;
+    // Clean up the message for end users by removing technical field names
+    const userMessage = message;
     return new ValidationError(field, value, message, userMessage, context);
   }
 

@@ -15,4 +15,10 @@ export const createDurationMonths = createValueObjectFactory<DurationMonths>({
   displayName: "Duration",
   formatValue: monthsFormatter,
   formatDescription: (value) => `${value} months`, // Always plural for ranges
+  customValidation: (value) => {
+    if (isNaN(value) || !isFinite(value)) {
+      return `Duration must be a valid number. Received: ${value}`;
+    }
+    return null;
+  },
 });

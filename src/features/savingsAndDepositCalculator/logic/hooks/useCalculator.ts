@@ -11,6 +11,9 @@ import {
 import type {
   CalculationResult,
   PayFrequency,
+  PrincipalAmount,
+  AnnualInterestRate,
+  DurationMonths,
 } from "../../domain/types/compoundingInterestCalculators.types";
 import {
   createAnnualInterestRate,
@@ -78,9 +81,49 @@ export function useCalculator(): CalculatorState & CalculatorActions {
         timestamp: new Date().toISOString(),
       };
 
-      const principalAmount = createPrincipalAmount(principal);
-      const annualInterestRate = createAnnualInterestRate(annualRate);
-      const duration = createDurationMonths(months);
+      // Validate all inputs and collect errors
+      const validationErrors: string[] = [];
+      let principalAmount: PrincipalAmount | undefined;
+      let annualInterestRate: AnnualInterestRate | undefined;
+      let duration: DurationMonths | undefined;
+
+      // Validate principal
+      try {
+        principalAmount = createPrincipalAmount(principal);
+      } catch (e) {
+        if (e instanceof RangeError) {
+          validationErrors.push(e.message);
+        }
+      }
+
+      // Validate interest rate
+      try {
+        annualInterestRate = createAnnualInterestRate(annualRate);
+      } catch (e) {
+        if (e instanceof RangeError) {
+          validationErrors.push(e.message);
+        }
+      }
+
+      // Validate duration
+      try {
+        duration = createDurationMonths(months);
+      } catch (e) {
+        if (e instanceof RangeError) {
+          validationErrors.push(e.message);
+        }
+      }
+
+      // If there are validation errors, throw combined error
+      if (validationErrors.length > 0) {
+        const combinedMessage = validationErrors.join(". ");
+        throw new RangeError(combinedMessage);
+      }
+
+      // All validations passed, proceed with calculation
+      if (!principalAmount || !annualInterestRate || !duration) {
+        throw new Error("Validation failed but no errors collected");
+      }
 
       let result: CalculationResult[];
       switch (frequency) {

@@ -56,10 +56,11 @@ describe("CalculatorErrorBoundary", () => {
     expect(screen.getByText("Something went wrong")).toBeInTheDocument();
     expect(screen.getByText("Try Again")).toBeInTheDocument();
     expect(screen.getByText("Go Back")).toBeInTheDocument();
-    expect(screen.getByText("Technical details")).toBeInTheDocument();
+    // Technical details should be hidden in non-development environment
+    expect(screen.queryByText("Technical details")).not.toBeInTheDocument();
   });
 
-  it("should show technical details when expanded", () => {
+  it("should display user-friendly error message without technical details", () => {
     const mockError = {
       name: "TestError",
       message: "Test error message",
@@ -75,9 +76,12 @@ describe("CalculatorErrorBoundary", () => {
 
     render(<DefaultErrorFallback error={mockError} />);
 
-    expect(screen.getByText("Technical details")).toBeInTheDocument();
-    expect(screen.getByText("Test error message")).toBeInTheDocument();
-    expect(screen.getByText("TestComponent")).toBeInTheDocument();
-    expect(screen.getByText("2023-01-01T00:00:00.000Z")).toBeInTheDocument();
+    // Should show user-friendly message
+    expect(screen.getByText("Something went wrong with the test")).toBeInTheDocument();
+    
+    // Technical details should be hidden in non-development environment
+    expect(screen.queryByText("Technical details")).not.toBeInTheDocument();
+    expect(screen.queryByText("Test error message")).not.toBeInTheDocument();
+    expect(screen.queryByText("TestComponent")).not.toBeInTheDocument();
   });
 });

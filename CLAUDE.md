@@ -9,6 +9,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **NEVER** commit or push changes unless explicitly requested by the user
 - When asked to review or improve code, provide suggestions and analysis but do not make commits
 - Only use `git commit` or `git push` when the user specifically says "commit" or "push"
+- Always run the typescript compiler to check the code is compilable
 
 ## Commit and Push Workflow
 

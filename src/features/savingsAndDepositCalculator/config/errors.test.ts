@@ -104,7 +104,7 @@ describe("ErrorFactory", () => {
 
       expect(error).toBeInstanceOf(ValidationError);
       expect(error.field).toBe("Principal");
-      expect(error.userMessage).toBe("Please check the principal value. Value must be positive");
+      expect(error.userMessage).toBe("Value must be positive");
     });
   });
 

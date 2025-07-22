@@ -93,17 +93,19 @@ export function DefaultErrorFallback({ error }: DefaultErrorFallbackProps): Reac
         
         <div className="mb-4">
           <p className="text-red-700 mb-2">{error.userMessage}</p>
-          <details className="text-sm text-red-600">
-            <summary className="cursor-pointer hover:text-red-800">
-              Technical details
-            </summary>
-            <div className="mt-2 p-2 bg-red-100 rounded text-xs font-mono">
-              <p><strong>Error:</strong> {error.message}</p>
-              <p><strong>Type:</strong> {error.type}</p>
-              <p><strong>Component:</strong> {error.context.component}</p>
-              <p><strong>Time:</strong> {error.context.timestamp}</p>
-            </div>
-          </details>
+          {process.env.NODE_ENV === "development" && (
+            <details className="text-sm text-red-600">
+              <summary className="cursor-pointer hover:text-red-800">
+                Technical details
+              </summary>
+              <div className="mt-2 p-2 bg-red-100 rounded text-xs font-mono">
+                <p><strong>Error:</strong> {error.message}</p>
+                <p><strong>Type:</strong> {error.type}</p>
+                <p><strong>Component:</strong> {error.context.component}</p>
+                <p><strong>Time:</strong> {error.context.timestamp}</p>
+              </div>
+            </details>
+          )}
         </div>
 
         <div className="flex gap-3">

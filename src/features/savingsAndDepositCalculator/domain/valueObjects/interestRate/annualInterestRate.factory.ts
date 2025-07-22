@@ -17,4 +17,10 @@ export const createAnnualInterestRate = createValueObjectFactory<AnnualInterestR
   displayName: "Interest rate",
   formatValue: percentageFormatter,
   formatDescription: percentageFormatter,
+  customValidation: (value) => {
+    if (isNaN(value) || !isFinite(value)) {
+      return `Interest rate must be a valid number. Received: ${value}`;
+    }
+    return null;
+  },
 });
