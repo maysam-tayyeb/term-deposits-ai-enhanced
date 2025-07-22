@@ -1,0 +1,179 @@
+# Term Deposits Calculator - Improvement Tracker
+
+## Overview
+This document tracks all recommended improvements for the Term Deposits Calculator application. Each item includes priority, status, and implementation details.
+
+## Status Legend
+- 🔴 **Not Started**
+- 🟡 **In Progress**
+- 🟢 **Completed**
+- ⏸️ **On Hold**
+- ❌ **Cancelled**
+
+---
+
+## 🔴 High Priority Improvements
+
+### 1. Add Component Tests for SavingsAndDepositCalculator.tsx
+- **Status**: 🔴 Not Started
+- **Effort**: Medium (4-6 hours)
+- **Description**: The main React component lacks unit tests despite complex state logic
+- **Tasks**:
+  - [ ] Set up React Testing Library
+  - [ ] Test input validation
+  - [ ] Test state updates
+  - [ ] Test error handling
+  - [ ] Test UI rendering based on state
+- **Files to create**: `src/features/savingsAndDepositCalculator/SavingsAndDepositCalculator.test.tsx`
+
+### 2. Implement Input Validation for Principal Amount
+- **Status**: 🔴 Not Started
+- **Effort**: Small (2-3 hours)
+- **Description**: Currently accepts negative values with no validation
+- **Tasks**:
+  - [ ] Create `principal.factory.ts` with validation
+  - [ ] Define min/max limits (e.g., $1 - $10,000,000)
+  - [ ] Add error messages for invalid amounts
+  - [ ] Update component to use factory
+  - [ ] Add unit tests
+- **Files to create**: `src/features/savingsAndDepositCalculator/principal.factory.ts`
+
+### 3. Improve Error Handling
+- **Status**: 🔴 Not Started
+- **Effort**: Medium (3-4 hours)
+- **Description**: Generic errors only logged to console
+- **Tasks**:
+  - [ ] Create custom error types
+  - [ ] Implement proper error boundaries
+  - [ ] Display user-friendly error messages
+  - [ ] Add error logging service
+- **Files to modify**: `SavingsAndDepositCalculator.tsx`
+
+### 4. Add Accessibility Features
+- **Status**: 🔴 Not Started
+- **Effort**: Medium (4-5 hours)
+- **Description**: Missing ARIA labels and keyboard navigation
+- **Tasks**:
+  - [ ] Add ARIA labels to all inputs
+  - [ ] Add table accessibility attributes
+  - [ ] Implement proper error announcements
+  - [ ] Test with screen reader
+  - [ ] Add keyboard navigation support
+- **Files to modify**: `SavingsAndDepositCalculator.tsx`
+
+---
+
+## 🟡 Medium Priority Improvements
+
+### 5. Performance Optimizations
+- **Status**: 🔴 Not Started
+- **Effort**: Small (2-3 hours)
+- **Description**: Calculations run on every state change
+- **Tasks**:
+  - [ ] Implement useMemo for calculations
+  - [ ] Add input debouncing
+  - [ ] Consider table virtualization for large datasets
+- **Files to modify**: `SavingsAndDepositCalculator.tsx`
+
+### 6. Enhance User Experience
+- **Status**: 🔴 Not Started
+- **Effort**: Medium (4-6 hours)
+- **Tasks**:
+  - [ ] Add loading states
+  - [ ] Implement number formatting on inputs
+  - [ ] Add input masks
+  - [ ] Show real-time validation feedback
+  - [ ] Add tooltips for help text
+
+### 7. Expand Test Coverage
+- **Status**: 🔴 Not Started
+- **Effort**: Medium (3-4 hours)
+- **Tasks**:
+  - [ ] Add more currency.ts test cases
+  - [ ] Create integration tests
+  - [ ] Expand E2E test scenarios
+  - [ ] Add test coverage reporting
+
+### 8. Code Organization Improvements
+- **Status**: 🔴 Not Started
+- **Effort**: Medium (3-4 hours)
+- **Tasks**:
+  - [ ] Extract form logic to useCalculatorForm hook
+  - [ ] Create ResultsTable component
+  - [ ] Move constants to separate file
+  - [ ] Improve file structure
+
+---
+
+## 🟢 Nice-to-Have Improvements
+
+### 9. Add Features
+- **Status**: 🔴 Not Started
+- **Effort**: Large (8+ hours each)
+- **Features**:
+  - [ ] Export to CSV/PDF
+  - [ ] Save/load scenarios
+  - [ ] Compare scenarios
+  - [ ] Add visualization charts
+
+### 10. Theme and Styling
+- **Status**: 🔴 Not Started
+- **Effort**: Medium (4-5 hours)
+- **Tasks**:
+  - [ ] Make brand color configurable
+  - [ ] Add dark mode
+  - [ ] Improve mobile responsiveness
+  - [ ] Create design system
+
+### 11. Documentation
+- **Status**: 🔴 Not Started
+- **Effort**: Small (2-3 hours)
+- **Tasks**:
+  - [ ] Add JSDoc comments
+  - [ ] Create developer guide
+  - [ ] Add architecture diagram
+  - [ ] Document business rules
+
+### 12. Developer Experience
+- **Status**: 🔴 Not Started
+- **Effort**: Small (2-3 hours)
+- **Tasks**:
+  - [ ] Add pre-commit hooks
+  - [ ] Set up CI/CD
+  - [ ] Add code coverage badges
+  - [ ] Configure absolute imports
+
+---
+
+## Implementation Plan
+
+### Sprint 1 (Current)
+Focus on high-priority items that improve code quality and user safety:
+1. Add component tests (Item #1)
+2. Implement principal validation (Item #2)
+3. Add basic accessibility (Item #4)
+
+### Sprint 2
+Focus on user experience and performance:
+1. Performance optimizations (Item #5)
+2. Error handling improvements (Item #3)
+3. UX enhancements (Item #6)
+
+### Sprint 3
+Focus on code quality and maintainability:
+1. Expand test coverage (Item #7)
+2. Code organization (Item #8)
+3. Documentation (Item #11)
+
+### Future Sprints
+- Additional features (Item #9)
+- Theming (Item #10)
+- Developer experience (Item #12)
+
+---
+
+## Notes
+- Update status as work progresses
+- Add actual time spent vs estimates
+- Document any blockers or decisions
+- Link to PRs when completing items
