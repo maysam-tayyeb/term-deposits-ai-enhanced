@@ -2,6 +2,14 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Important Instructions
+
+- **ALWAYS** create a plan using the TodoWrite tool before taking any action
+- **ALWAYS** analyze code and offer improvements when reviewing
+- **NEVER** commit or push changes unless explicitly requested by the user
+- When asked to review or improve code, provide suggestions and analysis but do not make commits
+- Only use `git commit` or `git push` when the user specifically says "commit" or "push"
+
 ## Project Overview
 
 React-based term deposit calculator that computes compound interest returns for fixed deposits. Built with React 19, TypeScript, Vite, and Tailwind CSS.
