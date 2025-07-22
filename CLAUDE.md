@@ -37,6 +37,25 @@ React-based term deposit calculator that computes compound interest returns for 
 - Reinvestment frequencies: Monthly, Quarterly, Annually, At Maturity
 - All interest is automatically reinvested at selected frequency
 
+## Compound Interest Formula
+
+The application calculates compound interest using the standard formula:
+
+**A = P × (1 + r/n)^(n×t)**
+
+Where:
+- **A** = Final amount (balance)
+- **P** = Principal amount (initial deposit)
+- **r** = Annual interest rate (as decimal, e.g., 5% = 0.05)
+- **n** = Number of times interest is compounded per year
+  - Monthly: n = 12
+  - Quarterly: n = 4
+  - Annually: n = 1
+  - At Maturity: n = 12/months (compounds once at the end)
+- **t** = Time period in years (months/12)
+
+The implementation is found in `src/features/savingsAndDepositCalculator/compoundingInterestCalculators.ts` in the `calculateRawBalanceForMonth` function.
+
 ## Configuration Limits
 
 Modify these constants for business rule changes:
