@@ -10,6 +10,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - When asked to review or improve code, provide suggestions and analysis but do not make commits
 - Only use `git commit` or `git push` when the user specifically says "commit" or "push"
 
+## Commit and Push Workflow
+
+- **ALWAYS** wait for explicit user permission before committing or pushing
+- **BEFORE** asking for permission to commit/push, **ALWAYS** run `npm run test -- --run` to ensure all tests pass
+- If tests fail, fix issues first, then ask for permission
+- When ready for commit/push, inform the user that tests are passing and ask for permission
+- Never assume permission to commit/push - always wait for explicit user instruction
+
 ## Project Overview
 
 React-based term deposit calculator that computes compound interest returns for fixed deposits. Built with React 19, TypeScript, Vite, and Tailwind CSS.
