@@ -1,7 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import {
-  type ErrorType,
-  type ErrorSeverity,
   ErrorType as ErrorTypeValues,
   ErrorSeverity as ErrorSeverityValues,
   ValidationError,
@@ -185,7 +183,10 @@ describe("ConsoleErrorLogger", () => {
         timestamp: "2023-01-01T00:00:00.000Z",
       },
     );
-    error.severity = ErrorSeverityValues.CRITICAL;
+    Object.defineProperty(error, 'severity', { 
+      value: ErrorSeverityValues.CRITICAL, 
+      writable: false 
+    });
 
     logger.log(error);
 
@@ -244,7 +245,7 @@ describe("ErrorService", () => {
   beforeEach(() => {
     mockLogger = { log: vi.fn() };
     // Reset singleton instance for testing
-    (ErrorService as any).instance = undefined;
+    (ErrorService as unknown as { instance: undefined }).instance = undefined;
     errorService = ErrorService.getInstance(mockLogger);
   });
 

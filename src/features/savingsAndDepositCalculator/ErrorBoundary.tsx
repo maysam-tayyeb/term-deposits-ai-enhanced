@@ -1,4 +1,4 @@
-import React, { Component, ErrorInfo, ReactNode } from "react";
+import React, { Component, type ErrorInfo, type ReactNode } from "react";
 import { type BaseCalculatorError, ErrorFactory, ErrorService } from "./errors";
 
 interface ErrorBoundaryState {
@@ -23,7 +23,7 @@ export class CalculatorErrorBoundary extends Component<
     this.errorService = ErrorService.getInstance();
   }
 
-  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
+  static getDerivedStateFromError(): ErrorBoundaryState {
     return { hasError: true, error: null };
   }
 
@@ -60,7 +60,7 @@ interface DefaultErrorFallbackProps {
   error: BaseCalculatorError;
 }
 
-function DefaultErrorFallback({ error }: DefaultErrorFallbackProps): JSX.Element {
+export function DefaultErrorFallback({ error }: DefaultErrorFallbackProps): React.JSX.Element {
   const handleRetry = (): void => {
     window.location.reload();
   };
