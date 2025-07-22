@@ -30,12 +30,17 @@ import {
   TEST_IDS,
 } from "./SavingsAndDepositCalculator.constants";
 
-
 export function SavingsAndDepositCalculator() {
   const [principal, setPrincipal] = useState<number>(DEFAULT_VALUES.PRINCIPAL);
-  const [annualRate, setAnnualRate] = useState<number>(DEFAULT_VALUES.INTEREST_RATE);
-  const [months, setMonths] = useState<number>(DEFAULT_VALUES.INVESTMENT_TERM_MONTHS);
-  const [frequency, setFrequency] = useState<PayFrequency>(DEFAULT_VALUES.FREQUENCY);
+  const [annualRate, setAnnualRate] = useState<number>(
+    DEFAULT_VALUES.INTEREST_RATE,
+  );
+  const [months, setMonths] = useState<number>(
+    DEFAULT_VALUES.INVESTMENT_TERM_MONTHS,
+  );
+  const [frequency, setFrequency] = useState<PayFrequency>(
+    DEFAULT_VALUES.FREQUENCY,
+  );
   const [schedule, setSchedule] = useState<CalculationResult[]>([]);
   const [error, setError] = useState<string>("");
 
@@ -157,7 +162,7 @@ export function SavingsAndDepositCalculator() {
                   checked={frequency === opt.value}
                   onChange={() => setFrequency(opt.value)}
                   className="form-radio mr-2"
-                  data-testid={`${TEST_IDS.RADIO_PREFIX}${opt.value.toLocaleLowerCase()}`}
+                  data-testid={`${TEST_IDS.RADIO_PREFIX}${opt.value.toLowerCase()}`}
                 />
                 {opt.label}
               </label>
@@ -168,16 +173,24 @@ export function SavingsAndDepositCalculator() {
       {schedule.length > 0 && (
         <div className="flex gap-4">
           <div className="max-h-[32rem] overflow-y-auto flex-2">
-            <h2 className="text-xl font-bold mb-4">{UI_TEXT.TABLE_HEADERS.PROJECTED_SAVINGS}</h2>
+            <h2 className="text-xl font-bold mb-4">
+              {UI_TEXT.TABLE_HEADERS.PROJECTED_SAVINGS}
+            </h2>
             <table className="w-full border-collapse">
               <thead>
                 <tr>
-                  <th className="border px-2 py-1 text-left">{UI_TEXT.TABLE_HEADERS.MONTH}</th>
-                  <th className="border px-2 py-1 text-left">{UI_TEXT.TABLE_HEADERS.INTEREST_RATE}</th>
+                  <th className="border px-2 py-1 text-left">
+                    {UI_TEXT.TABLE_HEADERS.MONTH}
+                  </th>
+                  <th className="border px-2 py-1 text-left">
+                    {UI_TEXT.TABLE_HEADERS.INTEREST_RATE}
+                  </th>
                   <th className="border px-2 py-1 text-left">
                     {UI_TEXT.TABLE_HEADERS.INTEREST_EARNED}
                   </th>
-                  <th className="border px-2 py-1 text-left">{UI_TEXT.TABLE_HEADERS.BALANCE}</th>
+                  <th className="border px-2 py-1 text-left">
+                    {UI_TEXT.TABLE_HEADERS.BALANCE}
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -206,7 +219,9 @@ export function SavingsAndDepositCalculator() {
           </div>
           <div className="flex flex-col justify-start border p-4 flex-1">
             <div>
-              <span className="font-medium text-[#de313b]">{UI_TEXT.SUMMARY.FINAL_BALANCE}</span>
+              <span className="font-medium text-[#de313b]">
+                {UI_TEXT.SUMMARY.FINAL_BALANCE}
+              </span>
               <span
                 data-testid={TEST_IDS.FINAL_BALANCE}
                 className="block font-bold text-4xl mt-1"
