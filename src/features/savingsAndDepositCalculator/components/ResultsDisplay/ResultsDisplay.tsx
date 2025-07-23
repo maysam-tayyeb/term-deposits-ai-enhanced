@@ -13,75 +13,52 @@ export function ResultsDisplay({ schedule }: ResultsDisplayProps): React.JSX.Ele
   }
 
   return (
-    <div className="grid lg:grid-cols-3 gap-6">
-      {/* Summary Cards */}
-      <div className="lg:col-span-1 space-y-4">
-        {/* Final Balance Card */}
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-6">
-          <div className="mb-4">
-            <h3 className="text-lg font-semibold text-slate-700">{UI_TEXT.SUMMARY.FINAL_BALANCE}</h3>
-          </div>
-          <div data-testid={TEST_IDS.FINAL_BALANCE} className="text-3xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
-            ${Math.round(schedule[schedule.length - 1].balance).toLocaleString(UI_CONFIG.CURRENCY.LOCALE)}
-          </div>
-        </div>
-        
-        {/* Total Interest Card */}
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-6">
-          <div className="mb-4">
-            <h3 className="text-lg font-semibold text-slate-700">{UI_TEXT.SUMMARY.TOTAL_INTEREST_EARNED}</h3>
-          </div>
-          <div data-testid={TEST_IDS.TOTAL_INTEREST_EARNED} className="text-3xl font-bold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
-            ${Math.round(schedule[schedule.length - 1].interest).toLocaleString(UI_CONFIG.CURRENCY.LOCALE)}
-          </div>
-        </div>
-      </div>
-      
+    <div className="grid lg:grid-cols-3 gap-8 animate-in fade-in duration-500 lg:items-start">
       {/* Projected Savings Table */}
-      <div className="lg:col-span-2 bg-white/70 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-6">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg">
-            <TableIcon className="w-5 h-5 text-white" />
+      <div className="lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden animate-in slide-in-from-left-3 fade-in duration-700 delay-100 flex flex-col">
+        <div className="px-6 py-4 border-b border-gray-200 flex-shrink-0">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+              <TableIcon className="w-4 h-4 text-white" />
+            </div>
+            <h2 className="text-xl font-semibold text-gray-900">
+              {UI_TEXT.TABLE_HEADERS.PROJECTED_SAVINGS}
+            </h2>
           </div>
-          <h2 className="text-xl font-semibold text-slate-700">
-            {UI_TEXT.TABLE_HEADERS.PROJECTED_SAVINGS}
-          </h2>
         </div>
         
-        <div className="max-h-96 overflow-y-auto rounded-xl border border-slate-200">
+        <div className="max-h-96 overflow-y-auto flex-1">
           <table className="w-full">
-            <thead className="bg-slate-50/80 backdrop-blur-sm sticky top-0">
+            <thead className="bg-gray-50 sticky top-0">
               <tr>
-                <th className="px-4 py-3 text-left text-sm font-semibold text-slate-700">
+                <th className="px-6 py-3 text-left text-sm font-medium text-gray-900">
                   {UI_TEXT.TABLE_HEADERS.MONTH}
                 </th>
-                <th className="px-4 py-3 text-left text-sm font-semibold text-slate-700">
+                <th className="px-6 py-3 text-left text-sm font-medium text-gray-900">
                   {UI_TEXT.TABLE_HEADERS.INTEREST_RATE}
                 </th>
-                <th className="px-4 py-3 text-left text-sm font-semibold text-slate-700">
+                <th className="px-6 py-3 text-left text-sm font-medium text-gray-900">
                   {UI_TEXT.TABLE_HEADERS.INTEREST_EARNED}
                 </th>
-                <th className="px-4 py-3 text-left text-sm font-semibold text-slate-700">
+                <th className="px-6 py-3 text-left text-sm font-medium text-gray-900">
                   {UI_TEXT.TABLE_HEADERS.BALANCE}
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
-              {schedule.map((row, index) => (
-                <tr key={row.month} className={`hover:bg-blue-50/50 transition-colors ${
-                  index % 2 === 0 ? 'bg-white/50' : 'bg-slate-50/30'
-                }`}>
-                  <td className="px-4 py-3 text-sm font-medium text-slate-900">{row.month}</td>
-                  <td className="px-4 py-3 text-sm text-slate-600">
+            <tbody className="divide-y divide-gray-200">
+              {schedule.map((row) => (
+                <tr key={row.month} className="hover:bg-gray-50 transition-colors duration-150">
+                  <td className="px-6 py-4 text-sm font-medium text-gray-900">{row.month}</td>
+                  <td className="px-6 py-4 text-sm text-gray-600">
                     {row.annualRate.toFixed(UI_CONFIG.DECIMAL_PLACES)}%
                   </td>
-                  <td className="px-4 py-3 text-sm font-medium text-amber-700">
+                  <td className="px-6 py-4 text-sm font-medium text-blue-600">
                     {row.interest.toLocaleString(UI_CONFIG.CURRENCY.LOCALE, {
                       style: "currency",
                       currency: UI_CONFIG.CURRENCY.CODE,
                     })}
                   </td>
-                  <td className="px-4 py-3 text-sm font-semibold text-slate-900">
+                  <td className="px-6 py-4 text-sm font-semibold text-gray-900">
                     {row.balance.toLocaleString(UI_CONFIG.CURRENCY.LOCALE, {
                       style: "currency",
                       currency: UI_CONFIG.CURRENCY.CODE,
@@ -91,6 +68,38 @@ export function ResultsDisplay({ schedule }: ResultsDisplayProps): React.JSX.Ele
               ))}
             </tbody>
           </table>
+        </div>
+      </div>
+
+      {/* Summary Box */}
+      <div className="lg:col-span-1 bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden lg:h-full animate-in slide-in-from-right-3 fade-in duration-700 delay-200 flex flex-col">
+        <div className="px-6 py-4 border-b border-gray-200 flex-shrink-0">
+          <div className="flex items-center gap-3">
+            <h3 className="text-xl font-semibold text-gray-900">Investment Summary</h3>
+          </div>
+        </div>
+        
+        <div className="flex-1">
+          <div className="bg-gray-50 px-6 py-3">
+            <div className="text-sm font-medium text-gray-900">Summary</div>
+          </div>
+          <div className="px-6 py-6 space-y-6">
+            {/* Final Balance */}
+            <div>
+              <h4 className="text-sm font-medium text-gray-600 mb-2">{UI_TEXT.SUMMARY.FINAL_BALANCE}</h4>
+              <div data-testid={TEST_IDS.FINAL_BALANCE} className="text-3xl font-bold text-green-600">
+                ${Math.round(schedule[schedule.length - 1].balance).toLocaleString(UI_CONFIG.CURRENCY.LOCALE)}
+              </div>
+            </div>
+            
+            {/* Total Interest */}
+            <div>
+              <h4 className="text-sm font-medium text-gray-600 mb-2">{UI_TEXT.SUMMARY.TOTAL_INTEREST_EARNED}</h4>
+              <div data-testid={TEST_IDS.TOTAL_INTEREST_EARNED} className="text-3xl font-bold text-blue-600">
+                ${Math.round(schedule[schedule.length - 1].interest).toLocaleString(UI_CONFIG.CURRENCY.LOCALE)}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

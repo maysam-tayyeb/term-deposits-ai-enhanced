@@ -23,10 +23,10 @@ export function NumberInput({
   className = "",
   testId,
 }: NumberInputProps): React.JSX.Element {
-  const baseClass = "w-full px-4 py-3 rounded-xl border-2 transition-all duration-200 font-medium text-slate-700 bg-white/50 backdrop-blur-sm";
+  const baseClass = "w-full px-4 py-3 rounded-lg border transition-all duration-200 text-gray-900 bg-white placeholder-gray-400";
   const errorClass = hasError 
-    ? "border-red-400 bg-red-50/80 focus:border-red-500 focus:ring-4 focus:ring-red-500/20 focus:outline-none" 
-    : "border-slate-200 hover:border-slate-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 focus:outline-none";
+    ? "border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 focus:outline-none" 
+    : "border-gray-300 hover:border-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none";
   
   const inputClassName = `${baseClass} ${errorClass} ${className}`;
 

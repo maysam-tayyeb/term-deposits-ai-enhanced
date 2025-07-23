@@ -21,7 +21,7 @@ export function FormField({
 
   return (
     <div className={`space-y-2 ${className}`}>
-      <label className="flex items-center gap-2 text-sm font-semibold text-slate-700 mb-2">
+      <label className="flex items-center gap-2 text-sm font-medium text-gray-900 mb-2">
         {icon}
         {label}
       </label>

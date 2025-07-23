@@ -26,7 +26,7 @@ export function ButtonGroup({
                    'grid-cols-5';
   
   return (
-    <div className={`grid ${gridCols} gap-0 rounded-xl overflow-hidden border border-slate-300 h-[46px] ${className}`}>
+    <div className={`grid ${gridCols} gap-0 rounded-lg overflow-hidden border border-gray-300 h-[44px] ${className}`}>
       {options.map((option, index) => (
         <button
           key={option.value}
@@ -37,9 +37,9 @@ export function ButtonGroup({
             px-4 text-sm font-medium transition-all duration-200
             ${value === option.value 
               ? 'bg-blue-600 text-white' 
-              : 'bg-white text-slate-600 hover:bg-slate-50'
+              : 'bg-white text-gray-600 hover:bg-gray-50'
             }
-            ${index > 0 ? 'border-l border-slate-300' : ''}
+            ${index > 0 ? 'border-l border-gray-300' : ''}
             focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-inset
           `}
         >

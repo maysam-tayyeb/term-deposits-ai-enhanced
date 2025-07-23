@@ -167,11 +167,11 @@ export function CalculatorForm({
       </div>
       
       {/* Reset Button */}
-      <div className="flex justify-center pt-4 border-t border-slate-200">
+      <div className="flex justify-center pt-6 border-t border-gray-200">
         <button
           type="button"
           onClick={handleReset}
-          className="px-6 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-medium text-sm transition-all duration-200 border border-slate-200 hover:border-slate-300"
+          className="px-6 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg font-medium text-sm transition-all duration-200 border border-gray-300 hover:border-gray-400"
         >
           Reset to Default
         </button>
