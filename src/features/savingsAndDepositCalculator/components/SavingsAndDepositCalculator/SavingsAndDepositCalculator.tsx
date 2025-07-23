@@ -28,7 +28,7 @@ export function SavingsAndDepositCalculator(): React.JSX.Element {
         <div className="max-w-5xl mx-auto px-6 py-8">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center">
-              <AppLogoIcon className="w-7 h-7 text-white" />
+              <CalculatorIcon className="w-7 h-7 text-white" />
             </div>
             <div>
               <h1 className="text-3xl font-bold text-gray-900">
@@ -49,10 +49,7 @@ export function SavingsAndDepositCalculator(): React.JSX.Element {
         )}
         {/* Calculator Card */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 mb-8 transition-all duration-200 hover:shadow-md">
-          <div className="flex items-center gap-3 mb-8">
-            <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
-              <CalculatorIcon className="w-5 h-5 text-white" />
-            </div>
+          <div className="mb-8">
             <h2 className="text-2xl font-semibold text-gray-900">Investment Calculator</h2>
           </div>
           
