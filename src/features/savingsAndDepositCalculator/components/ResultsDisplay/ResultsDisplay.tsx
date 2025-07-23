@@ -17,14 +17,9 @@ export function ResultsDisplay({ schedule }: ResultsDisplayProps): React.JSX.Ele
       {/* Projected Savings Table */}
       <div className="lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden animate-in slide-in-from-left-3 fade-in duration-700 delay-100 flex flex-col">
         <div className="px-6 py-4 border-b border-gray-200 flex-shrink-0">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-              <TableIcon className="w-4 h-4 text-white" />
-            </div>
-            <h2 className="text-xl font-semibold text-gray-900">
-              {UI_TEXT.TABLE_HEADERS.PROJECTED_SAVINGS}
-            </h2>
-          </div>
+          <h2 className="text-xl font-semibold text-gray-900">
+            {UI_TEXT.TABLE_HEADERS.PROJECTED_SAVINGS}
+          </h2>
         </div>
         
         <div className="max-h-96 overflow-y-auto flex-1">
