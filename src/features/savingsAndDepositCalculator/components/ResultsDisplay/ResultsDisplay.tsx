@@ -74,25 +74,20 @@ export function ResultsDisplay({ schedule }: ResultsDisplayProps): React.JSX.Ele
           </div>
         </div>
         
-        <div className="flex-1">
-          <div className="bg-gray-50 px-6 py-3">
-            <div className="text-sm font-medium text-gray-900">Summary</div>
-          </div>
-          <div className="px-6 py-6 space-y-6">
-            {/* Final Balance */}
-            <div>
-              <h4 className="text-sm font-medium text-gray-600 mb-2">{UI_TEXT.SUMMARY.FINAL_BALANCE}</h4>
-              <div data-testid={TEST_IDS.FINAL_BALANCE} className="text-3xl font-bold text-green-600">
-                ${Math.round(schedule[schedule.length - 1].balance).toLocaleString(UI_CONFIG.CURRENCY.LOCALE)}
-              </div>
+        <div className="px-6 py-6 space-y-6 flex-1">
+          {/* Final Balance */}
+          <div>
+            <h4 className="text-sm font-medium text-gray-600 mb-2">{UI_TEXT.SUMMARY.FINAL_BALANCE}</h4>
+            <div data-testid={TEST_IDS.FINAL_BALANCE} className="text-3xl font-bold text-green-600">
+              ${Math.round(schedule[schedule.length - 1].balance).toLocaleString(UI_CONFIG.CURRENCY.LOCALE)}
             </div>
-            
-            {/* Total Interest */}
-            <div>
-              <h4 className="text-sm font-medium text-gray-600 mb-2">{UI_TEXT.SUMMARY.TOTAL_INTEREST_EARNED}</h4>
-              <div data-testid={TEST_IDS.TOTAL_INTEREST_EARNED} className="text-3xl font-bold text-blue-600">
-                ${Math.round(schedule[schedule.length - 1].interest).toLocaleString(UI_CONFIG.CURRENCY.LOCALE)}
-              </div>
+          </div>
+          
+          {/* Total Interest */}
+          <div>
+            <h4 className="text-sm font-medium text-gray-600 mb-2">{UI_TEXT.SUMMARY.TOTAL_INTEREST_EARNED}</h4>
+            <div data-testid={TEST_IDS.TOTAL_INTEREST_EARNED} className="text-3xl font-bold text-blue-600">
+              ${Math.round(schedule[schedule.length - 1].interest).toLocaleString(UI_CONFIG.CURRENCY.LOCALE)}
             </div>
           </div>
         </div>
