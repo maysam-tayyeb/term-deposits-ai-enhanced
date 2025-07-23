@@ -49,8 +49,15 @@ export function SavingsAndDepositCalculator(): React.JSX.Element {
         )}
         {/* Calculator Card */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 mb-8 transition-all duration-200 hover:shadow-md">
-          <div className="mb-8">
+          <div className="flex justify-between items-center mb-8">
             <h2 className="text-2xl font-semibold text-gray-900">Investment Calculator</h2>
+            <button
+              type="button"
+              onClick={resetToDefaults}
+              className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg font-medium text-sm transition-all duration-200 border border-gray-300 hover:border-gray-400"
+            >
+              Reset to Default
+            </button>
           </div>
           
           <CalculatorForm
@@ -63,7 +70,6 @@ export function SavingsAndDepositCalculator(): React.JSX.Element {
             onAnnualRateChange={setAnnualRate}
             onMonthsChange={setMonths}
             onFrequencyChange={setFrequency}
-            onReset={resetToDefaults}
           />
         </div>
 
