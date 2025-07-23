@@ -27,7 +27,7 @@ import {
 import {
   FormField,
   NumberInput,
-  RadioGroup,
+  ButtonGroup,
 } from "../../../../shared/components/FormFields";
 
 interface CalculatorFormProps {
@@ -154,15 +154,13 @@ export function CalculatorForm({
 
       <FormField
         label={UI_TEXT.LABELS.INTEREST_PAID}
-        className="space-y-3"
       >
-        <RadioGroup
+        <ButtonGroup
           options={FREQUENCY_OPTIONS.filter(
             (opt) => opt.value !== "annually" || months >= 12,
           )}
           value={frequency}
           onChange={(value) => onFrequencyChange(value as PayFrequency)}
-          name="frequency"
           testIdPrefix={TEST_IDS.RADIO_PREFIX}
         />
       </FormField>
