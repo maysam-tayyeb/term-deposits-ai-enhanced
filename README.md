@@ -84,10 +84,26 @@ npx playwright test
 
 ---
 
+## Documentation
+
+The project includes comprehensive documentation in the `/docs` folder:
+
+### Active Documents
+* **[Architecture](docs/ARCHITECTURE.md)** - Current and target architecture, patterns, and technology decisions
+* **[Improvements Roadmap](docs/IMPROVEMENTS-V2.md)** - Prioritized list of improvements with criticality scores
+
+### Archived Documents
+* **[Completed Improvements](docs/archive/IMPROVEMENTS-COMPLETED.md)** - Record of implemented improvements
+* **[Original Improvements](docs/archive/IMPROVEMENTS-ORIGINAL.md)** - Historical improvement tracking
+
+For development guidance, see [CLAUDE.md](CLAUDE.md) which provides instructions for AI-assisted development.
+
+---
+
 ## Customisation
 
 * **Theme Color**: Update `#de313b` in component class names.
 * **Min Allowed Duration**: Change `MIN_ALLOWED_COMPOUNDING_MONTHS` in `durationMonths.factory.ts`.
 * **Max Allowed Duration**: Change `MAX_ALLOWED_COMPOUNDING_MONTHS` in `durationMonths.factory.ts`.
-* **Min Allowed Duration**: Change `MIN_ALLOWED_INTEREST_RATE` in `annualInterestRate.factory.ts`.
-* **Max Allowed Duration**: Change `MAX_ALLOWED_INTEREST_RATE` in `annualInterestRate.factory.ts`.
+* **Min Allowed Interest Rate**: Change `MIN_ALLOWED_INTEREST_RATE` in `annualInterestRate.factory.ts`.
+* **Max Allowed Interest Rate**: Change `MAX_ALLOWED_INTEREST_RATE` in `annualInterestRate.factory.ts`.
