@@ -210,7 +210,7 @@ export function FormattedNumberInput({
   };
 
   // Handle step increment/decrement
-  const handleStep = (direction: 'up' | 'down') => {
+  const handleStep = useCallback((direction: 'up' | 'down') => {
     const currentValue = value;
     const stepValue = step || 1;
     
@@ -223,23 +223,55 @@ export function FormattedNumberInput({
       if (min !== undefined && newValue < min) newValue = min;
     }
     
-    onChange(newValue);
-  };
-
-  // Handle mouse wheel events
-  const handleWheel = (e: React.WheelEvent<HTMLInputElement>) => {
-    if (!isFocused) return;
-    
-    e.preventDefault();
-    if (e.deltaY < 0) {
-      handleStep('up');
-    } else if (e.deltaY > 0) {
-      handleStep('down');
+    // Fix floating point precision issues
+    // Count decimal places in step to determine precision
+    const stepDecimals = (stepValue.toString().split('.')[1] || '').length;
+    if (stepDecimals > 0) {
+      newValue = Math.round(newValue * Math.pow(10, stepDecimals)) / Math.pow(10, stepDecimals);
     }
-  };
+    
+    // Debug logging
+    if (process.env.NODE_ENV === 'development') {
+      console.log('handleStep debug:', {
+        currentValue,
+        step,
+        stepValue,
+        direction,
+        newValue
+      });
+    }
+    
+    onChange(newValue);
+  }, [value, step, min, max, onChange]);
+
+  // Add wheel event listener with proper options
+  useEffect(() => {
+    const input = inputRef.current;
+    if (!input) return;
+
+    const wheelHandler = (e: WheelEvent) => {
+      if (!isFocused) return;
+      
+      // Prevent default scrolling behavior
+      e.preventDefault();
+      
+      if (e.deltaY < 0) {
+        handleStep('up');
+      } else if (e.deltaY > 0) {
+        handleStep('down');
+      }
+    };
+
+    // Add event listener with passive: false to allow preventDefault
+    input.addEventListener('wheel', wheelHandler, { passive: false });
+
+    return () => {
+      input.removeEventListener('wheel', wheelHandler);
+    };
+  }, [isFocused, handleStep]);
 
   return (
-    <div className="relative">
+    <div className="relative group">
       <input
         ref={inputRef}
         type="text"
@@ -248,11 +280,10 @@ export function FormattedNumberInput({
         onChange={handleChange}
         onPaste={handlePaste}
         onKeyDown={handleKeyDown}
-        onWheel={handleWheel}
         onFocus={handleFocus}
         onBlur={handleBlur}
         placeholder={getPlaceholder()}
-        className={`${inputClassName} ${showSteppers ? 'pr-7' : ''}`}
+        className={`${inputClassName} ${showSteppers ? 'pr-10' : ''}`}
         data-testid={testId}
         aria-label={ariaLabel}
         aria-describedby={ariaDescribedBy}
@@ -262,31 +293,33 @@ export function FormattedNumberInput({
         autoComplete="off"
       />
       {showSteppers && (
-        <div className="absolute inset-y-0 right-0 flex flex-col">
-          <button
-            type="button"
-            onClick={() => handleStep('up')}
-            className="flex-1 px-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-50 transition-colors duration-150 rounded-tr-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-inset"
-            aria-label={`Increase ${ariaLabel || 'value'}`}
-            tabIndex={-1}
-            data-testid={testId ? `${testId}-increment` : undefined}
-          >
-            <svg className="w-2.5 h-2.5 mx-auto" viewBox="0 0 10 10">
-              <path d="M5 2L8.5 6H1.5L5 2Z" fill="currentColor" />
-            </svg>
-          </button>
-          <button
-            type="button"
-            onClick={() => handleStep('down')}
-            className="flex-1 px-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-50 transition-colors duration-150 rounded-br-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-inset"
-            aria-label={`Decrease ${ariaLabel || 'value'}`}
-            tabIndex={-1}
-            data-testid={testId ? `${testId}-decrement` : undefined}
-          >
-            <svg className="w-2.5 h-2.5 mx-auto" viewBox="0 0 10 10">
-              <path d="M5 8L1.5 4H8.5L5 8Z" fill="currentColor" />
-            </svg>
-          </button>
+        <div className="absolute inset-y-0 right-2 flex items-center opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity duration-200">
+          <div className="flex flex-col h-5">
+            <button
+              type="button"
+              onClick={() => handleStep('up')}
+              className="flex items-center justify-center h-2.5 w-5 text-gray-400 hover:text-gray-700 transition-colors"
+              aria-label={`Increase ${ariaLabel || 'value'}`}
+              tabIndex={-1}
+              data-testid={testId ? `${testId}-increment` : undefined}
+            >
+              <svg className="w-3 h-3" viewBox="0 0 12 12" fill="none">
+                <path d="M3 8L6 5L9 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
+            <button
+              type="button"
+              onClick={() => handleStep('down')}
+              className="flex items-center justify-center h-2.5 w-5 text-gray-400 hover:text-gray-700 transition-colors"
+              aria-label={`Decrease ${ariaLabel || 'value'}`}
+              tabIndex={-1}
+              data-testid={testId ? `${testId}-decrement` : undefined}
+            >
+              <svg className="w-3 h-3" viewBox="0 0 12 12" fill="none">
+                <path d="M3 4L6 7L9 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
+          </div>
         </div>
       )}
     </div>
