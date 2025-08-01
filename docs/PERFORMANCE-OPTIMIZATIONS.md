@@ -29,20 +29,12 @@ const calculationResult = useMemo(() => {
 
 **Impact**: Avoids recalculating compound interest on every render, only computing when inputs actually change.
 
-### 3. Input Debouncing
-**Files**: 
-- `src/shared/hooks/useDebounce.ts` (new hook)
-- `src/features/savingsAndDepositCalculator/logic/hooks/useCalculator.ts`
+### 3. Real-time Calculations
+**File**: `src/features/savingsAndDepositCalculator/logic/hooks/useCalculator.ts`
 
-Created a custom useDebounce hook that delays calculations by 300ms after user stops typing.
+The calculator provides real-time updates as users type, with calculations happening immediately on every input change. The useMemo hook ensures calculations are still optimized and only recompute when inputs actually change.
 
-```typescript
-const debouncedPrincipal = useDebounce(principal, 300);
-const debouncedAnnualRate = useDebounce(annualRate, 300);
-const debouncedMonths = useDebounce(months, 300);
-```
-
-**Impact**: Reduces calculation frequency during rapid input changes, improving responsiveness.
+**Impact**: Instant feedback for users as they adjust values, providing a more responsive and interactive experience.
 
 ### 4. Lazy Loading for Large Tables
 **Files**:
@@ -96,7 +88,7 @@ build: {
 - Bundle size: 219.17 KB (single chunk)
 
 ### After Optimizations
-- Input lag: <50ms (debounced at 300ms)
+- Input lag: Real-time (0ms delay, optimized with useMemo)
 - Initial render: ~30ms for 60-month table (lazy loaded)
 - Bundle size: 219.05 KB (split into chunks)
 

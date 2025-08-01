@@ -1,5 +1,4 @@
 import { useEffect, useState, useMemo } from "react";
-import { useDebounce } from "../../../../shared/hooks";
 import {
   createDurationMonths,
 } from "../../domain/valueObjects/duration/durationMonths.factory";
@@ -73,18 +72,13 @@ export function useCalculator(): CalculatorState & CalculatorActions {
     }
   };
 
-  // Debounce input values to avoid excessive recalculations
-  const debouncedPrincipal = useDebounce(principal, 300);
-  const debouncedAnnualRate = useDebounce(annualRate, 300);
-  const debouncedMonths = useDebounce(months, 300);
-
   // Memoize the calculation result to avoid recalculation on unrelated state changes
   const calculationResult = useMemo(() => {
     try {
       const context = {
         component: "SavingsAndDepositCalculator",
         action: "calculation",
-        userInput: { principal: debouncedPrincipal, annualRate: debouncedAnnualRate, months: debouncedMonths, frequency },
+        userInput: { principal, annualRate, months, frequency },
         timestamp: new Date().toISOString(),
       };
 
@@ -96,7 +90,7 @@ export function useCalculator(): CalculatorState & CalculatorActions {
 
       // Validate principal
       try {
-        principalAmount = createPrincipalAmount(debouncedPrincipal);
+        principalAmount = createPrincipalAmount(principal);
       } catch (e) {
         if (e instanceof RangeError) {
           validationErrors.push(e.message);
@@ -105,7 +99,7 @@ export function useCalculator(): CalculatorState & CalculatorActions {
 
       // Validate interest rate
       try {
-        annualInterestRate = createAnnualInterestRate(debouncedAnnualRate);
+        annualInterestRate = createAnnualInterestRate(annualRate);
       } catch (e) {
         if (e instanceof RangeError) {
           validationErrors.push(e.message);
@@ -114,7 +108,7 @@ export function useCalculator(): CalculatorState & CalculatorActions {
 
       // Validate duration
       try {
-        duration = createDurationMonths(debouncedMonths);
+        duration = createDurationMonths(months);
       } catch (e) {
         if (e instanceof RangeError) {
           validationErrors.push(e.message);
@@ -174,7 +168,7 @@ export function useCalculator(): CalculatorState & CalculatorActions {
       const context = {
         component: "SavingsAndDepositCalculator",
         action: "calculation",
-        userInput: { principal: debouncedPrincipal, annualRate: debouncedAnnualRate, months: debouncedMonths, frequency },
+        userInput: { principal, annualRate, months, frequency },
         timestamp: new Date().toISOString(),
       };
 
@@ -184,7 +178,7 @@ export function useCalculator(): CalculatorState & CalculatorActions {
         // Handle validation errors from factory functions
         calculatorError = ErrorFactory.createValidationError(
           "input_validation",
-          { principal: debouncedPrincipal, annualRate: debouncedAnnualRate, months: debouncedMonths, frequency },
+          { principal, annualRate, months, frequency },
           e.message,
           context,
         );
@@ -198,7 +192,7 @@ export function useCalculator(): CalculatorState & CalculatorActions {
 
       return { result: [], error: calculatorError };
     }
-  }, [debouncedPrincipal, debouncedAnnualRate, debouncedMonths, frequency]);
+  }, [principal, annualRate, months, frequency]);
 
   // Update state when calculation result changes
   useEffect(() => {
