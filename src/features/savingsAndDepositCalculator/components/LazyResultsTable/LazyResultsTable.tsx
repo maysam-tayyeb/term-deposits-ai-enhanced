@@ -9,7 +9,9 @@ interface LazyResultsTableProps {
 const INITIAL_ROWS = 12; // Show first year initially
 const ROWS_PER_PAGE = 12; // Load 12 more rows each time
 
-export function LazyResultsTable({ schedule }: LazyResultsTableProps): React.JSX.Element {
+export function LazyResultsTable({
+  schedule,
+}: LazyResultsTableProps): React.JSX.Element {
   const [visibleRows, setVisibleRows] = useState(INITIAL_ROWS);
   const observerTarget = useRef<HTMLDivElement>(null);
 
@@ -17,10 +19,12 @@ export function LazyResultsTable({ schedule }: LazyResultsTableProps): React.JSX
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting && visibleRows < schedule.length) {
-          setVisibleRows((prev) => Math.min(prev + ROWS_PER_PAGE, schedule.length));
+          setVisibleRows((prev) =>
+            Math.min(prev + ROWS_PER_PAGE, schedule.length),
+          );
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0.1 },
     );
 
     if (observerTarget.current) {
@@ -34,28 +38,55 @@ export function LazyResultsTable({ schedule }: LazyResultsTableProps): React.JSX
 
   return (
     <>
-      <table className="w-full" role="table" aria-label="Monthly breakdown of investment growth">
-        <caption className="sr-only">Monthly breakdown showing interest earned and balance for your term deposit</caption>
+      <table
+        className="w-full"
+        role="table"
+        aria-label="Monthly breakdown of investment growth"
+      >
+        <caption className="sr-only">
+          Monthly breakdown showing interest earned and balance for your term
+          deposit
+        </caption>
         <thead className="bg-gray-50 sticky top-0">
           <tr>
-            <th scope="col" className="px-6 py-3 text-left text-sm font-medium text-gray-900">
+            <th
+              scope="col"
+              className="px-6 py-3 text-left text-sm font-medium text-gray-900"
+            >
               {UI_TEXT.TABLE_HEADERS.MONTH}
             </th>
-            <th scope="col" className="px-6 py-3 text-left text-sm font-medium text-gray-900">
+            <th
+              scope="col"
+              className="px-6 py-3 text-left text-sm font-medium text-gray-900"
+            >
               {UI_TEXT.TABLE_HEADERS.INTEREST_RATE}
             </th>
-            <th scope="col" className="px-6 py-3 text-left text-sm font-medium text-gray-900">
+            <th
+              scope="col"
+              className="px-6 py-3 text-left text-sm font-medium text-gray-900"
+            >
               {UI_TEXT.TABLE_HEADERS.INTEREST_EARNED}
             </th>
-            <th scope="col" className="px-6 py-3 text-left text-sm font-medium text-gray-900">
+            <th
+              scope="col"
+              className="px-6 py-3 text-left text-sm font-medium text-gray-900"
+            >
               {UI_TEXT.TABLE_HEADERS.BALANCE}
             </th>
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-200">
           {displayedSchedule.map((row) => (
-            <tr key={row.month} className="hover:bg-gray-50 transition-colors duration-150">
-              <td className="px-6 py-4 text-sm font-medium text-gray-900" scope="row">{row.month}</td>
+            <tr
+              key={row.month}
+              className="hover:bg-gray-50 transition-colors duration-150"
+            >
+              <td
+                className="px-6 py-4 text-sm font-medium text-gray-900"
+                scope="row"
+              >
+                {row.month}
+              </td>
               <td className="px-6 py-4 text-sm text-gray-600">
                 {row.annualRate.toFixed(UI_CONFIG.DECIMAL_PLACES)}%
               </td>
@@ -81,7 +112,8 @@ export function LazyResultsTable({ schedule }: LazyResultsTableProps): React.JSX
           className="p-4 text-center text-sm text-gray-500"
           aria-live="polite"
         >
-          Loading more results... ({visibleRows} of {schedule.length} months shown)
+          Loading more results... ({visibleRows} of {schedule.length} months
+          shown)
         </div>
       )}
     </>

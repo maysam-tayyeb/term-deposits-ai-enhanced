@@ -2,5 +2,5 @@ export {
   calculateMonthlyCompounding,
   calculateQuarterlyCompounding,
   calculateAnnuallyCompounding,
-  calculateAtMaturity
+  calculateAtMaturity,
 } from "./compoundingInterestCalculators";

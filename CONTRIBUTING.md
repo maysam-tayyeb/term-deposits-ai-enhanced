@@ -115,13 +115,14 @@ Before committing, ensure:
 - Use descriptive test names that explain the behavior
 
 Example:
+
 ```typescript
-describe('calculateCompoundInterest', () => {
-  it('should calculate monthly compound interest correctly', () => {
+describe("calculateCompoundInterest", () => {
+  it("should calculate monthly compound interest correctly", () => {
     // Test implementation
   });
-  
-  it('should handle zero interest rate', () => {
+
+  it("should handle zero interest rate", () => {
     // Test implementation
   });
 });
@@ -152,6 +153,7 @@ npx playwright test       # Terminal 2
 We follow conventional commits for clear history:
 
 ### Format
+
 ```
 <type>(<scope>): <subject>
 
@@ -161,6 +163,7 @@ We follow conventional commits for clear history:
 ```
 
 ### Types
+
 - `feat`: New feature
 - `fix`: Bug fix
 - `docs`: Documentation only
@@ -170,6 +173,7 @@ We follow conventional commits for clear history:
 - `chore`: Maintenance tasks
 
 ### Examples
+
 ```bash
 feat(calculator): add print functionality
 fix(validation): correct interest rate boundary check
@@ -179,7 +183,8 @@ test(calculator): add edge case tests for zero principal
 
 ## Pull Request Process
 
-1. **Update your fork**: 
+1. **Update your fork**:
+
    ```bash
    git fetch upstream
    git checkout main
@@ -193,22 +198,27 @@ test(calculator): add edge case tests for zero principal
    - Include screenshots for UI changes
 
 3. **PR Description Template**:
+
    ```markdown
    ## Description
+
    Brief description of what this PR does
 
    ## Type of Change
+
    - [ ] Bug fix
    - [ ] New feature
    - [ ] Breaking change
    - [ ] Documentation update
 
    ## Testing
+
    - [ ] Unit tests pass
    - [ ] E2E tests pass
    - [ ] Manual testing completed
 
    ## Checklist
+
    - [ ] Code follows project standards
    - [ ] Self-review completed
    - [ ] Comments added for complex code

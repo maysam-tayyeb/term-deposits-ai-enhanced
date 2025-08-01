@@ -30,7 +30,7 @@ describe("CalculatorErrorBoundary", () => {
     render(
       <CalculatorErrorBoundary>
         <div>No error</div>
-      </CalculatorErrorBoundary>
+      </CalculatorErrorBoundary>,
     );
 
     expect(screen.getByText("No error")).toBeInTheDocument();
@@ -77,8 +77,10 @@ describe("CalculatorErrorBoundary", () => {
     render(<DefaultErrorFallback error={mockError} />);
 
     // Should show user-friendly message
-    expect(screen.getByText("Something went wrong with the test")).toBeInTheDocument();
-    
+    expect(
+      screen.getByText("Something went wrong with the test"),
+    ).toBeInTheDocument();
+
     // Technical details should be hidden in non-development environment
     expect(screen.queryByText("Technical details")).not.toBeInTheDocument();
     expect(screen.queryByText("Test error message")).not.toBeInTheDocument();

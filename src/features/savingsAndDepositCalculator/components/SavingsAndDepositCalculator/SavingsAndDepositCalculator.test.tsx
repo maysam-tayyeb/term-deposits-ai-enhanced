@@ -59,11 +59,13 @@ describe("SavingsAndDepositCalculator", () => {
         screen.getByTestId(
           `${TEST_IDS.RADIO_PREFIX}${DEFAULT_VALUES.FREQUENCY}`,
         ),
-      ).toHaveClass('bg-blue-600');
+      ).toHaveClass("bg-blue-600");
     });
 
     it("should display help text for input constraints", () => {
-      expect(screen.getByText("Enter rate between 0.00% - 15.00%")).toBeInTheDocument();
+      expect(
+        screen.getByText("Enter rate between 0.00% - 15.00%"),
+      ).toBeInTheDocument();
       expect(screen.getByText("Enter 3 - 60 months")).toBeInTheDocument();
     });
 
@@ -146,15 +148,17 @@ describe("SavingsAndDepositCalculator", () => {
     ).forEach((option) => {
       it(`should update calculations when frequency changes to ${option.label.toLowerCase()}`, async () => {
         const user = userEvent.setup();
-        
+
         // If testing annually, first set investment term to 12+ months
         if (option.value === "annually") {
-          const investmentTermInput = screen.getByTestId(TEST_IDS.INVESTMENT_TERM_INPUT);
+          const investmentTermInput = screen.getByTestId(
+            TEST_IDS.INVESTMENT_TERM_INPUT,
+          );
           await user.click(investmentTermInput);
           await user.clear(investmentTermInput);
           await user.type(investmentTermInput, "12");
         }
-        
+
         const button = screen.getByTestId(
           `${TEST_IDS.RADIO_PREFIX}${option.value.toLowerCase()}`,
         );
@@ -162,7 +166,7 @@ describe("SavingsAndDepositCalculator", () => {
         fireEvent.click(button);
 
         await waitFor(() => {
-          expect(button).toHaveClass('bg-blue-600');
+          expect(button).toHaveClass("bg-blue-600");
           expect(
             screen.getByText(UI_TEXT.TABLE_HEADERS.PROJECTED_SAVINGS),
           ).toBeInTheDocument();
@@ -172,7 +176,9 @@ describe("SavingsAndDepositCalculator", () => {
 
     it("should have appropriate frequency options available for current investment term", () => {
       // With default 3 months, annually should not be available
-      const availableOptions = FREQUENCY_OPTIONS.filter(option => option.value !== "annually");
+      const availableOptions = FREQUENCY_OPTIONS.filter(
+        (option) => option.value !== "annually",
+      );
       availableOptions.forEach((option) => {
         const button = screen.getByTestId(
           `${TEST_IDS.RADIO_PREFIX}${option.value.toLowerCase()}`,
@@ -180,9 +186,11 @@ describe("SavingsAndDepositCalculator", () => {
         expect(button).toBeInTheDocument();
         expect(button).toHaveTextContent(option.label);
       });
-      
+
       // Annually should not be available with default 3 month term
-      expect(screen.queryByTestId(TEST_IDS.RADIO_PREFIX + "annually")).not.toBeInTheDocument();
+      expect(
+        screen.queryByTestId(TEST_IDS.RADIO_PREFIX + "annually"),
+      ).not.toBeInTheDocument();
     });
   });
 
@@ -199,7 +207,9 @@ describe("SavingsAndDepositCalculator", () => {
       );
 
       await waitFor(() => {
-        expect(interestInput).toHaveValue(TEST_VALUES.INTEREST_RATE.MEDIUM.toString());
+        expect(interestInput).toHaveValue(
+          TEST_VALUES.INTEREST_RATE.MEDIUM.toString(),
+        );
         expect(
           screen.getByText(UI_TEXT.TABLE_HEADERS.PROJECTED_SAVINGS),
         ).toBeInTheDocument();
@@ -297,34 +307,46 @@ describe("SavingsAndDepositCalculator", () => {
   describe("Frequency Option Visibility", () => {
     it("should show annually option when investment term is 12 months or more", async () => {
       const user = userEvent.setup();
-      const investmentTermInput = screen.getByTestId(TEST_IDS.INVESTMENT_TERM_INPUT);
+      const investmentTermInput = screen.getByTestId(
+        TEST_IDS.INVESTMENT_TERM_INPUT,
+      );
 
       await user.click(investmentTermInput);
       await user.clear(investmentTermInput);
       await user.type(investmentTermInput, "12");
 
       await waitFor(() => {
-        expect(screen.getByTestId(TEST_IDS.RADIO_PREFIX + "annually")).toBeInTheDocument();
+        expect(
+          screen.getByTestId(TEST_IDS.RADIO_PREFIX + "annually"),
+        ).toBeInTheDocument();
       });
     });
 
     it("should hide annually option when investment term is less than 12 months", async () => {
       const user = userEvent.setup();
-      const investmentTermInput = screen.getByTestId(TEST_IDS.INVESTMENT_TERM_INPUT);
+      const investmentTermInput = screen.getByTestId(
+        TEST_IDS.INVESTMENT_TERM_INPUT,
+      );
 
       await user.click(investmentTermInput);
       await user.clear(investmentTermInput);
       await user.type(investmentTermInput, "6");
 
       await waitFor(() => {
-        expect(screen.queryByTestId(TEST_IDS.RADIO_PREFIX + "annually")).not.toBeInTheDocument();
+        expect(
+          screen.queryByTestId(TEST_IDS.RADIO_PREFIX + "annually"),
+        ).not.toBeInTheDocument();
       });
     });
 
     it("should automatically change frequency from annually to at maturity when term becomes less than 12 months", async () => {
       const user = userEvent.setup();
-      const investmentTermInput = screen.getByTestId(TEST_IDS.INVESTMENT_TERM_INPUT);
-      const atMaturityButton = screen.getByTestId(TEST_IDS.RADIO_PREFIX + "atmaturity");
+      const investmentTermInput = screen.getByTestId(
+        TEST_IDS.INVESTMENT_TERM_INPUT,
+      );
+      const atMaturityButton = screen.getByTestId(
+        TEST_IDS.RADIO_PREFIX + "atmaturity",
+      );
 
       // First set to 12 months to ensure annually option is visible
       await user.clear(investmentTermInput);
@@ -332,12 +354,16 @@ describe("SavingsAndDepositCalculator", () => {
 
       // Wait for annually option to appear and then select it
       await waitFor(() => {
-        expect(screen.getByTestId(TEST_IDS.RADIO_PREFIX + "annually")).toBeInTheDocument();
+        expect(
+          screen.getByTestId(TEST_IDS.RADIO_PREFIX + "annually"),
+        ).toBeInTheDocument();
       });
-      
-      const annuallyButton = screen.getByTestId(TEST_IDS.RADIO_PREFIX + "annually");
+
+      const annuallyButton = screen.getByTestId(
+        TEST_IDS.RADIO_PREFIX + "annually",
+      );
       await user.click(annuallyButton);
-      expect(annuallyButton).toHaveClass('bg-blue-600');
+      expect(annuallyButton).toHaveClass("bg-blue-600");
 
       // Change to less than 12 months
       await user.click(investmentTermInput);
@@ -346,20 +372,26 @@ describe("SavingsAndDepositCalculator", () => {
 
       await waitFor(() => {
         // Annually option should be hidden
-        expect(screen.queryByTestId(TEST_IDS.RADIO_PREFIX + "annually")).not.toBeInTheDocument();
+        expect(
+          screen.queryByTestId(TEST_IDS.RADIO_PREFIX + "annually"),
+        ).not.toBeInTheDocument();
         // At Maturity should be automatically selected
-        expect(atMaturityButton).toHaveClass('bg-blue-600');
+        expect(atMaturityButton).toHaveClass("bg-blue-600");
       });
     });
 
     it("should maintain other frequency selections when changing term to less than 12 months", async () => {
       const user = userEvent.setup();
-      const investmentTermInput = screen.getByTestId(TEST_IDS.INVESTMENT_TERM_INPUT);
-      const quarterlyButton = screen.getByTestId(TEST_IDS.RADIO_PREFIX + "quarterly");
+      const investmentTermInput = screen.getByTestId(
+        TEST_IDS.INVESTMENT_TERM_INPUT,
+      );
+      const quarterlyButton = screen.getByTestId(
+        TEST_IDS.RADIO_PREFIX + "quarterly",
+      );
 
       // Select quarterly
       await user.click(quarterlyButton);
-      expect(quarterlyButton).toHaveClass('bg-blue-600');
+      expect(quarterlyButton).toHaveClass("bg-blue-600");
 
       // Change to less than 12 months
       await user.click(investmentTermInput);
@@ -368,9 +400,11 @@ describe("SavingsAndDepositCalculator", () => {
 
       await waitFor(() => {
         // Quarterly should still be selected
-        expect(quarterlyButton).toHaveClass('bg-blue-600');
+        expect(quarterlyButton).toHaveClass("bg-blue-600");
         // Annually option should be hidden
-        expect(screen.queryByTestId(TEST_IDS.RADIO_PREFIX + "annually")).not.toBeInTheDocument();
+        expect(
+          screen.queryByTestId(TEST_IDS.RADIO_PREFIX + "annually"),
+        ).not.toBeInTheDocument();
       });
     });
   });

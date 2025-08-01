@@ -23,7 +23,7 @@ export abstract class BaseError extends Error {
     this.type = type;
     this.severity = severity;
     this.context = context;
-    
+
     // Maintain proper prototype chain for instanceof checks
     Object.setPrototypeOf(this, new.target.prototype);
   }

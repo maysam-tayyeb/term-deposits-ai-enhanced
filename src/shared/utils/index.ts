@@ -1,8 +1,8 @@
 export type { ValueObjectConfig } from "./valueObjectFactory";
-export { 
+export {
   createValueObjectFactory,
   createNumberValidation,
   createPercentageFormatter,
   createCurrencyFormatter,
-  createUnitFormatter
+  createUnitFormatter,
 } from "./valueObjectFactory";

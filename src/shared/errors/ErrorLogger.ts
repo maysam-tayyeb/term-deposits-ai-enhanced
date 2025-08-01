@@ -64,7 +64,7 @@ export class CompositeErrorLogger implements ErrorLogger {
   }
 
   log(error: BaseError): void {
-    this.loggers.forEach(logger => logger.log(error));
+    this.loggers.forEach((logger) => logger.log(error));
   }
 
   addLogger(logger: ErrorLogger): void {

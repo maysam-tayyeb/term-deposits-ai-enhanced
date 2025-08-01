@@ -8,7 +8,7 @@ export type ErrorSeverity = "LOW" | "MEDIUM" | "HIGH" | "CRITICAL";
 
 export const ErrorType = {
   VALIDATION: "VALIDATION",
-  CALCULATION: "CALCULATION", 
+  CALCULATION: "CALCULATION",
   NETWORK: "NETWORK",
   UNKNOWN: "UNKNOWN",
 } as const;
@@ -16,7 +16,7 @@ export const ErrorType = {
 export const ErrorSeverity = {
   LOW: "LOW",
   MEDIUM: "MEDIUM",
-  HIGH: "HIGH", 
+  HIGH: "HIGH",
   CRITICAL: "CRITICAL",
 } as const;
 

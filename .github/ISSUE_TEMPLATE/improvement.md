@@ -1,35 +1,38 @@
 ---
 name: Improvement
 about: Track an improvement from the IMPROVEMENTS.md file
-title: '[IMPROVEMENT] '
+title: "[IMPROVEMENT] "
 labels: enhancement
-assignees: ''
-
+assignees: ""
 ---
 
 ## Improvement Item
-Reference: Item #___ from IMPROVEMENTS-V2.md
+
+Reference: Item #\_\_\_ from IMPROVEMENTS-V2.md
 
 ## Priority
+
 - [ ] 🔴 High
-- [ ] 🟡 Medium  
+- [ ] 🟡 Medium
 - [ ] 🟢 Low
 
 ## Description
 
-
 ## Tasks
+
 - [ ] Task 1
 - [ ] Task 2
 - [ ] Task 3
 
 ## Acceptance Criteria
+
 - [ ] Tests added/updated
 - [ ] Documentation updated
 - [ ] Accessibility checked
 - [ ] Performance impact assessed
 
 ## Effort Estimate
-Time: ___ hours
+
+Time: \_\_\_ hours
 
 ## Notes

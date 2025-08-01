@@ -21,24 +21,24 @@ export interface ValueObjectConfig<_T extends number & Brand<number, string>> {
 
 /**
  * Creates a factory function for value objects with consistent validation
- * 
+ *
  * Example usage:
  * ```typescript
  * type UserId = Brand<number, "UserId">;
- * 
+ *
  * const createUserId = createValueObjectFactory<UserId>({
  *   min: 1,
  *   max: 999999,
  *   displayName: "User ID",
  *   formatValue: (v) => `#${v}`,
  * });
- * 
+ *
  * const userId = createUserId(123); // Returns UserId
  * ```
  */
-export function createValueObjectFactory<T extends number & Brand<number, string>>(
-  config: ValueObjectConfig<T>
-) {
+export function createValueObjectFactory<
+  T extends number & Brand<number, string>,
+>(config: ValueObjectConfig<T>) {
   return function createValueObject(value: number): T {
     // Custom validation first (e.g., NaN check)
     if (config.customValidation) {
@@ -50,12 +50,14 @@ export function createValueObjectFactory<T extends number & Brand<number, string
 
     // Range validation
     if (value < config.min || value > config.max) {
-      const minDesc = config.formatDescription?.(config.min) ?? config.min.toString();
-      const maxDesc = config.formatDescription?.(config.max) ?? config.max.toString();
+      const minDesc =
+        config.formatDescription?.(config.min) ?? config.min.toString();
+      const maxDesc =
+        config.formatDescription?.(config.max) ?? config.max.toString();
       const valueDesc = config.formatValue?.(value) ?? value.toString();
-      
+
       throw new RangeError(
-        `${config.displayName} must be between ${minDesc} and ${maxDesc}. Received: ${valueDesc}`
+        `${config.displayName} must be between ${minDesc} and ${maxDesc}. Received: ${valueDesc}`,
       );
     }
 
@@ -85,11 +87,15 @@ export function createPercentageFormatter(decimalPlaces: number = 2) {
 /**
  * Helper to create currency formatter
  */
-export function createCurrencyFormatter(locale: string = 'en-US', currency: string = 'USD') {
-  return (value: number) => value.toLocaleString(locale, { 
-    style: 'currency', 
-    currency 
-  });
+export function createCurrencyFormatter(
+  locale: string = "en-US",
+  currency: string = "USD",
+) {
+  return (value: number) =>
+    value.toLocaleString(locale, {
+      style: "currency",
+      currency,
+    });
 }
 
 /**

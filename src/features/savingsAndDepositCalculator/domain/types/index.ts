@@ -4,5 +4,5 @@ export type {
   PeriodicFrequency,
   AnnualInterestRate,
   DurationMonths,
-  PrincipalAmount
+  PrincipalAmount,
 } from "./compoundingInterestCalculators.types";

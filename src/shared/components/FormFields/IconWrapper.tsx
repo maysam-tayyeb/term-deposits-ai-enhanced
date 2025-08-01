@@ -6,13 +6,15 @@ export interface IconWrapperProps {
   className?: string;
 }
 
-export function IconWrapper({ 
-  children, 
+export function IconWrapper({
+  children,
   gradient,
-  className = "w-5 h-5 rounded-md"
+  className = "w-5 h-5 rounded-md",
 }: IconWrapperProps): React.JSX.Element {
   return (
-    <div className={`${gradient} ${className} flex items-center justify-center`}>
+    <div
+      className={`${gradient} ${className} flex items-center justify-center`}
+    >
       {children}
     </div>
   );
@@ -21,7 +23,7 @@ export function IconWrapper({
 // Pre-defined gradient combinations for consistency
 export const IconGradients = {
   green: "bg-gradient-to-br from-green-400 to-emerald-500",
-  purple: "bg-gradient-to-br from-purple-400 to-indigo-500", 
+  purple: "bg-gradient-to-br from-purple-400 to-indigo-500",
   blue: "bg-gradient-to-br from-blue-400 to-cyan-500",
   amber: "bg-gradient-to-br from-amber-400 to-orange-500",
   emerald: "bg-gradient-to-br from-emerald-500 to-teal-600",

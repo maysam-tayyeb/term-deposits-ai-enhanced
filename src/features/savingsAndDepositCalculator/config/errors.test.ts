@@ -33,7 +33,9 @@ describe("Error Classes", () => {
       expect(error.field).toBe("principal");
       expect(error.value).toBe(-100);
       expect(error.message).toBe("Principal cannot be negative");
-      expect(error.userMessage).toBe("Please enter a positive principal amount");
+      expect(error.userMessage).toBe(
+        "Please enter a positive principal amount",
+      );
       expect(error.context).toEqual(mockContext);
     });
   });
@@ -119,7 +121,9 @@ describe("ErrorFactory", () => {
       expect(error).toBeInstanceOf(CalculationError);
       expect(error.calculationType).toBe("test_calculation");
       expect(error.severity).toBe(ErrorSeverityValues.HIGH);
-      expect(error.userMessage).toBe("Unable to calculate results. Please check your input values and try again.");
+      expect(error.userMessage).toBe(
+        "Unable to calculate results. Please check your input values and try again.",
+      );
     });
 
     it("should create a calculation error with custom severity", () => {
@@ -183,18 +187,21 @@ describe("ConsoleErrorLogger", () => {
         timestamp: "2023-01-01T00:00:00.000Z",
       },
     );
-    Object.defineProperty(error, 'severity', { 
-      value: ErrorSeverityValues.CRITICAL, 
-      writable: false 
+    Object.defineProperty(error, "severity", {
+      value: ErrorSeverityValues.CRITICAL,
+      writable: false,
     });
 
     logger.log(error);
 
-    expect(consoleSpy.error).toHaveBeenCalledWith("Calculator Error:", expect.objectContaining({
-      name: "ValidationError",
-      type: ErrorTypeValues.VALIDATION,
-      severity: ErrorSeverityValues.CRITICAL,
-    }));
+    expect(consoleSpy.error).toHaveBeenCalledWith(
+      "Calculator Error:",
+      expect.objectContaining({
+        name: "ValidationError",
+        type: ErrorTypeValues.VALIDATION,
+        severity: ErrorSeverityValues.CRITICAL,
+      }),
+    );
   });
 
   it("should log medium errors to console.warn", () => {
@@ -212,9 +219,12 @@ describe("ConsoleErrorLogger", () => {
 
     logger.log(error);
 
-    expect(consoleSpy.warn).toHaveBeenCalledWith("Calculator Warning:", expect.objectContaining({
-      severity: ErrorSeverityValues.MEDIUM,
-    }));
+    expect(consoleSpy.warn).toHaveBeenCalledWith(
+      "Calculator Warning:",
+      expect.objectContaining({
+        severity: ErrorSeverityValues.MEDIUM,
+      }),
+    );
   });
 
   it("should log low errors to console.info", () => {
@@ -232,9 +242,12 @@ describe("ConsoleErrorLogger", () => {
 
     logger.log(error);
 
-    expect(consoleSpy.info).toHaveBeenCalledWith("Calculator Info:", expect.objectContaining({
-      severity: ErrorSeverityValues.LOW,
-    }));
+    expect(consoleSpy.info).toHaveBeenCalledWith(
+      "Calculator Info:",
+      expect.objectContaining({
+        severity: ErrorSeverityValues.LOW,
+      }),
+    );
   });
 });
 

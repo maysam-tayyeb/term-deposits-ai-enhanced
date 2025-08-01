@@ -61,4 +61,3 @@ export const TEST_IDS = {
   TOTAL_INTEREST_EARNED: "total-interest-earned",
   ERROR: "error",
 } as const;
-

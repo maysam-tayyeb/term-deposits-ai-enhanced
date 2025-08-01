@@ -1,5 +1,9 @@
 import React, { Component, type ErrorInfo, type ReactNode } from "react";
-import { type BaseCalculatorError, ErrorFactory, ErrorService } from "../../config/errors";
+import {
+  type BaseCalculatorError,
+  ErrorFactory,
+  ErrorService,
+} from "../../config/errors";
 
 interface ErrorBoundaryState {
   hasError: boolean;
@@ -60,7 +64,9 @@ interface DefaultErrorFallbackProps {
   error: BaseCalculatorError;
 }
 
-export function DefaultErrorFallback({ error }: DefaultErrorFallbackProps): React.JSX.Element {
+export function DefaultErrorFallback({
+  error,
+}: DefaultErrorFallbackProps): React.JSX.Element {
   const handleRetry = (): void => {
     window.location.reload();
   };
@@ -90,7 +96,7 @@ export function DefaultErrorFallback({ error }: DefaultErrorFallbackProps): Reac
             </h2>
           </div>
         </div>
-        
+
         <div className="mb-4">
           <p className="text-red-700 mb-2">{error.userMessage}</p>
           {process.env.NODE_ENV === "development" && (
@@ -99,10 +105,18 @@ export function DefaultErrorFallback({ error }: DefaultErrorFallbackProps): Reac
                 Technical details
               </summary>
               <div className="mt-2 p-2 bg-red-100 rounded text-xs font-mono">
-                <p><strong>Error:</strong> {error.message}</p>
-                <p><strong>Type:</strong> {error.type}</p>
-                <p><strong>Component:</strong> {error.context.component}</p>
-                <p><strong>Time:</strong> {error.context.timestamp}</p>
+                <p>
+                  <strong>Error:</strong> {error.message}
+                </p>
+                <p>
+                  <strong>Type:</strong> {error.type}
+                </p>
+                <p>
+                  <strong>Component:</strong> {error.context.component}
+                </p>
+                <p>
+                  <strong>Time:</strong> {error.context.timestamp}
+                </p>
               </div>
             </details>
           )}

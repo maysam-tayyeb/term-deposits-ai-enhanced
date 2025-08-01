@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+
 - WCAG 2.1 AA accessibility compliance
 - Screen reader support with ARIA labels and live regions
 - Keyboard navigation support
@@ -31,6 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Native wheel event handling with passive: false
 
 ### Changed
+
 - Updated README.md with accurate project information
 - Improved file structure documentation
 - Enhanced tech stack details with specific versions
@@ -44,6 +46,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Always use type="number" input for consistent behavior
 
 ### Fixed
+
 - Passive event listener warnings for wheel events
 - Floating point precision issues (3.7 + 0.1 now correctly equals 3.8)
 - Input value not updating during scroll events
@@ -54,6 +57,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.1.0] - 2024-12-15
 
 ### Added
+
 - Comprehensive unit test suite with Vitest
 - E2E testing framework with Playwright
 - Factory pattern for domain value objects
@@ -64,6 +68,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Test IDs for E2E testing
 
 ### Changed
+
 - Migrated to TypeScript 5.8.3
 - Updated to React 19.1.0
 - Switched build tool to Vite 7.0.3
@@ -72,6 +77,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Separated business logic from UI components
 
 ### Security
+
 - Input validation prevents XSS attacks
 - No external API calls or data transmission
 - All calculations performed client-side
@@ -79,6 +85,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0] - 2024-11-01
 
 ### Initial Release
+
 - Basic compound interest calculator
 - Support for monthly, quarterly, annual, and at-maturity compounding
 - Principal amount range: $1 - $10,000,000

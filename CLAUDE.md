@@ -42,12 +42,14 @@ React-based term deposit calculator that computes compound interest returns for 
 ## Testing Guidelines
 
 **Test Structure**:
+
 - Unit tests are co-located with source files (`*.test.ts`, `*.test.tsx`)
 - E2E tests are in `/tests/` directory
 - Use `data-testid` attributes for E2E element selection
 - Test setup configuration in `src/test/setup.ts`
 
 **Running Tests**:
+
 - `npm run test` - Run unit tests with Vitest in watch mode
 - `npm run test -- --run` - Run all unit tests once (for CI)
 - `npm run test -- --coverage` - Generate coverage report
@@ -55,7 +57,8 @@ React-based term deposit calculator that computes compound interest returns for 
 **Unit Tests**: All calculation logic, factories, and utilities should be unit tested.
 
 **E2E Tests**: Run Playwright tests with:
-1. Start dev server: `npm run dev` 
+
+1. Start dev server: `npm run dev`
 2. In another terminal: `npx playwright test`
 
 ## Architecture
@@ -63,11 +66,13 @@ React-based term deposit calculator that computes compound interest returns for 
 **Feature-based structure**: Main functionality lives in `src/features/savingsAndDepositCalculator/`
 
 **Key patterns**:
+
 - Factory pattern for value objects (`durationMonths.factory.ts`, `annualInterestRate.factory.ts`)
 - Separation of calculation logic from UI components
 - Pure calculation functions in `compoundingInterestCalculators.ts`
 
 **Business Rules**:
+
 - Interest rate: 0.00% - 15.00%
 - Duration: 3-60 months
 - Reinvestment frequencies: Monthly, Quarterly, Annually, At Maturity
@@ -76,6 +81,7 @@ React-based term deposit calculator that computes compound interest returns for 
 ## Component Guidelines
 
 **Structure**:
+
 - Each component has its own folder with `index.ts` barrel export
 - Shared components: `/src/shared/components/`
 - Feature components: `/src/features/[feature]/components/`
@@ -90,6 +96,7 @@ React-based term deposit calculator that computes compound interest returns for 
 ## Error Handling
 
 **System**:
+
 - Centralized error classes in `/src/shared/errors/`
 - Error types: ValidationError, CalculationError, NetworkError, UnknownError
 - CalculatorErrorBoundary for React error boundary
@@ -108,6 +115,7 @@ The application calculates compound interest using the standard formula:
 **A = P × (1 + r/n)^(n×t)**
 
 Where:
+
 - **A** = Final amount (balance)
 - **P** = Principal amount (initial deposit)
 - **r** = Annual interest rate (as decimal, e.g., 5% = 0.05)
@@ -123,6 +131,7 @@ The implementation is found in `src/features/savingsAndDepositCalculator/compoun
 ## Configuration Limits
 
 Modify these constants for business rule changes:
+
 - Duration limits: `MIN_ALLOWED_COMPOUNDING_MONTHS` and `MAX_ALLOWED_COMPOUNDING_MONTHS` in `durationMonths.factory.ts`
 - Interest rate limits: `MIN_ALLOWED_INTEREST_RATE` and `MAX_ALLOWED_INTEREST_RATE` in `annualInterestRate.factory.ts`
 - Theme color: Update `#de313b` in component class names
@@ -137,6 +146,7 @@ Modify these constants for business rule changes:
 ## Code Quality Checks
 
 Before committing:
+
 1. `npm run build` - Ensure TypeScript compilation passes
 2. `npm run test -- --run` - All tests must pass
 3. `npm run lint` - Fix any linting issues

@@ -1,7 +1,5 @@
 import { useEffect, useState, useMemo } from "react";
-import {
-  createDurationMonths,
-} from "../../domain/valueObjects/duration/durationMonths.factory";
+import { createDurationMonths } from "../../domain/valueObjects/duration/durationMonths.factory";
 import {
   calculateMonthlyCompounding,
   calculateQuarterlyCompounding,
@@ -15,15 +13,9 @@ import type {
   AnnualInterestRate,
   DurationMonths,
 } from "../../domain/types/compoundingInterestCalculators.types";
-import {
-  createAnnualInterestRate,
-} from "../../domain/valueObjects/interestRate/annualInterestRate.factory";
-import {
-  createPrincipalAmount,
-} from "../../domain/valueObjects/principalAmount/principal.factory";
-import {
-  DEFAULT_VALUES,
-} from "../../config/constants";
+import { createAnnualInterestRate } from "../../domain/valueObjects/interestRate/annualInterestRate.factory";
+import { createPrincipalAmount } from "../../domain/valueObjects/principalAmount/principal.factory";
+import { DEFAULT_VALUES } from "../../config/constants";
 import {
   BaseCalculatorError,
   ErrorFactory,

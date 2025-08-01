@@ -25,16 +25,16 @@ export function FormField({
 
   return (
     <div className={`space-y-2 ${className}`}>
-      <label 
+      <label
         htmlFor={fieldId}
         className="flex items-center gap-2 text-sm font-medium text-gray-900 mb-2"
       >
         {icon}
         {label}
       </label>
-      
+
       {children}
-      
+
       {hasError ? (
         <div className="mt-1" id={errorId} role="alert">
           {error.map((errMsg, index) => (

@@ -1,6 +1,6 @@
 /**
  * Branded types utility for creating type-safe primitives
- * 
+ *
  * Example usage:
  * type UserId = Brand<number, "UserId">;
  * type Email = Brand<string, "Email">;
@@ -13,7 +13,7 @@ export type StringBrand<B extends string> = Brand<string, B>;
 
 /**
  * Helper for creating branded type constructors
- * 
+ *
  * Example:
  * const createUserId = createBrandedType<number, "UserId">("UserId");
  * const userId = createUserId(123);

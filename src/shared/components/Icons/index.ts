@@ -1,7 +1,7 @@
 // Export all icons from the Icons component
 export {
   DollarSignIcon,
-  TrendingUpIcon,  
+  TrendingUpIcon,
   ClockIcon,
   RefreshIcon,
   TableIcon,

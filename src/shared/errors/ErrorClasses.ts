@@ -15,7 +15,13 @@ export class ValidationError extends BaseError {
     userMessage: string,
     context: ErrorContext,
   ) {
-    super(message, userMessage, ErrorType.VALIDATION, ErrorSeverity.MEDIUM, context);
+    super(
+      message,
+      userMessage,
+      ErrorType.VALIDATION,
+      ErrorSeverity.MEDIUM,
+      context,
+    );
     this.field = field;
     this.value = value;
   }
@@ -53,7 +59,13 @@ export class NetworkError extends BaseError {
     endpoint?: string,
     statusCode?: number,
   ) {
-    super(message, userMessage, ErrorType.NETWORK, ErrorSeverity.MEDIUM, context);
+    super(
+      message,
+      userMessage,
+      ErrorType.NETWORK,
+      ErrorSeverity.MEDIUM,
+      context,
+    );
     this.endpoint = endpoint;
     this.statusCode = statusCode;
   }

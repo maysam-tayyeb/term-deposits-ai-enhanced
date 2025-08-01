@@ -1,9 +1,11 @@
 # Term Deposits Calculator - Improvement Tracker
 
 ## Overview
+
 This document tracks all recommended improvements for the Term Deposits Calculator application. Each item includes priority, status, and implementation details.
 
 ## Status Legend
+
 - 🔴 **Not Started**
 - 🟡 **In Progress**
 - 🟢 **Completed**
@@ -17,6 +19,7 @@ This document tracks all recommended improvements for the Term Deposits Calculat
 ## 🔴 High Priority Improvements
 
 ### 1. Add Component Tests for SavingsAndDepositCalculator.tsx
+
 - **Status**: 🟢 Completed
 - **Effort**: Medium (4-6 hours) - **Actual**: ~4 hours
 - **Description**: The main React component lacks unit tests despite complex state logic
@@ -25,15 +28,16 @@ This document tracks all recommended improvements for the Term Deposits Calculat
   - [x] Configure Vitest for DOM testing (add jsdom)
   - [x] Test input validation
   - [x] Test state updates
-  - [x] Test error handling  
+  - [x] Test error handling
   - [x] Test UI rendering based on state
-- **Files created**: 
+- **Files created**:
   - `src/features/savingsAndDepositCalculator/SavingsAndDepositCalculator.test.tsx` (17 tests)
   - `vitest.config.ts` (Vitest configuration for DOM testing)
   - `src/test/setup.ts` (Test setup file)
 - **Note**: Successfully implemented with 17 comprehensive tests covering rendering, calculations, user interactions, and accessibility
 
 ### 2. Implement Input Validation for Principal Amount
+
 - **Status**: 🟢 Completed
 - **Effort**: Small (2-3 hours) - **Actual**: ~2.5 hours
 - **Description**: Previously accepted negative values with no validation
@@ -43,7 +47,7 @@ This document tracks all recommended improvements for the Term Deposits Calculat
   - [x] Add error messages for invalid amounts
   - [x] Update component to use factory
   - [x] Add unit tests
-- **Files created**: 
+- **Files created**:
   - `src/features/savingsAndDepositCalculator/principal.factory.ts`
   - `src/features/savingsAndDepositCalculator/principal.factory.test.ts` (6 tests)
 - **Files modified**:
@@ -52,6 +56,7 @@ This document tracks all recommended improvements for the Term Deposits Calculat
 - **Note**: Successfully implemented with comprehensive validation, error handling, and UI constraints. Principal input now validates range, NaN, and Infinity values.
 
 ### 3. Improve Error Handling
+
 - **Status**: 🟢 Completed
 - **Effort**: Medium (3-4 hours) - **Actual**: ~3.5 hours
 - **Description**: Enhanced error handling with custom types, boundaries, and user-friendly messages
@@ -60,7 +65,7 @@ This document tracks all recommended improvements for the Term Deposits Calculat
   - [x] Implement proper error boundaries
   - [x] Display user-friendly error messages
   - [x] Add error logging service
-- **Files created**: 
+- **Files created**:
   - `src/features/savingsAndDepositCalculator/errors.ts` (Custom error types and service)
   - `src/features/savingsAndDepositCalculator/ErrorBoundary.tsx` (React Error Boundary)
   - `src/features/savingsAndDepositCalculator/SavingsAndDepositCalculatorWithErrorBoundary.tsx` (Wrapped component)
@@ -71,6 +76,7 @@ This document tracks all recommended improvements for the Term Deposits Calculat
 - **Note**: Successfully implemented comprehensive error handling system with custom error types (ValidationError, CalculationError, UnknownError), React Error Boundary for unexpected errors, user-friendly error display with severity-based styling, centralized error logging service, and extensive test coverage. Error messages now provide better UX with actionable feedback and debug information in development mode.
 
 ### 4. Add Accessibility Features (WCAG 2.1 AA Compliance)
+
 - **Status**: 🔴 Not Started
 - **Effort**: Medium (5-6 hours)
 - **Description**: Missing ARIA labels, keyboard navigation, and screen reader support
@@ -84,13 +90,14 @@ This document tracks all recommended improvements for the Term Deposits Calculat
   - [ ] Test with NVDA/JAWS screen readers
   - [ ] Add aria-describedby for help text
   - [ ] Ensure color contrast meets WCAG standards
-- **Files to modify**: 
+- **Files to modify**:
   - `SavingsAndDepositCalculator.tsx`
   - `CalculatorForm.tsx`
   - `ResultsDisplay.tsx`
   - `FormField.tsx`, `RadioGroup.tsx`
 
 ### 5. Performance Optimizations
+
 - **Status**: 🔴 Not Started
 - **Effort**: Medium (4-5 hours)
 - **Description**: Calculations run on every render without optimization
@@ -101,7 +108,7 @@ This document tracks all recommended improvements for the Term Deposits Calculat
   - [ ] Virtualize results table for large datasets (60+ months)
   - [ ] Profile and optimize re-renders with React DevTools
   - [ ] Consider web workers for heavy calculations
-- **Files to modify**: 
+- **Files to modify**:
   - `useCalculator.ts` (add useMemo)
   - `ResultsDisplay.tsx` (add React.memo, virtualization)
   - `CalculatorForm.tsx` (add React.memo)
@@ -109,6 +116,7 @@ This document tracks all recommended improvements for the Term Deposits Calculat
 - **Expected impact**: 40-60% reduction in unnecessary re-renders
 
 ### 6. Input Validation & UX Enhancements
+
 - **Status**: 🔴 Not Started
 - **Effort**: Medium (5-6 hours)
 - **Description**: Poor input handling and missing user feedback
@@ -121,7 +129,7 @@ This document tracks all recommended improvements for the Term Deposits Calculat
   - [ ] Add field-level success indicators
   - [ ] Implement proper number localization
   - [ ] Add input constraints (maxLength, pattern)
-- **Files to modify**: 
+- **Files to modify**:
   - `NumberInput.tsx` (add formatting, masks)
   - `FormField.tsx` (add tooltips, validation feedback)
   - Create new `useInputFormatter.ts` hook
@@ -132,6 +140,7 @@ This document tracks all recommended improvements for the Term Deposits Calculat
 ## 🟡 Medium Priority Improvements
 
 ### 7. State Management Evaluation
+
 - **Status**: 🔴 Not Started
 - **Effort**: Medium (4-5 hours)
 - **Description**: Evaluate and implement appropriate state management solution
@@ -154,6 +163,7 @@ This document tracks all recommended improvements for the Term Deposits Calculat
 - **Recommendation**: Start with Context API for immediate needs, migrate if complexity grows
 
 ### 8. Code Architecture & Organization
+
 - **Status**: 🔴 Not Started
 - **Effort**: Large (6-8 hours)
 - **Description**: Current architecture violates SRP and has tight coupling
@@ -167,7 +177,7 @@ This document tracks all recommended improvements for the Term Deposits Calculat
   - [ ] Move all constants to dedicated files
   - [ ] Implement proper dependency injection
   - [ ] Add facade pattern for calculator operations
-- **Files to create**: 
+- **Files to create**:
   - `hooks/useCalculatorForm.ts`
   - `hooks/useCalculatorValidation.ts`
   - `hooks/useCalculatorComputation.ts`
@@ -176,6 +186,7 @@ This document tracks all recommended improvements for the Term Deposits Calculat
 - **Benefits**: Better testability, reusability, and maintainability
 
 ### 9. TypeScript & Type Safety Improvements
+
 - **Status**: 🔴 Not Started
 - **Effort**: Small (3-4 hours)
 - **Description**: Missing type safety in critical areas
@@ -189,12 +200,13 @@ This document tracks all recommended improvements for the Term Deposits Calculat
     - [ ] noPropertyAccessFromIndexSignature: true
   - [ ] Add branded types for all numeric inputs
   - [ ] Create strict type predicates
-- **Files to modify**: 
+- **Files to modify**:
   - `tsconfig.app.json`
   - All event handlers in components
   - Create `utils/typeGuards.ts`
 
 ### 10. Testing Improvements
+
 - **Status**: 🔴 Not Started
 - **Effort**: Large (6-8 hours)
 - **Description**: Limited test coverage and missing test types
@@ -209,13 +221,14 @@ This document tracks all recommended improvements for the Term Deposits Calculat
   - [ ] Add component integration tests
   - [ ] Implement snapshot testing for UI
   - [ ] Add test coverage reporting (target: 90%)
-- **Files to create**: 
+- **Files to create**:
   - `tests/visual/`
   - `tests/performance/`
   - `tests/integration/`
 - **Tools to add**: `@stryker-mutator/core`, `@vitest/coverage-v8`
 
 ### 11. Error Handling Enhancements
+
 - **Status**: 🔴 Not Started
 - **Effort**: Medium (4-5 hours)
 - **Description**: Basic error handling without recovery strategies
@@ -228,7 +241,7 @@ This document tracks all recommended improvements for the Term Deposits Calculat
   - [ ] Add offline support detection
   - [ ] Create user-friendly error pages
   - [ ] Add error reporting mechanism
-- **Files to modify**: 
+- **Files to modify**:
   - `ErrorBoundary.tsx` (add recovery)
   - `ErrorService.ts` (add analytics)
   - Create `hooks/useErrorRecovery.ts`
@@ -238,6 +251,7 @@ This document tracks all recommended improvements for the Term Deposits Calculat
 ## 🟢 Nice-to-Have Improvements
 
 ### 12. Feature Additions
+
 - **Status**: 🔴 Not Started
 - **Effort**: Large (8-10 hours per feature)
 - **Description**: Enhance calculator with advanced features
@@ -264,6 +278,7 @@ This document tracks all recommended improvements for the Term Deposits Calculat
 - **Dependencies**: `recharts`, `jspdf`, `papaparse`
 
 ### 13. UI/UX Enhancements
+
 - **Status**: 🔴 Not Started
 - **Effort**: Medium (5-6 hours)
 - **Description**: Improve visual design and user experience
@@ -288,12 +303,13 @@ This document tracks all recommended improvements for the Term Deposits Calculat
     - [ ] Create print-specific CSS
     - [ ] Hide unnecessary UI elements
     - [ ] Format for A4/Letter paper
-- **Files to create**: 
+- **Files to create**:
   - `contexts/ThemeContext.tsx`
   - `hooks/useTheme.ts`
   - `styles/print.css`
 
 ### 14. Documentation & Developer Experience
+
 - **Status**: 🔴 Not Started
 - **Effort**: Medium (4-5 hours)
 - **Description**: Improve developer onboarding and maintainability
@@ -320,13 +336,14 @@ This document tracks all recommended improvements for the Term Deposits Calculat
     - [ ] Automated deployment pipeline
     - [ ] Code coverage reporting
     - [ ] Performance monitoring
-- **Files to create**: 
+- **Files to create**:
   - `CONTRIBUTING.md`
   - `ARCHITECTURE.md`
   - `.storybook/`
   - `.husky/`
 
 ### 15. Technical Debt & Code Quality
+
 - **Status**: 🔴 Not Started
 - **Effort**: Small (3-4 hours)
 - **Description**: Address accumulated technical debt
@@ -348,6 +365,7 @@ This document tracks all recommended improvements for the Term Deposits Calculat
 - **Tools**: `eslint-plugin-unused-imports`, `bundle-analyzer`
 
 ### 15. SEO & Metadata
+
 - **Status**: 🔴 Not Started
 - **Effort**: Small (2 hours)
 - **Description**: Improve search engine visibility
@@ -367,6 +385,7 @@ This document tracks all recommended improvements for the Term Deposits Calculat
 These improvements can be implemented quickly with high impact:
 
 ### 16. Immediate Improvements
+
 - **Status**: 🔴 Not Started
 - **Effort**: Small (1-2 hours total)
 - **Tasks**:
@@ -385,7 +404,9 @@ These improvements can be implemented quickly with high impact:
 ## Implementation Plan
 
 ### Phase 1: Foundation (Week 1-2) ✅ Partially Complete
+
 **Goal**: Establish solid foundation with testing and validation
+
 1. ✅ Add component tests (#1)
 2. ✅ Implement principal validation (#2)
 3. ✅ Improve error handling (#3)
@@ -393,28 +414,36 @@ These improvements can be implemented quickly with high impact:
 5. 🔴 Quick wins implementation (#16)
 
 ### Phase 2: Performance & UX (Week 3-4)
+
 **Goal**: Optimize performance and enhance user experience
+
 1. Performance optimizations (#5)
 2. Input validation & UX enhancements (#6)
 3. TypeScript improvements (#8)
 4. Technical debt cleanup (#14)
 
 ### Phase 3: Architecture & Quality (Week 5-6)
+
 **Goal**: Improve code organization and test coverage
+
 1. Code architecture refactoring (#7)
 2. Testing improvements (#9)
 3. Error handling enhancements (#10)
 4. Documentation (#13)
 
 ### Phase 4: Features & Polish (Week 7-8)
+
 **Goal**: Add advanced features and polish
+
 1. UI/UX enhancements (#12)
 2. Feature additions (selected from #11)
 3. SEO & metadata (#15)
 4. Final testing and optimization
 
 ### Phase 5: Future Enhancements (Post-MVP)
+
 **Goal**: Long-term improvements
+
 1. Complete feature additions (#11)
 2. Advanced visualization
 3. Multi-language support
@@ -425,18 +454,21 @@ These improvements can be implemented quickly with high impact:
 ## Success Metrics
 
 ### Code Quality
+
 - [ ] Test coverage > 90%
 - [ ] Zero TypeScript errors with strict mode
 - [ ] Lighthouse score > 95
 - [ ] Bundle size < 150KB
 
 ### User Experience
+
 - [ ] WCAG 2.1 AA compliant
 - [ ] First contentful paint < 1s
 - [ ] Time to interactive < 2s
 - [ ] Zero runtime errors in production
 
 ### Developer Experience
+
 - [ ] Full documentation coverage
 - [ ] Setup time < 5 minutes
 - [ ] Build time < 10 seconds
@@ -447,23 +479,28 @@ These improvements can be implemented quickly with high impact:
 ## Notes
 
 ### Completed Items
+
 - Component testing infrastructure established
 - Principal amount validation implemented
 - Comprehensive error handling system in place
 
 ### Current Focus
+
 - Accessibility improvements are the next priority
 - Quick wins can be implemented alongside major tasks
 
 ### Decisions Made
+
 - Using branded types for type safety
 - Factory pattern for value object creation
 - Shared error system for consistency
 
 ### Blockers
+
 - None currently identified
 
 ### Links to PRs
+
 - Component Tests: [PR #1]
 - Principal Validation: [PR #2]
 - Error Handling: [PR #3]

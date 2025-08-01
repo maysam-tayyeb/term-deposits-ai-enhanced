@@ -13,16 +13,18 @@ describe("createPrincipalAmount", () => {
     expect(createPrincipalAmount(1000)).toBe(1000);
     expect(createPrincipalAmount(10000)).toBe(10000);
     expect(createPrincipalAmount(1000000)).toBe(1000000);
-    expect(createPrincipalAmount(MAX_ALLOWED_PRINCIPAL)).toBe(MAX_ALLOWED_PRINCIPAL);
+    expect(createPrincipalAmount(MAX_ALLOWED_PRINCIPAL)).toBe(
+      MAX_ALLOWED_PRINCIPAL,
+    );
   });
 
   it("should throw RangeError for values below minimum", () => {
     expect(() => createPrincipalAmount(0)).toThrow(RangeError);
     expect(() => createPrincipalAmount(-1)).toThrow(RangeError);
     expect(() => createPrincipalAmount(-1000)).toThrow(RangeError);
-    
+
     expect(() => createPrincipalAmount(0)).toThrow(
-      `Principal amount must be between ${DESCRIPTION_MIN_ALLOWED_PRINCIPAL} and ${DESCRIPTION_MAX_ALLOWED_PRINCIPAL}. Received: $0`
+      `Principal amount must be between ${DESCRIPTION_MIN_ALLOWED_PRINCIPAL} and ${DESCRIPTION_MAX_ALLOWED_PRINCIPAL}. Received: $0`,
     );
   });
 
@@ -30,9 +32,9 @@ describe("createPrincipalAmount", () => {
     const tooHigh = MAX_ALLOWED_PRINCIPAL + 1;
     expect(() => createPrincipalAmount(tooHigh)).toThrow(RangeError);
     expect(() => createPrincipalAmount(50000000)).toThrow(RangeError);
-    
+
     expect(() => createPrincipalAmount(tooHigh)).toThrow(
-      `Principal amount must be between ${DESCRIPTION_MIN_ALLOWED_PRINCIPAL} and ${DESCRIPTION_MAX_ALLOWED_PRINCIPAL}. Received: $${tooHigh.toLocaleString()}`
+      `Principal amount must be between ${DESCRIPTION_MIN_ALLOWED_PRINCIPAL} and ${DESCRIPTION_MAX_ALLOWED_PRINCIPAL}. Received: $${tooHigh.toLocaleString()}`,
     );
   });
 
@@ -40,12 +42,12 @@ describe("createPrincipalAmount", () => {
     expect(() => createPrincipalAmount(NaN)).toThrow(RangeError);
     expect(() => createPrincipalAmount(Infinity)).toThrow(RangeError);
     expect(() => createPrincipalAmount(-Infinity)).toThrow(RangeError);
-    
+
     expect(() => createPrincipalAmount(NaN)).toThrow(
-      "Principal amount must be a valid number. Received: NaN"
+      "Principal amount must be a valid number. Received: NaN",
     );
     expect(() => createPrincipalAmount(Infinity)).toThrow(
-      "Principal amount must be a valid number. Received: Infinity"
+      "Principal amount must be a valid number. Received: Infinity",
     );
   });
 
@@ -56,10 +58,18 @@ describe("createPrincipalAmount", () => {
   });
 
   it("should validate boundary values", () => {
-    expect(createPrincipalAmount(MIN_ALLOWED_PRINCIPAL)).toBe(MIN_ALLOWED_PRINCIPAL);
-    expect(createPrincipalAmount(MAX_ALLOWED_PRINCIPAL)).toBe(MAX_ALLOWED_PRINCIPAL);
-    
-    expect(() => createPrincipalAmount(MIN_ALLOWED_PRINCIPAL - 0.01)).toThrow(RangeError);
-    expect(() => createPrincipalAmount(MAX_ALLOWED_PRINCIPAL + 0.01)).toThrow(RangeError);
+    expect(createPrincipalAmount(MIN_ALLOWED_PRINCIPAL)).toBe(
+      MIN_ALLOWED_PRINCIPAL,
+    );
+    expect(createPrincipalAmount(MAX_ALLOWED_PRINCIPAL)).toBe(
+      MAX_ALLOWED_PRINCIPAL,
+    );
+
+    expect(() => createPrincipalAmount(MIN_ALLOWED_PRINCIPAL - 0.01)).toThrow(
+      RangeError,
+    );
+    expect(() => createPrincipalAmount(MAX_ALLOWED_PRINCIPAL + 0.01)).toThrow(
+      RangeError,
+    );
   });
 });

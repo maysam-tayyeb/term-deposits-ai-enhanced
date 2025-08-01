@@ -1,4 +1,9 @@
-import { ValidationError, CalculationError, NetworkError, UnknownError } from "./ErrorClasses";
+import {
+  ValidationError,
+  CalculationError,
+  NetworkError,
+  UnknownError,
+} from "./ErrorClasses";
 import { ErrorSeverity, type ErrorContext } from "./types";
 
 /**
@@ -28,8 +33,15 @@ export class ErrorFactory {
     context: ErrorContext,
     severity: ErrorSeverity = ErrorSeverity.HIGH,
   ): CalculationError {
-    const userMessage = "Unable to calculate results. Please check your input values and try again.";
-    return new CalculationError(calculationType, message, userMessage, context, severity);
+    const userMessage =
+      "Unable to calculate results. Please check your input values and try again.";
+    return new CalculationError(
+      calculationType,
+      message,
+      userMessage,
+      context,
+      severity,
+    );
   }
 
   /**
@@ -41,8 +53,15 @@ export class ErrorFactory {
     endpoint?: string,
     statusCode?: number,
   ): NetworkError {
-    const userMessage = "Network error occurred. Please check your connection and try again.";
-    return new NetworkError(message, userMessage, context, endpoint, statusCode);
+    const userMessage =
+      "Network error occurred. Please check your connection and try again.";
+    return new NetworkError(
+      message,
+      userMessage,
+      context,
+      endpoint,
+      statusCode,
+    );
   }
 
   /**
@@ -52,8 +71,12 @@ export class ErrorFactory {
     originalError: unknown,
     context: ErrorContext,
   ): UnknownError {
-    const message = originalError instanceof Error ? originalError.message : String(originalError);
-    const userMessage = "An unexpected error occurred. Please try again or contact support if the problem persists.";
+    const message =
+      originalError instanceof Error
+        ? originalError.message
+        : String(originalError);
+    const userMessage =
+      "An unexpected error occurred. Please try again or contact support if the problem persists.";
     return new UnknownError(originalError, message, userMessage, context);
   }
 
@@ -63,7 +86,7 @@ export class ErrorFactory {
   static createContext(
     component: string,
     action: string,
-    additionalContext?: Record<string, unknown>
+    additionalContext?: Record<string, unknown>,
   ): ErrorContext {
     return {
       component,
