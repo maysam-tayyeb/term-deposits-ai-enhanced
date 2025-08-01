@@ -1,2 +1,2 @@
-export { SavingsAndDepositCalculator } from "./components/SavingsAndDepositCalculator";
-export { SavingsAndDepositCalculatorWithErrorBoundary } from "./components/ErrorHandling";
+// Re-export components that are still used by state management examples
+export { CalculatorForm, ResultsDisplay, CalculatorErrorBoundary, ErrorDisplay } from "./components";

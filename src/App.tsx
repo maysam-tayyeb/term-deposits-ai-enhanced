@@ -1,10 +1,10 @@
 import "./App.css";
-import { SavingsAndDepositCalculatorWithErrorBoundary } from "./features/savingsAndDepositCalculator";
+import { SavingsAndDepositCalculatorWithHook } from "./features/stateManagementExamples/customHook";
 
 function App() {
   return (
     <>
-      <SavingsAndDepositCalculatorWithErrorBoundary />
+      <SavingsAndDepositCalculatorWithHook />
     </>
   );
 }
