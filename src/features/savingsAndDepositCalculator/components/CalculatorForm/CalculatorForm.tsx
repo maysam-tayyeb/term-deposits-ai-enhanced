@@ -22,7 +22,6 @@ import {
   UI_TEXT,
   FREQUENCY_OPTIONS,
   TEST_IDS,
-  DEFAULT_VALUES,
 } from "../../config/constants";
 import {
   FormField,
@@ -40,7 +39,6 @@ interface CalculatorFormProps {
   onAnnualRateChange: (value: number) => void;
   onMonthsChange: (value: number) => void;
   onFrequencyChange: (value: PayFrequency) => void;
-  onReset?: () => void;
 }
 
 export function CalculatorForm({
@@ -53,7 +51,6 @@ export function CalculatorForm({
   onAnnualRateChange,
   onMonthsChange,
   onFrequencyChange,
-  onReset,
 }: CalculatorFormProps): React.JSX.Element {
   // Parse the combined error message into individual field errors
   const parseFieldErrors = (): { [key: string]: string[] } => {
@@ -92,16 +89,6 @@ export function CalculatorForm({
   const getFieldErrorMessages = (fieldKey: string): string[] => {
     return fieldErrors[fieldKey] || [];
   };
-  const handleReset = () => {
-    if (onReset) {
-      onReset();
-    } else {
-      onPrincipalChange(DEFAULT_VALUES.PRINCIPAL);
-      onAnnualRateChange(DEFAULT_VALUES.INTEREST_RATE);
-      onMonthsChange(DEFAULT_VALUES.INVESTMENT_TERM_MONTHS);
-      onFrequencyChange(DEFAULT_VALUES.FREQUENCY);
-    }
-  };
 
   return (
     <div className="space-y-6">
@@ -110,14 +97,19 @@ export function CalculatorForm({
         label={UI_TEXT.LABELS.PRINCIPAL}
         error={getFieldErrorMessages('principal')}
         helpText={`Min ${DESCRIPTION_MIN_ALLOWED_PRINCIPAL} and max ${DESCRIPTION_MAX_ALLOWED_PRINCIPAL}`}
+        fieldId="principal-input"
       >
         <NumberInput
+          id="principal-input"
           value={principal}
           onChange={onPrincipalChange}
           min={MIN_ALLOWED_PRINCIPAL}
           max={MAX_ALLOWED_PRINCIPAL}
           hasError={hasFieldError('principal')}
           testId={TEST_IDS.PRINCIPAL_INPUT}
+          ariaLabel={UI_TEXT.LABELS.PRINCIPAL}
+          ariaDescribedBy={hasFieldError('principal') ? 'principal-input-error' : 'principal-input-help'}
+          placeholder="Enter principal amount"
         />
       </FormField>
 
@@ -125,8 +117,10 @@ export function CalculatorForm({
         label={UI_TEXT.LABELS.INTEREST_RATE}
         error={getFieldErrorMessages('interestRate')}
         helpText={`Min ${DESCRIPTION_MIN_ALLOWED_INTEREST_RATE} and max ${DESCRIPTION_MAX_ALLOWED_INTEREST_RATE}`}
+        fieldId="interest-rate-input"
       >
         <NumberInput
+          id="interest-rate-input"
           value={annualRate}
           onChange={onAnnualRateChange}
           min={MIN_ALLOWED_INTEREST_RATE}
@@ -134,6 +128,9 @@ export function CalculatorForm({
           step={parseFloat(UI_CONFIG.INTEREST_RATE_STEP)}
           hasError={hasFieldError('interestRate')}
           testId={TEST_IDS.INTEREST_RATE_INPUT}
+          ariaLabel={UI_TEXT.LABELS.INTEREST_RATE}
+          ariaDescribedBy={hasFieldError('interestRate') ? 'interest-rate-input-error' : 'interest-rate-input-help'}
+          placeholder="Enter annual interest rate"
         />
       </FormField>
 
@@ -141,19 +138,25 @@ export function CalculatorForm({
         label={UI_TEXT.LABELS.INVESTMENT_TERM}
         error={getFieldErrorMessages('duration')}
         helpText={`Min ${MIN_ALLOWED_COMPOUNDING_MONTHS} and max ${MAX_ALLOWED_COMPOUNDING_MONTHS} months`}
+        fieldId="investment-term-input"
       >
         <NumberInput
+          id="investment-term-input"
           value={months}
           onChange={(value) => onMonthsChange(Math.floor(value))}
           min={MIN_ALLOWED_COMPOUNDING_MONTHS}
           max={MAX_ALLOWED_COMPOUNDING_MONTHS}
           hasError={hasFieldError('duration')}
           testId={TEST_IDS.INVESTMENT_TERM_INPUT}
+          ariaLabel={UI_TEXT.LABELS.INVESTMENT_TERM}
+          ariaDescribedBy={hasFieldError('duration') ? 'investment-term-input-error' : 'investment-term-input-help'}
+          placeholder="Enter investment term in months"
         />
       </FormField>
 
       <FormField
         label={UI_TEXT.LABELS.INTEREST_PAID}
+        fieldId="frequency-select"
       >
         <ButtonGroup
           options={FREQUENCY_OPTIONS.filter(
@@ -162,6 +165,7 @@ export function CalculatorForm({
           value={frequency}
           onChange={(value) => onFrequencyChange(value as PayFrequency)}
           testIdPrefix={TEST_IDS.RADIO_PREFIX}
+          ariaLabel={UI_TEXT.LABELS.INTEREST_PAID}
         />
       </FormField>
       </div>
