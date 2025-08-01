@@ -17,6 +17,7 @@ export interface FormattedNumberInputProps {
   ariaErrorMessage?: string;
   id?: string;
   decimalPlaces?: number;
+  showSteppers?: boolean;
 }
 
 export function FormattedNumberInput({
@@ -25,6 +26,7 @@ export function FormattedNumberInput({
   format,
   min,
   max,
+  step = 1,
   hasError = false,
   placeholder,
   className = "",
@@ -35,6 +37,7 @@ export function FormattedNumberInput({
   ariaErrorMessage,
   id,
   decimalPlaces = 2,
+  showSteppers = true,
 }: FormattedNumberInputProps): React.JSX.Element {
   const [displayValue, setDisplayValue] = useState("");
   const [isFocused, setIsFocused] = useState(false);
@@ -194,26 +197,74 @@ export function FormattedNumberInput({
     }
   };
 
+  // Handle step increment/decrement
+  const handleStep = (direction: 'up' | 'down') => {
+    const currentValue = value;
+    const stepValue = step || 1;
+    
+    let newValue: number;
+    if (direction === 'up') {
+      newValue = currentValue + stepValue;
+      if (max !== undefined && newValue > max) newValue = max;
+    } else {
+      newValue = currentValue - stepValue;
+      if (min !== undefined && newValue < min) newValue = min;
+    }
+    
+    onChange(newValue);
+  };
+
   return (
-    <input
-      ref={inputRef}
-      type="text"
-      id={id}
-      value={displayValue}
-      onChange={handleChange}
-      onPaste={handlePaste}
-      onKeyDown={handleKeyDown}
-      onFocus={handleFocus}
-      onBlur={handleBlur}
-      placeholder={getPlaceholder()}
-      className={inputClassName}
-      data-testid={testId}
-      aria-label={ariaLabel}
-      aria-describedby={ariaDescribedBy}
-      aria-invalid={ariaInvalid ?? hasError}
-      aria-errormessage={ariaErrorMessage}
-      inputMode="decimal"
-      autoComplete="off"
-    />
+    <div className="relative">
+      <input
+        ref={inputRef}
+        type="text"
+        id={id}
+        value={displayValue}
+        onChange={handleChange}
+        onPaste={handlePaste}
+        onKeyDown={handleKeyDown}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        placeholder={getPlaceholder()}
+        className={`${inputClassName} ${showSteppers ? 'pr-8' : ''}`}
+        data-testid={testId}
+        aria-label={ariaLabel}
+        aria-describedby={ariaDescribedBy}
+        aria-invalid={ariaInvalid ?? hasError}
+        aria-errormessage={ariaErrorMessage}
+        inputMode="decimal"
+        autoComplete="off"
+      />
+      {showSteppers && (
+        <div className="absolute inset-y-0 right-0 flex flex-col border-l border-gray-300">
+          <button
+            type="button"
+            onClick={() => handleStep('up')}
+            className="flex-1 px-2 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-inset"
+            aria-label={`Increase ${ariaLabel || 'value'}`}
+            tabIndex={-1}
+            data-testid={testId ? `${testId}-increment` : undefined}
+          >
+            <svg className="w-3 h-3 mx-auto" viewBox="0 0 12 12">
+              <path d="M6 3L10 8H2L6 3Z" fill="currentColor" />
+            </svg>
+          </button>
+          <div className="border-t border-gray-300" />
+          <button
+            type="button"
+            onClick={() => handleStep('down')}
+            className="flex-1 px-2 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-inset"
+            aria-label={`Decrease ${ariaLabel || 'value'}`}
+            tabIndex={-1}
+            data-testid={testId ? `${testId}-decrement` : undefined}
+          >
+            <svg className="w-3 h-3 mx-auto" viewBox="0 0 12 12">
+              <path d="M6 9L2 4H10L6 9Z" fill="currentColor" />
+            </svg>
+          </button>
+        </div>
+      )}
+    </div>
   );
 }

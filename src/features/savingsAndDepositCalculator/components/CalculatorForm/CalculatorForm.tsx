@@ -139,6 +139,7 @@ export function CalculatorForm({
           format="currency"
           min={MIN_ALLOWED_PRINCIPAL}
           max={MAX_ALLOWED_PRINCIPAL}
+          step={1000}
           hasError={hasFieldError('principal')}
           testId={TEST_IDS.PRINCIPAL_INPUT}
           ariaLabel={UI_TEXT.LABELS.PRINCIPAL}
@@ -184,6 +185,7 @@ export function CalculatorForm({
           format="number"
           min={MIN_ALLOWED_COMPOUNDING_MONTHS}
           max={MAX_ALLOWED_COMPOUNDING_MONTHS}
+          step={1}
           hasError={hasFieldError('duration')}
           testId={TEST_IDS.INVESTMENT_TERM_INPUT}
           ariaLabel={UI_TEXT.LABELS.INVESTMENT_TERM}

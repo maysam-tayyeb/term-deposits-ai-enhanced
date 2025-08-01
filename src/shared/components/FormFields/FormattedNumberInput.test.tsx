@@ -307,6 +307,82 @@ describe("FormattedNumberInput", () => {
     });
   });
 
+  describe("Stepper buttons", () => {
+    it("renders stepper buttons by default", () => {
+      render(<FormattedNumberInput {...defaultProps} testId="test-input" />);
+      
+      expect(screen.getByTestId("test-input-increment")).toBeInTheDocument();
+      expect(screen.getByTestId("test-input-decrement")).toBeInTheDocument();
+    });
+
+    it("hides stepper buttons when showSteppers is false", () => {
+      render(<FormattedNumberInput {...defaultProps} showSteppers={false} testId="test-input" />);
+      
+      expect(screen.queryByTestId("test-input-increment")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("test-input-decrement")).not.toBeInTheDocument();
+    });
+
+    it("increments value when clicking up stepper", async () => {
+      const onChange = vi.fn();
+      render(<FormattedNumberInput {...defaultProps} value={100} onChange={onChange} step={10} testId="test-input" />);
+      
+      const incrementButton = screen.getByTestId("test-input-increment");
+      await userEvent.click(incrementButton);
+      
+      expect(onChange).toHaveBeenCalledWith(110);
+    });
+
+    it("decrements value when clicking down stepper", async () => {
+      const onChange = vi.fn();
+      render(<FormattedNumberInput {...defaultProps} value={100} onChange={onChange} step={10} testId="test-input" />);
+      
+      const decrementButton = screen.getByTestId("test-input-decrement");
+      await userEvent.click(decrementButton);
+      
+      expect(onChange).toHaveBeenCalledWith(90);
+    });
+
+    it("respects max value when incrementing", async () => {
+      const onChange = vi.fn();
+      render(<FormattedNumberInput {...defaultProps} value={95} max={100} onChange={onChange} step={10} testId="test-input" />);
+      
+      const incrementButton = screen.getByTestId("test-input-increment");
+      await userEvent.click(incrementButton);
+      
+      expect(onChange).toHaveBeenCalledWith(100);
+    });
+
+    it("respects min value when decrementing", async () => {
+      const onChange = vi.fn();
+      render(<FormattedNumberInput {...defaultProps} value={5} min={0} onChange={onChange} step={10} testId="test-input" />);
+      
+      const decrementButton = screen.getByTestId("test-input-decrement");
+      await userEvent.click(decrementButton);
+      
+      expect(onChange).toHaveBeenCalledWith(0);
+    });
+
+    it("uses default step of 1 when not specified", async () => {
+      const onChange = vi.fn();
+      render(<FormattedNumberInput {...defaultProps} value={100} onChange={onChange} testId="test-input" />);
+      
+      const incrementButton = screen.getByTestId("test-input-increment");
+      await userEvent.click(incrementButton);
+      
+      expect(onChange).toHaveBeenCalledWith(101);
+    });
+
+    it("has proper aria labels for stepper buttons", () => {
+      render(<FormattedNumberInput {...defaultProps} ariaLabel="Test amount" testId="test-input" />);
+      
+      const incrementButton = screen.getByTestId("test-input-increment");
+      const decrementButton = screen.getByTestId("test-input-decrement");
+      
+      expect(incrementButton).toHaveAttribute("aria-label", "Increase Test amount");
+      expect(decrementButton).toHaveAttribute("aria-label", "Decrease Test amount");
+    });
+  });
+
   describe("Edge cases", () => {
     it("handles empty input on blur", async () => {
       const onChange = vi.fn();
