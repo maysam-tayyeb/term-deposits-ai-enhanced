@@ -16,6 +16,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Ensure all UI text is added to the UI_TEXT constant
 - **Always format after making changes**
 - **Always cleanup after making changes and do not leave unused code in the file you're touching**
+- **Allways add tests along new changes**
 
 ## Commit and Push Workflow
 

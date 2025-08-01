@@ -22,9 +22,9 @@ export const UI_CONFIG = {
 export const UI_TEXT = {
   TITLE: "Calculate Term Deposit (Re-invest)",
   LABELS: {
-    PRINCIPAL: "Starting with ($)",
-    INTEREST_RATE: "Interest rate (% p.a.)",
-    INVESTMENT_TERM: "Investment term (months)",
+    PRINCIPAL: "Starting amount",
+    INTEREST_RATE: "Interest rate (per year)",
+    INVESTMENT_TERM: "Investment term",
     INTEREST_PAID: "Interest paid",
   },
   TABLE_HEADERS: {

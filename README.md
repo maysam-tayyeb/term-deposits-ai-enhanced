@@ -133,13 +133,30 @@ Where:
 ### Input Constraints
 
 * **Principal Amount**: $1 - $10,000,000
+  * Formatted with currency symbol and thousand separators
+  * Example: $10,000.00
 * **Interest Rate**: 0.00% - 15.00%
+  * Formatted with percentage symbol
+  * Example: 5.50%
 * **Investment Term**: 3 - 60 months
+  * Must be a whole number
+  * Example: 12 months
 * **Reinvestment Frequencies**:
   * Monthly (n = 12)
   * Quarterly (n = 4)
-  * Annually (n = 1)
+  * Annually (n = 1) - Only available for terms ≥ 12 months
   * At Maturity (compounds once at end)
+
+### Input Validation Features
+
+* **Real-time Validation**: Immediate feedback as you type
+* **Format Masking**: 
+  * Currency inputs automatically format with dollar signs and commas
+  * Interest rates display with percentage symbols
+  * Invalid characters are prevented from being entered
+* **Paste Handling**: Non-numeric characters are automatically stripped when pasting
+* **Clear Error Messages**: Descriptive error messages guide users to correct inputs
+* **Helpful Placeholders**: Example values shown in input fields
 
 ### Key Assumptions
 

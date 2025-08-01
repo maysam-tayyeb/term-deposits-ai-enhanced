@@ -31,6 +31,7 @@ const EXPECTED_TABLE_ROWS = {
 
 const INPUT_ATTRIBUTES = {
   TYPE_NUMBER: "number",
+  TYPE_TEXT: "text",
 } as const;
 
 const CURRENCY_PATTERNS = {
@@ -46,13 +47,13 @@ describe("SavingsAndDepositCalculator", () => {
     it("should render the calculator with default values", () => {
       expect(screen.getByText(UI_TEXT.TITLE)).toBeInTheDocument();
       expect(screen.getByTestId(TEST_IDS.PRINCIPAL_INPUT)).toHaveValue(
-        DEFAULT_VALUES.PRINCIPAL,
+        "$10,000.00",
       );
       expect(screen.getByTestId(TEST_IDS.INTEREST_RATE_INPUT)).toHaveValue(
-        DEFAULT_VALUES.INTEREST_RATE,
+        "1.20%",
       );
       expect(screen.getByTestId(TEST_IDS.INVESTMENT_TERM_INPUT)).toHaveValue(
-        DEFAULT_VALUES.INVESTMENT_TERM_MONTHS,
+        "3",
       );
       expect(
         screen.getByTestId(
@@ -62,8 +63,8 @@ describe("SavingsAndDepositCalculator", () => {
     });
 
     it("should display help text for input constraints", () => {
-      expect(screen.getByText("Min 0.00% and max 15.00%")).toBeInTheDocument();
-      expect(screen.getByText("Min 3 and max 60 months")).toBeInTheDocument();
+      expect(screen.getByText("Enter rate between 0.00% - 15.00%")).toBeInTheDocument();
+      expect(screen.getByText("Enter 3 - 60 months")).toBeInTheDocument();
     });
 
     it("should render frequency options appropriate for current investment term", () => {
@@ -109,6 +110,7 @@ describe("SavingsAndDepositCalculator", () => {
       const user = userEvent.setup();
       const principalInput = screen.getByTestId(TEST_IDS.PRINCIPAL_INPUT);
 
+      await user.click(principalInput);
       await user.clear(principalInput);
       await user.type(principalInput, TEST_VALUES.PRINCIPAL.MEDIUM.toString());
 
@@ -123,6 +125,7 @@ describe("SavingsAndDepositCalculator", () => {
       const user = userEvent.setup();
       const durationInput = screen.getByTestId(TEST_IDS.INVESTMENT_TERM_INPUT);
 
+      await user.click(durationInput);
       await user.clear(durationInput);
       await user.type(
         durationInput,
@@ -147,6 +150,7 @@ describe("SavingsAndDepositCalculator", () => {
         // If testing annually, first set investment term to 12+ months
         if (option.value === "annually") {
           const investmentTermInput = screen.getByTestId(TEST_IDS.INVESTMENT_TERM_INPUT);
+          await user.click(investmentTermInput);
           await user.clear(investmentTermInput);
           await user.type(investmentTermInput, "12");
         }
@@ -187,6 +191,7 @@ describe("SavingsAndDepositCalculator", () => {
       const user = userEvent.setup();
       const interestInput = screen.getByTestId(TEST_IDS.INTEREST_RATE_INPUT);
 
+      await user.click(interestInput);
       await user.clear(interestInput);
       await user.type(
         interestInput,
@@ -194,7 +199,7 @@ describe("SavingsAndDepositCalculator", () => {
       );
 
       await waitFor(() => {
-        expect(interestInput).toHaveValue(TEST_VALUES.INTEREST_RATE.MEDIUM);
+        expect(interestInput).toHaveValue(TEST_VALUES.INTEREST_RATE.MEDIUM.toString());
         expect(
           screen.getByText(UI_TEXT.TABLE_HEADERS.PROJECTED_SAVINGS),
         ).toBeInTheDocument();
@@ -205,6 +210,7 @@ describe("SavingsAndDepositCalculator", () => {
       const user = userEvent.setup();
       const durationInput = screen.getByTestId(TEST_IDS.INVESTMENT_TERM_INPUT);
 
+      await user.click(durationInput);
       await user.clear(durationInput);
       await user.type(
         durationInput,
@@ -213,7 +219,7 @@ describe("SavingsAndDepositCalculator", () => {
 
       await waitFor(() => {
         expect(durationInput).toHaveValue(
-          TEST_VALUES.INVESTMENT_TERM_MONTHS.TWO_YEARS,
+          TEST_VALUES.INVESTMENT_TERM_MONTHS.TWO_YEARS.toString(),
         );
         expect(
           screen.getByText(UI_TEXT.TABLE_HEADERS.PROJECTED_SAVINGS),
@@ -225,6 +231,7 @@ describe("SavingsAndDepositCalculator", () => {
       const user = userEvent.setup();
       const principalInput = screen.getByTestId(TEST_IDS.PRINCIPAL_INPUT);
 
+      await user.click(principalInput);
       await user.clear(principalInput);
 
       expect(screen.getByTestId(TEST_IDS.PRINCIPAL_INPUT)).toBeInTheDocument();
@@ -262,15 +269,15 @@ describe("SavingsAndDepositCalculator", () => {
     it("should have proper input types", () => {
       expect(screen.getByTestId(TEST_IDS.PRINCIPAL_INPUT)).toHaveAttribute(
         "type",
-        INPUT_ATTRIBUTES.TYPE_NUMBER,
+        INPUT_ATTRIBUTES.TYPE_TEXT,
       );
       expect(screen.getByTestId(TEST_IDS.INTEREST_RATE_INPUT)).toHaveAttribute(
         "type",
-        INPUT_ATTRIBUTES.TYPE_NUMBER,
+        INPUT_ATTRIBUTES.TYPE_TEXT,
       );
       expect(
         screen.getByTestId(TEST_IDS.INVESTMENT_TERM_INPUT),
-      ).toHaveAttribute("type", INPUT_ATTRIBUTES.TYPE_NUMBER);
+      ).toHaveAttribute("type", INPUT_ATTRIBUTES.TYPE_TEXT);
     });
 
     it("should have visible labels for form inputs", () => {
@@ -292,6 +299,7 @@ describe("SavingsAndDepositCalculator", () => {
       const user = userEvent.setup();
       const investmentTermInput = screen.getByTestId(TEST_IDS.INVESTMENT_TERM_INPUT);
 
+      await user.click(investmentTermInput);
       await user.clear(investmentTermInput);
       await user.type(investmentTermInput, "12");
 
@@ -304,6 +312,7 @@ describe("SavingsAndDepositCalculator", () => {
       const user = userEvent.setup();
       const investmentTermInput = screen.getByTestId(TEST_IDS.INVESTMENT_TERM_INPUT);
 
+      await user.click(investmentTermInput);
       await user.clear(investmentTermInput);
       await user.type(investmentTermInput, "6");
 
@@ -331,6 +340,7 @@ describe("SavingsAndDepositCalculator", () => {
       expect(annuallyButton).toHaveClass('bg-blue-600');
 
       // Change to less than 12 months
+      await user.click(investmentTermInput);
       await user.clear(investmentTermInput);
       await user.type(investmentTermInput, "6");
 
@@ -352,6 +362,7 @@ describe("SavingsAndDepositCalculator", () => {
       expect(quarterlyButton).toHaveClass('bg-blue-600');
 
       // Change to less than 12 months
+      await user.click(investmentTermInput);
       await user.clear(investmentTermInput);
       await user.type(investmentTermInput, "9");
 
