@@ -130,55 +130,46 @@ export function StateManagementNav() {
           </p>
         )}
         
-        {/* Implementation Details Banner - Single Card with Two Rows */}
+        {/* Implementation Details */}
         {currentImpl && (
-          <div className="mt-4 p-4 bg-gray-700 rounded-lg">
-            {/* First Row - Basic Info */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 text-xs md:text-sm pb-3 border-b border-gray-600">
+          <div className="mt-4 p-3 bg-gray-700 rounded-lg">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 text-xs">
               <div>
-                <span className="text-gray-400">Pattern:</span>
-                <span className="ml-2 text-white">
+                <div className="text-gray-400 mb-1">Pattern</div>
+                <div className="text-white font-medium">
                   {currentImpl.path === "/hook" ? "Component Hook" : 
                    currentImpl.path === "/context" ? "Provider Pattern" :
                    currentImpl.path === "/valtio" ? "Proxy State" : 
                    currentImpl.path === "/redux" ? "Redux Pattern" : "Store Pattern"}
-                </span>
+                </div>
               </div>
               <div>
-                <span className="text-gray-400">Complexity:</span>
-                <span className="ml-2 text-white">{currentImpl.complexity}</span>
+                <div className="text-gray-400 mb-1">Complexity</div>
+                <div className="text-white font-medium">{currentImpl.complexity}</div>
               </div>
               <div>
-                <span className="text-gray-400">Performance:</span>
-                <span className="ml-2 text-white">{currentImpl.performance}</span>
+                <div className="text-gray-400 mb-1">Performance</div>
+                <div className="text-white font-medium">{currentImpl.performance}</div>
               </div>
               <div>
-                <span className="text-gray-400">Best For:</span>
-                <span className="ml-2 text-white">{currentImpl.bestFor}</span>
-              </div>
-            </div>
-            
-            {/* Second Row - Enterprise Info */}
-            <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 text-xs md:text-sm pt-3">
-              <div>
-                <span className="text-gray-400">MFE Support:</span>
-                <span className="ml-2 text-white">{currentImpl.mfeSupport}</span>
+                <div className="text-gray-400 mb-1">Best For</div>
+                <div className="text-white font-medium">{currentImpl.bestFor}</div>
               </div>
               <div>
-                <span className="text-gray-400">Debugging:</span>
-                <span className="ml-2 text-white">{currentImpl.debugging}</span>
+                <div className="text-gray-400 mb-1">MFE Support</div>
+                <div className="text-white font-medium">{currentImpl.mfeSupport}</div>
               </div>
               <div>
-                <span className="text-gray-400">Enterprise:</span>
-                <span className="ml-2 text-white">{currentImpl.enterprise}</span>
+                <div className="text-gray-400 mb-1">Debugging</div>
+                <div className="text-white font-medium">{currentImpl.debugging}</div>
               </div>
               <div>
-                <span className="text-gray-400">Team Size:</span>
-                <span className="ml-2 text-white">{currentImpl.teamSize}</span>
+                <div className="text-gray-400 mb-1">Enterprise</div>
+                <div className="text-white font-medium">{currentImpl.enterprise}</div>
               </div>
               <div>
-                <span className="text-gray-400">Learning:</span>
-                <span className="ml-2 text-white">{currentImpl.learning}</span>
+                <div className="text-gray-400 mb-1">Team Size</div>
+                <div className="text-white font-medium">{currentImpl.teamSize}</div>
               </div>
             </div>
           </div>
