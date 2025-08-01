@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
+import { useDebounce } from "../../../../shared/hooks";
 import {
   createDurationMonths,
 } from "../../domain/valueObjects/duration/durationMonths.factory";
@@ -72,13 +73,18 @@ export function useCalculator(): CalculatorState & CalculatorActions {
     }
   };
 
-  useEffect(() => {
-    setError(null);
+  // Debounce input values to avoid excessive recalculations
+  const debouncedPrincipal = useDebounce(principal, 300);
+  const debouncedAnnualRate = useDebounce(annualRate, 300);
+  const debouncedMonths = useDebounce(months, 300);
+
+  // Memoize the calculation result to avoid recalculation on unrelated state changes
+  const calculationResult = useMemo(() => {
     try {
       const context = {
         component: "SavingsAndDepositCalculator",
         action: "calculation",
-        userInput: { principal, annualRate, months, frequency },
+        userInput: { principal: debouncedPrincipal, annualRate: debouncedAnnualRate, months: debouncedMonths, frequency },
         timestamp: new Date().toISOString(),
       };
 
@@ -90,7 +96,7 @@ export function useCalculator(): CalculatorState & CalculatorActions {
 
       // Validate principal
       try {
-        principalAmount = createPrincipalAmount(principal);
+        principalAmount = createPrincipalAmount(debouncedPrincipal);
       } catch (e) {
         if (e instanceof RangeError) {
           validationErrors.push(e.message);
@@ -99,7 +105,7 @@ export function useCalculator(): CalculatorState & CalculatorActions {
 
       // Validate interest rate
       try {
-        annualInterestRate = createAnnualInterestRate(annualRate);
+        annualInterestRate = createAnnualInterestRate(debouncedAnnualRate);
       } catch (e) {
         if (e instanceof RangeError) {
           validationErrors.push(e.message);
@@ -108,7 +114,7 @@ export function useCalculator(): CalculatorState & CalculatorActions {
 
       // Validate duration
       try {
-        duration = createDurationMonths(months);
+        duration = createDurationMonths(debouncedMonths);
       } catch (e) {
         if (e instanceof RangeError) {
           validationErrors.push(e.message);
@@ -163,12 +169,12 @@ export function useCalculator(): CalculatorState & CalculatorActions {
             context,
           );
       }
-      setSchedule(result);
+      return { result, error: null };
     } catch (e) {
       const context = {
         component: "SavingsAndDepositCalculator",
         action: "calculation",
-        userInput: { principal, annualRate, months, frequency },
+        userInput: { principal: debouncedPrincipal, annualRate: debouncedAnnualRate, months: debouncedMonths, frequency },
         timestamp: new Date().toISOString(),
       };
 
@@ -178,7 +184,7 @@ export function useCalculator(): CalculatorState & CalculatorActions {
         // Handle validation errors from factory functions
         calculatorError = ErrorFactory.createValidationError(
           "input_validation",
-          { principal, annualRate, months, frequency },
+          { principal: debouncedPrincipal, annualRate: debouncedAnnualRate, months: debouncedMonths, frequency },
           e.message,
           context,
         );
@@ -190,11 +196,18 @@ export function useCalculator(): CalculatorState & CalculatorActions {
         calculatorError = ErrorFactory.createUnknownError(e, context);
       }
 
-      setError(calculatorError);
-      setSchedule([]);
-      errorService.handleError(calculatorError);
+      return { result: [], error: calculatorError };
     }
-  }, [annualRate, frequency, months, principal, errorService]);
+  }, [debouncedPrincipal, debouncedAnnualRate, debouncedMonths, frequency]);
+
+  // Update state when calculation result changes
+  useEffect(() => {
+    setSchedule(calculationResult.result);
+    setError(calculationResult.error);
+    if (calculationResult.error) {
+      errorService.handleError(calculationResult.error);
+    }
+  }, [calculationResult, errorService]);
 
   const resetToDefaults = (): void => {
     setPrincipal(DEFAULT_VALUES.PRINCIPAL);
