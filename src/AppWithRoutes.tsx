@@ -4,6 +4,7 @@ import { SavingsAndDepositCalculatorWithErrorBoundary } from "./features/savings
 import { SavingsAndDepositCalculatorWithContextProvider } from "./features/savingsAndDepositCalculator/components/SavingsAndDepositCalculator/SavingsAndDepositCalculatorWithContextProvider";
 import { SavingsAndDepositCalculatorWithValtio } from "./features/savingsAndDepositCalculator/components/SavingsAndDepositCalculator/SavingsAndDepositCalculatorWithValtio";
 import { SavingsAndDepositCalculatorWithZustand } from "./features/savingsAndDepositCalculator/components/SavingsAndDepositCalculator/SavingsAndDepositCalculatorWithZustand";
+import { SavingsAndDepositCalculatorWithRedux } from "./features/savingsAndDepositCalculator/components/SavingsAndDepositCalculator/SavingsAndDepositCalculatorWithRedux";
 import { StateManagementNav } from "./components/StateManagementNav";
 import { SyncIndicator } from "./components/SyncIndicator";
 
@@ -24,6 +25,7 @@ function AppWithRoutes() {
           <Route path="/context" element={<SavingsAndDepositCalculatorWithContextProvider />} />
           <Route path="/valtio" element={<SavingsAndDepositCalculatorWithValtio />} />
           <Route path="/zustand" element={<SavingsAndDepositCalculatorWithZustand />} />
+          <Route path="/redux" element={<SavingsAndDepositCalculatorWithRedux />} />
         </Routes>
       </div>
     </BrowserRouter>

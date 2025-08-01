@@ -3,3 +3,4 @@ export { SavingsAndDepositCalculatorWithContext } from "./SavingsAndDepositCalcu
 export { SavingsAndDepositCalculatorWithContextProvider } from "./SavingsAndDepositCalculatorWithContextProvider";
 export { SavingsAndDepositCalculatorWithValtio } from "./SavingsAndDepositCalculatorWithValtio";
 export { SavingsAndDepositCalculatorWithZustand } from "./SavingsAndDepositCalculatorWithZustand";
+export { SavingsAndDepositCalculatorWithRedux } from "./SavingsAndDepositCalculatorWithRedux";

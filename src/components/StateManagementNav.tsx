@@ -39,6 +39,15 @@ export function StateManagementNav() {
       complexity: "Medium (1 file)",
       performance: "Excellent",
       bestFor: "Modern apps"
+    },
+    {
+      path: "/redux",
+      label: "Redux Toolkit",
+      description: "Redux Toolkit with slices",
+      details: "Industry standard state management",
+      complexity: "High (4 files)",
+      performance: "Good",
+      bestFor: "Large apps"
     }
   ];
 
@@ -47,11 +56,11 @@ export function StateManagementNav() {
   return (
     <nav className="bg-gray-800 text-white">
       <div className="max-w-5xl mx-auto px-6 py-4">
-        <div className="flex items-center justify-between">
-          <div>
+        <div className="flex items-center justify-between gap-4">
+          <div className="max-w-2xl">
             <h1 className="text-xl font-bold">State Management Comparison</h1>
             {currentImpl && (
-              <p className="text-sm text-gray-400 mt-1">
+              <p className="text-sm text-gray-400 mt-1 truncate">
                 {currentImpl.description} - {currentImpl.details}
               </p>
             )}
@@ -60,20 +69,20 @@ export function StateManagementNav() {
             </p>
           </div>
           
-          <div className="flex gap-2 flex-wrap">
+          <div className="flex gap-1.5 flex-wrap flex-shrink-0">
             {implementations.map((impl) => (
               <NavLink
                 key={impl.path}
                 to={impl.path}
                 className={({ isActive }) =>
-                  `px-3 py-2 rounded-md transition-all duration-200 flex items-center gap-2 text-sm ${
+                  `px-2.5 py-1.5 rounded-md transition-all duration-200 flex items-center text-xs font-medium whitespace-nowrap ${
                     isActive
                       ? "bg-blue-600 text-white shadow-lg"
                       : "bg-gray-700 hover:bg-gray-600 text-gray-200"
                   }`
                 }
               >
-                <span className="font-medium">{impl.label}</span>
+                {impl.label}
               </NavLink>
             ))}
           </div>
@@ -82,13 +91,14 @@ export function StateManagementNav() {
         {/* Implementation Details Banner */}
         {currentImpl && (
           <div className="mt-4 p-3 bg-gray-700 rounded-lg">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 text-xs md:text-sm">
               <div>
                 <span className="text-gray-400">Pattern:</span>
                 <span className="ml-2 text-white">
                   {currentImpl.path === "/hook" ? "Component Hook" : 
                    currentImpl.path === "/context" ? "Provider Pattern" :
-                   currentImpl.path === "/valtio" ? "Proxy State" : "Store Pattern"}
+                   currentImpl.path === "/valtio" ? "Proxy State" : 
+                   currentImpl.path === "/redux" ? "Redux Pattern" : "Store Pattern"}
                 </span>
               </div>
               <div>
