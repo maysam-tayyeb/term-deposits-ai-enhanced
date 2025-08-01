@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import {
   createDurationMonths,
 } from "../../domain/valueObjects/duration/durationMonths.factory";
@@ -72,8 +72,8 @@ export function useCalculator(): CalculatorState & CalculatorActions {
     }
   };
 
-  useEffect(() => {
-    setError(null);
+  // Memoize the calculation result to avoid recalculation on unrelated state changes
+  const calculationResult = useMemo(() => {
     try {
       const context = {
         component: "SavingsAndDepositCalculator",
@@ -163,7 +163,7 @@ export function useCalculator(): CalculatorState & CalculatorActions {
             context,
           );
       }
-      setSchedule(result);
+      return { result, error: null };
     } catch (e) {
       const context = {
         component: "SavingsAndDepositCalculator",
@@ -190,11 +190,18 @@ export function useCalculator(): CalculatorState & CalculatorActions {
         calculatorError = ErrorFactory.createUnknownError(e, context);
       }
 
-      setError(calculatorError);
-      setSchedule([]);
-      errorService.handleError(calculatorError);
+      return { result: [], error: calculatorError };
     }
-  }, [annualRate, frequency, months, principal, errorService]);
+  }, [principal, annualRate, months, frequency]);
+
+  // Update state when calculation result changes
+  useEffect(() => {
+    setSchedule(calculationResult.result);
+    setError(calculationResult.error);
+    if (calculationResult.error) {
+      errorService.handleError(calculationResult.error);
+    }
+  }, [calculationResult, errorService]);
 
   const resetToDefaults = (): void => {
     setPrincipal(DEFAULT_VALUES.PRINCIPAL);

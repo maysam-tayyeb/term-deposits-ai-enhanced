@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen, fireEvent, act, waitFor } from "@testing-library/react";
+import { render, screen, fireEvent, act } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { FormattedNumberInput } from "./FormattedNumberInput";
 
@@ -316,7 +316,7 @@ describe("FormattedNumberInput", () => {
       await new Promise(resolve => setTimeout(resolve, 100));
       
       expect(input).toHaveAttribute("type", "number");
-      expect(input.value).toBe("1000");
+      expect((input as HTMLInputElement).value).toBe("1000");
     });
 
     it("switches back to text type on blur", async () => {
@@ -371,7 +371,6 @@ describe("FormattedNumberInput", () => {
       const input = screen.getByTestId("test-input") as HTMLInputElement;
       
       // Initial state
-      const initialValue = input.value;
       
       // Simulate rapid focus/blur that might happen with shaky hands or accidental touches
       await act(async () => {
