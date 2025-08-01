@@ -1,9 +1,9 @@
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { DEFAULT_VALUES } from "@features/savingsAndDepositCalculator/config/constants";
 import { useLocalStorage } from "@shared/hooks";
 import type { PayFrequency } from "@features/savingsAndDepositCalculator/domain/types/compoundingInterestCalculators.types";
 import type { CalculatorHookReturn } from "../../shared/types";
-import { calculateNewState, STORAGE_KEYS } from "../../shared/utils";
+import { calculateNewState, STORAGE_KEYS, setupStorageListener } from "../../shared/utils";
 
 export function useCalculator(): CalculatorHookReturn {
   // Use localStorage for persisting calculator values
@@ -59,6 +59,18 @@ export function useCalculator(): CalculatorHookReturn {
     setMonths(DEFAULT_VALUES.INVESTMENT_TERM_MONTHS);
     setFrequency(DEFAULT_VALUES.FREQUENCY);
   }, [setPrincipal, setAnnualRate, setMonths, setFrequency]);
+
+  // Setup storage listener for same-tab sync
+  useEffect(() => {
+    const cleanup = setupStorageListener({
+      setPrincipal: setPrincipalHandler,
+      setAnnualRate: setAnnualRateHandler,
+      setMonths: setMonthsHandler,
+      setFrequency: setFrequencyHandler,
+    });
+    
+    return cleanup;
+  }, [setPrincipalHandler, setAnnualRateHandler, setMonthsHandler, setFrequencyHandler]);
 
   return {
     principal,

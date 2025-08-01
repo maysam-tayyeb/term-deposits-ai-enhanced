@@ -37,10 +37,23 @@ export function loadFromStorage() {
   }
 }
 
+// Custom event for same-tab synchronization
+const STORAGE_UPDATE_EVENT = 'calculator-storage-update';
+
 // Save individual values to localStorage
 export function saveToStorage(key: StorageKey, value: number | PayFrequency) {
   try {
-    localStorage.setItem(key, JSON.stringify(value));
+    const currentValue = localStorage.getItem(key);
+    const newValue = JSON.stringify(value);
+    
+    // Only save and dispatch event if value actually changed
+    if (currentValue !== newValue) {
+      localStorage.setItem(key, newValue);
+      // Dispatch custom event for same-tab sync
+      window.dispatchEvent(new CustomEvent(STORAGE_UPDATE_EVENT, { 
+        detail: { key, value } 
+      }));
+    }
   } catch (e) {
     console.error(`Failed to save ${key} to localStorage`, e);
   }
@@ -99,9 +112,35 @@ export function createStorageEventListener(actions: StorageEventActions) {
 export function setupStorageListener(actions: StorageEventActions) {
   if (typeof window === "undefined") return;
   
-  const listener = createStorageEventListener(actions);
-  window.addEventListener("storage", listener);
+  const storageListener = createStorageEventListener(actions);
+  
+  // Listen for custom events (same-tab updates)
+  const customEventListener = (e: Event) => {
+    const customEvent = e as CustomEvent<{ key: string; value: any }>;
+    const { key, value } = customEvent.detail;
+    
+    switch (key) {
+      case STORAGE_KEYS.PRINCIPAL:
+        actions.setPrincipal(value);
+        break;
+      case STORAGE_KEYS.ANNUAL_RATE:
+        actions.setAnnualRate(value);
+        break;
+      case STORAGE_KEYS.MONTHS:
+        actions.setMonths(value);
+        break;
+      case STORAGE_KEYS.FREQUENCY:
+        actions.setFrequency(value);
+        break;
+    }
+  };
+  
+  window.addEventListener("storage", storageListener);
+  window.addEventListener(STORAGE_UPDATE_EVENT, customEventListener);
   
   // Return cleanup function
-  return () => window.removeEventListener("storage", listener);
+  return () => {
+    window.removeEventListener("storage", storageListener);
+    window.removeEventListener(STORAGE_UPDATE_EVENT, customEventListener);
+  };
 }

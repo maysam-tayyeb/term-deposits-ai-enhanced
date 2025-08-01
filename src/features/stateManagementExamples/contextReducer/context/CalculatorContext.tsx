@@ -37,11 +37,17 @@ export function CalculatorProvider({ children }: { children: React.ReactNode }) 
 
   const [state, dispatch] = useReducer(calculatorReducer, initialState);
   const isInitialMount = useRef(true);
+  const isSyncing = useRef(false);
 
   // Persist state changes to individual localStorage keys
   useEffect(() => {
     if (isInitialMount.current) {
       isInitialMount.current = false;
+      return;
+    }
+    
+    // Skip if we're syncing from external changes
+    if (isSyncing.current) {
       return;
     }
     
@@ -54,10 +60,26 @@ export function CalculatorProvider({ children }: { children: React.ReactNode }) 
   // Listen for localStorage changes and update state
   useEffect(() => {
     const handleStorageChange = createStorageEventListener({
-      setPrincipal: (value) => dispatch({ type: ActionType.SET_PRINCIPAL, payload: value }),
-      setAnnualRate: (value) => dispatch({ type: ActionType.SET_ANNUAL_RATE, payload: value }),
-      setMonths: (value) => dispatch({ type: ActionType.SET_MONTHS, payload: value }),
-      setFrequency: (value) => dispatch({ type: ActionType.SET_FREQUENCY, payload: value }),
+      setPrincipal: (value) => {
+        isSyncing.current = true;
+        dispatch({ type: ActionType.SET_PRINCIPAL, payload: value });
+        setTimeout(() => { isSyncing.current = false; }, 0);
+      },
+      setAnnualRate: (value) => {
+        isSyncing.current = true;
+        dispatch({ type: ActionType.SET_ANNUAL_RATE, payload: value });
+        setTimeout(() => { isSyncing.current = false; }, 0);
+      },
+      setMonths: (value) => {
+        isSyncing.current = true;
+        dispatch({ type: ActionType.SET_MONTHS, payload: value });
+        setTimeout(() => { isSyncing.current = false; }, 0);
+      },
+      setFrequency: (value) => {
+        isSyncing.current = true;
+        dispatch({ type: ActionType.SET_FREQUENCY, payload: value });
+        setTimeout(() => { isSyncing.current = false; }, 0);
+      },
     });
 
     window.addEventListener("storage", handleStorageChange);

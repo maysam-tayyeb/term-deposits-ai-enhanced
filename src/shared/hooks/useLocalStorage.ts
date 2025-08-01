@@ -36,7 +36,17 @@ export function useLocalStorage<T>(
       
       // Save to localStorage
       if (typeof window !== "undefined") {
-        window.localStorage.setItem(key, JSON.stringify(valueToStore));
+        const currentValue = window.localStorage.getItem(key);
+        const newValue = JSON.stringify(valueToStore);
+        
+        // Only update if value actually changed
+        if (currentValue !== newValue) {
+          window.localStorage.setItem(key, newValue);
+          // Dispatch custom event for same-tab sync
+          window.dispatchEvent(new CustomEvent('calculator-storage-update', { 
+            detail: { key, value: valueToStore } 
+          }));
+        }
       }
     } catch (error) {
       console.error(`Error saving ${key} to localStorage:`, error);
