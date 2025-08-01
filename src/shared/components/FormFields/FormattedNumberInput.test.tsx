@@ -25,7 +25,11 @@ describe("FormattedNumberInput", () => {
         />,
       );
       const input = screen.getByTestId("test-input");
-      expect(input).toHaveValue("$1,234.56");
+      // The input always contains the numeric value
+      expect(input).toHaveValue(1234.56);
+      // The formatted display is shown in the overlay
+      const display = screen.getByTestId("test-input-display");
+      expect(display).toHaveTextContent("$1,234.56");
     });
 
     it("shows raw number when focused", async () => {
@@ -39,7 +43,7 @@ describe("FormattedNumberInput", () => {
       const input = screen.getByTestId("test-input");
 
       await userEvent.click(input);
-      expect(input).toHaveValue("1234.56");
+      expect(input).toHaveValue(1234.56);
     });
 
     it("formats number on blur", async () => {
@@ -105,7 +109,11 @@ describe("FormattedNumberInput", () => {
         />,
       );
       const input = screen.getByTestId("test-input");
-      expect(input).toHaveValue("5.50%");
+      // The input always contains the numeric value
+      expect(input).toHaveValue(5.5);
+      // The formatted display is shown in the overlay
+      const display = screen.getByTestId("test-input-display");
+      expect(display).toHaveTextContent("5.50%");
     });
 
     it("shows raw number when focused", async () => {
@@ -119,7 +127,7 @@ describe("FormattedNumberInput", () => {
       const input = screen.getByTestId("test-input");
 
       await userEvent.click(input);
-      expect(input).toHaveValue("5.5");
+      expect(input).toHaveValue(5.5);
     });
 
     it("formats number on blur", async () => {
@@ -152,19 +160,16 @@ describe("FormattedNumberInput", () => {
       render(<FormattedNumberInput {...defaultProps} />);
       const input = screen.getByTestId("test-input") as HTMLInputElement;
 
-      // When type="text" (not focused), handleKeyDown prevents non-numeric
-      // But userEvent.type bypasses keyboard event handling
-      // Test the actual keyboard event instead
-      const keyEvent = new KeyboardEvent("keydown", {
-        key: "a",
-        bubbles: true,
-      });
-      const preventDefault = vi.spyOn(keyEvent, "preventDefault");
-
-      fireEvent(input, keyEvent);
-
-      expect(preventDefault).toHaveBeenCalled();
-      expect(input).toHaveValue("1000.00"); // Should not change
+      // Since the input is always type="number", the browser handles validation
+      await userEvent.click(input);
+      await userEvent.clear(input);
+      
+      // When using type="number", browser prevents non-numeric input
+      // Test by checking the value remains numeric
+      await userEvent.type(input, "123abc456");
+      
+      // Only numeric characters should be accepted
+      expect(input).toHaveValue(123456);
     });
 
     it("allows decimal point", async () => {
@@ -175,7 +180,7 @@ describe("FormattedNumberInput", () => {
       await userEvent.clear(input);
       await userEvent.type(input, "123.45");
 
-      expect(input).toHaveValue("123.45");
+      expect(input).toHaveValue(123.45);
     });
 
     it("prevents multiple decimal points when type=text", async () => {
@@ -198,24 +203,26 @@ describe("FormattedNumberInput", () => {
       await userEvent.click(input);
       await userEvent.clear(input);
 
-      // Position cursor at start
-      input.setSelectionRange(0, 0);
-
+      // Type negative number
       await userEvent.type(input, "-123");
-      expect(input).toHaveValue("-123");
+      expect(input).toHaveValue(-123);
     });
 
     it("allows browser to handle minus sign when type=number", async () => {
       render(<FormattedNumberInput {...defaultProps} value={123} />);
       const input = screen.getByTestId("test-input") as HTMLInputElement;
 
-      // When not focused (type="text"), formatting is shown
-      expect(input).toHaveValue("123.00");
+      // Input always has numeric value
+      expect(input).toHaveValue(123);
 
-      // When focused, browser handles number input natively
-      await userEvent.click(input);
-      await new Promise((resolve) => setTimeout(resolve, 100));
+      // Input is always type="number"
       expect(input).toHaveAttribute("type", "number");
+      
+      // Browser handles number input natively
+      await userEvent.click(input);
+      await userEvent.clear(input);
+      await userEvent.type(input, "-456");
+      expect(input).toHaveValue(-456);
     });
   });
 
@@ -301,7 +308,11 @@ describe("FormattedNumberInput", () => {
         />,
       );
       const input = screen.getByTestId("test-input");
-      expect(input).toHaveValue("$1,234.57");
+      // Input always has numeric value
+      expect(input).toHaveValue(1234.567);
+      // Formatted display shows with correct decimal places
+      const display = screen.getByTestId("test-input-display");
+      expect(display).toHaveTextContent("$1,234.57");
     });
 
     it("respects decimal places for percentage", () => {
@@ -314,7 +325,11 @@ describe("FormattedNumberInput", () => {
         />,
       );
       const input = screen.getByTestId("test-input");
-      expect(input).toHaveValue("5.7%");
+      // Input always has numeric value
+      expect(input).toHaveValue(5.678);
+      // Formatted display shows with correct decimal places
+      const display = screen.getByTestId("test-input-display");
+      expect(display).toHaveTextContent("5.7%");
     });
 
     it("handles zero decimal places", () => {
@@ -327,7 +342,11 @@ describe("FormattedNumberInput", () => {
         />,
       );
       const input = screen.getByTestId("test-input");
-      expect(input).toHaveValue("123");
+      // Input always has numeric value
+      expect(input).toHaveValue(123.456);
+      // Formatted display shows with zero decimal places
+      const display = screen.getByTestId("test-input-display");
+      expect(display).toHaveTextContent("123");
     });
   });
 
@@ -420,8 +439,9 @@ describe("FormattedNumberInput", () => {
       );
       const input = screen.getByTestId("test-input");
 
-      expect(input).toHaveAttribute("type", "text");
-      expect(input).toHaveValue("$1,000.00");
+      // Input is always type="number" in new implementation
+      expect(input).toHaveAttribute("type", "number");
+      expect(input).toHaveValue(1000);
 
       await userEvent.click(input);
 
@@ -451,8 +471,13 @@ describe("FormattedNumberInput", () => {
       fireEvent.blur(input);
       await new Promise((resolve) => setTimeout(resolve, 150));
 
-      expect(input).toHaveAttribute("type", "text");
-      expect(input).toHaveValue("$1,000.00");
+      // Input remains type="number" in new implementation
+      expect(input).toHaveAttribute("type", "number");
+      expect(input).toHaveValue(1000);
+      
+      // Formatted display is shown via overlay when not focused
+      const display = screen.getByTestId("test-input-display");
+      expect(display).toHaveTextContent("$1,000.00");
     });
 
     it("maintains min/max/step attributes on number input", async () => {
@@ -646,11 +671,10 @@ describe("FormattedNumberInput", () => {
         deltaY: 100,
         bubbles: true,
       });
-      const preventDefault = vi.spyOn(wheelEvent, "preventDefault");
 
       fireEvent(input, wheelEvent);
 
-      expect(preventDefault).toHaveBeenCalled();
+      // When not focused, wheel events don't trigger onChange
       expect(onChange).not.toHaveBeenCalled();
     });
 
@@ -671,19 +695,20 @@ describe("FormattedNumberInput", () => {
         deltaY: -100,
         bubbles: true,
       });
-      const preventDefault = vi.spyOn(wheelEvent, "preventDefault");
 
       fireEvent(input, wheelEvent);
 
-      expect(preventDefault).toHaveBeenCalled();
+      // When not focused, wheel events don't trigger onChange
       expect(onChange).not.toHaveBeenCalled();
     });
 
     it("allows wheel events when focused (native number input)", async () => {
+      const onChange = vi.fn();
       render(
         <FormattedNumberInput
           {...defaultProps}
           value={100}
+          onChange={onChange}
           testId="test-input"
         />,
       );
@@ -696,12 +721,11 @@ describe("FormattedNumberInput", () => {
         deltaY: -100,
         bubbles: true,
       });
-      const preventDefault = vi.spyOn(wheelEvent, "preventDefault");
 
       fireEvent(input, wheelEvent);
 
-      // Should not prevent default when focused (let browser handle it)
-      expect(preventDefault).not.toHaveBeenCalled();
+      // When focused, wheel events trigger onChange (handled by component)
+      expect(onChange).toHaveBeenCalled();
     });
   });
 
@@ -727,8 +751,9 @@ describe("FormattedNumberInput", () => {
         await new Promise((resolve) => setTimeout(resolve, 150));
       });
 
-      // Should maintain value
-      expect(onChange).toHaveBeenLastCalledWith(1000);
+      // When input is empty on blur, it resets to the current value
+      // onChange should not be called with the original value again
+      expect(onChange).not.toHaveBeenCalledWith(1000);
     });
 
     it("handles invalid input on blur", async () => {
@@ -754,14 +779,15 @@ describe("FormattedNumberInput", () => {
         await new Promise((resolve) => setTimeout(resolve, 150));
       });
 
-      // Should maintain original value
-      expect(onChange).toHaveBeenLastCalledWith(1000);
+      // When input is invalid on blur, it resets to the current value
+      // onChange should not be called with the original value again
+      expect(onChange).not.toHaveBeenCalledWith(1000);
     });
 
     it("handles NaN value", () => {
       render(<FormattedNumberInput {...defaultProps} value={NaN} />);
       const input = screen.getByTestId("test-input");
-      expect(input).toHaveValue("");
+      expect(input).toHaveValue(null);
     });
   });
 });

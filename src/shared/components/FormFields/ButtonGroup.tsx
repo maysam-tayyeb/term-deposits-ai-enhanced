@@ -83,7 +83,7 @@ export function ButtonGroup({
           onClick={() => onChange(option.value)}
           onKeyDown={(e) => handleKeyDown(e, index)}
           data-testid={`${testIdPrefix}${option.value.toLowerCase()}`}
-          tabIndex={value === option.value ? 0 : -1}
+          tabIndex={value === option.value || (index === 0 && !options.some(o => o.value === value)) ? 0 : -1}
           className={`
             px-4 text-sm font-medium transition-all duration-200
             ${

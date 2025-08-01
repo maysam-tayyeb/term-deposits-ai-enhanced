@@ -35,22 +35,34 @@ test("calculates correctly", async ({ page }) => {
   await expect($totalInterestEarned).toHaveText("$9,638");
 });
 
-test("shows error if interest rate is out of range", async ({ page }) => {
+test("constrains interest rate to valid range", async ({ page }) => {
   await page.goto("http://localhost:5173/");
 
+  // Try to enter value above max
   await page.getByTestId("interest-rate-input").fill("15.1");
-  const $totalInterestEarned = page.locator('[data-testid="error"]');
-  await expect($totalInterestEarned).toHaveText(
-    "Interest rate must be between 0.00% and 15.00%. Received: 15.10%",
-  );
+  await page.getByTestId("interest-rate-input").blur();
+  // Value should be constrained to max (15.0)
+  await expect(page.getByTestId("interest-rate-input")).toHaveValue("15");
+  
+  // Try to enter negative value  
+  await page.getByTestId("interest-rate-input").fill("-5");
+  await page.getByTestId("interest-rate-input").blur();
+  // Value should be constrained to min (0)
+  await expect(page.getByTestId("interest-rate-input")).toHaveValue("0");
 });
 
-test("shows error if investment term is out of range", async ({ page }) => {
+test("constrains investment term to valid range", async ({ page }) => {
   await page.goto("http://localhost:5173/");
 
+  // Try to enter value above max
   await page.getByTestId("investment-term-input").fill("61");
-  const $totalInterestEarned = page.locator('[data-testid="error"]');
-  await expect($totalInterestEarned).toHaveText(
-    "Duration must be between 3 and 60 months. Received: 61 months",
-  );
+  await page.getByTestId("investment-term-input").blur();
+  // Value should be constrained to max (60)
+  await expect(page.getByTestId("investment-term-input")).toHaveValue("60");
+  
+  // Try to enter value below min
+  await page.getByTestId("investment-term-input").fill("2");
+  await page.getByTestId("investment-term-input").blur();
+  // Value should be constrained to min (3)
+  await expect(page.getByTestId("investment-term-input")).toHaveValue("3");
 });

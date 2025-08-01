@@ -47,13 +47,13 @@ describe("SavingsAndDepositCalculator", () => {
     it("should render the calculator with default values", () => {
       expect(screen.getByText(UI_TEXT.TITLE)).toBeInTheDocument();
       expect(screen.getByTestId(TEST_IDS.PRINCIPAL_INPUT)).toHaveValue(
-        "$10,000.00",
+        DEFAULT_VALUES.PRINCIPAL,
       );
       expect(screen.getByTestId(TEST_IDS.INTEREST_RATE_INPUT)).toHaveValue(
-        "1.20%",
+        DEFAULT_VALUES.ANNUAL_INTEREST_RATE,
       );
       expect(screen.getByTestId(TEST_IDS.INVESTMENT_TERM_INPUT)).toHaveValue(
-        "3",
+        DEFAULT_VALUES.INVESTMENT_TERM_MONTHS,
       );
       expect(
         screen.getByTestId(
@@ -208,7 +208,7 @@ describe("SavingsAndDepositCalculator", () => {
 
       await waitFor(() => {
         expect(interestInput).toHaveValue(
-          TEST_VALUES.INTEREST_RATE.MEDIUM.toString(),
+          TEST_VALUES.INTEREST_RATE.MEDIUM,
         );
         expect(
           screen.getByText(UI_TEXT.TABLE_HEADERS.PROJECTED_SAVINGS),
@@ -229,7 +229,7 @@ describe("SavingsAndDepositCalculator", () => {
 
       await waitFor(() => {
         expect(durationInput).toHaveValue(
-          TEST_VALUES.INVESTMENT_TERM_MONTHS.TWO_YEARS.toString(),
+          TEST_VALUES.INVESTMENT_TERM_MONTHS.TWO_YEARS,
         );
         expect(
           screen.getByText(UI_TEXT.TABLE_HEADERS.PROJECTED_SAVINGS),
@@ -279,15 +279,15 @@ describe("SavingsAndDepositCalculator", () => {
     it("should have proper input types", () => {
       expect(screen.getByTestId(TEST_IDS.PRINCIPAL_INPUT)).toHaveAttribute(
         "type",
-        INPUT_ATTRIBUTES.TYPE_TEXT,
+        INPUT_ATTRIBUTES.TYPE_NUMBER,
       );
       expect(screen.getByTestId(TEST_IDS.INTEREST_RATE_INPUT)).toHaveAttribute(
         "type",
-        INPUT_ATTRIBUTES.TYPE_TEXT,
+        INPUT_ATTRIBUTES.TYPE_NUMBER,
       );
       expect(
         screen.getByTestId(TEST_IDS.INVESTMENT_TERM_INPUT),
-      ).toHaveAttribute("type", INPUT_ATTRIBUTES.TYPE_TEXT);
+      ).toHaveAttribute("type", INPUT_ATTRIBUTES.TYPE_NUMBER);
     });
 
     it("should have visible labels for form inputs", () => {

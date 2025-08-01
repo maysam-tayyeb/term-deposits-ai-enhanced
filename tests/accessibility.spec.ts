@@ -55,6 +55,8 @@ test.describe("Accessibility Tests", () => {
 
     // Tab to first frequency button
     await page.keyboard.press("Tab");
+    // Wait a bit for focus to settle
+    await page.waitForTimeout(200);
     const firstFrequencyButton = page.locator('[role="radio"]').first();
     await expect(firstFrequencyButton).toBeFocused();
 

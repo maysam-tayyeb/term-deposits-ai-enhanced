@@ -36,7 +36,7 @@ export function FormField({
       {children}
 
       {hasError ? (
-        <div className="mt-1" id={errorId} role="alert">
+        <div className="mt-1" id={errorId} role="alert" data-testid="error">
           {error.map((errMsg, index) => (
             <p key={index} className="text-xs text-red-600">
               {errMsg}

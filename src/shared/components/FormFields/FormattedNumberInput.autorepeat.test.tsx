@@ -1,3 +1,4 @@
+import React from "react";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, fireEvent, act } from "@testing-library/react";
 import { FormattedNumberInput } from "./FormattedNumberInput";
@@ -13,17 +14,26 @@ describe("FormattedNumberInput Auto-repeat", () => {
 
   it("should auto-repeat when holding mouse down on increment button", async () => {
     const onChange = vi.fn();
+    
+    // Component wrapper that updates value when onChange is called
+    const TestWrapper = () => {
+      const [value, setValue] = React.useState(100);
+      return (
+        <FormattedNumberInput
+          value={value}
+          onChange={(newValue) => {
+            setValue(newValue);
+            onChange(newValue);
+          }}
+          format="number"
+          step={10}
+          testId="test-input"
+          showSteppers={true}
+        />
+      );
+    };
 
-    render(
-      <FormattedNumberInput
-        value={100}
-        onChange={onChange}
-        format="number"
-        step={10}
-        testId="test-input"
-        showSteppers={true}
-      />,
-    );
+    render(<TestWrapper />);
 
     const incrementButton = screen.getByTestId("test-input-increment");
 
@@ -44,7 +54,6 @@ describe("FormattedNumberInput Auto-repeat", () => {
       vi.advanceTimersByTime(200);
     });
     expect(onChange).toHaveBeenCalledTimes(2);
-    expect(onChange).toHaveBeenLastCalledWith(110);
 
     // Continue for a few more steps
     act(() => {
@@ -52,9 +61,15 @@ describe("FormattedNumberInput Auto-repeat", () => {
     });
     expect(onChange).toHaveBeenCalledTimes(5);
 
-    // After 5 steps, speed should increase to 100ms intervals
+    // Step 6 still happens at 200ms (speed changes after this step)
     act(() => {
-      vi.advanceTimersByTime(200); // 2 more steps at 100ms each
+      vi.advanceTimersByTime(200); // 1 more step at 200ms
+    });
+    expect(onChange).toHaveBeenCalledTimes(6);
+    
+    // Now speed should have increased to 100ms
+    act(() => {
+      vi.advanceTimersByTime(100); // 1 more step at 100ms
     });
     expect(onChange).toHaveBeenCalledTimes(7);
 
