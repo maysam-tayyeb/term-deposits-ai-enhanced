@@ -2,7 +2,7 @@ import React, { createContext, useContext, useReducer, useEffect, useRef } from 
 import { DEFAULT_VALUES } from "@features/savingsAndDepositCalculator/config/constants";
 import type { PayFrequency } from "@features/savingsAndDepositCalculator/domain/types/compoundingInterestCalculators.types";
 import { useLocalStorage } from "@shared/hooks";
-import { calculateNewState } from "../../shared/utils";
+import { calculateNewState, STORAGE_KEYS, createStorageEventListener } from "../../shared/utils";
 import { calculatorReducer } from "./calculatorReducer";
 import type { CalculatorContextValue } from "./types";
 import { ActionType } from "./types";
@@ -12,19 +12,19 @@ const CalculatorContext = createContext<CalculatorContextValue | undefined>(unde
 export function CalculatorProvider({ children }: { children: React.ReactNode }) {
   // Use localStorage for persisting calculator values
   const [principal, setPrincipal] = useLocalStorage<number>(
-    "calculator.principal",
+    STORAGE_KEYS.PRINCIPAL,
     DEFAULT_VALUES.PRINCIPAL,
   );
   const [annualRate, setAnnualRate] = useLocalStorage<number>(
-    "calculator.annualRate",
+    STORAGE_KEYS.ANNUAL_RATE,
     DEFAULT_VALUES.INTEREST_RATE,
   );
   const [months, setMonths] = useLocalStorage<number>(
-    "calculator.months",
+    STORAGE_KEYS.MONTHS,
     DEFAULT_VALUES.INVESTMENT_TERM_MONTHS,
   );
   const [frequency, setFrequency] = useLocalStorage<PayFrequency>(
-    "calculator.frequency",
+    STORAGE_KEYS.FREQUENCY,
     DEFAULT_VALUES.FREQUENCY,
   );
 
@@ -53,26 +53,12 @@ export function CalculatorProvider({ children }: { children: React.ReactNode }) 
 
   // Listen for localStorage changes and update state
   useEffect(() => {
-    const handleStorageChange = (e: StorageEvent) => {
-      if (!e.key || !e.newValue) return;
-      
-      const value = JSON.parse(e.newValue);
-      
-      switch (e.key) {
-        case "calculator.principal":
-          dispatch({ type: ActionType.SET_PRINCIPAL, payload: value });
-          break;
-        case "calculator.annualRate":
-          dispatch({ type: ActionType.SET_ANNUAL_RATE, payload: value });
-          break;
-        case "calculator.months":
-          dispatch({ type: ActionType.SET_MONTHS, payload: value });
-          break;
-        case "calculator.frequency":
-          dispatch({ type: ActionType.SET_FREQUENCY, payload: value });
-          break;
-      }
-    };
+    const handleStorageChange = createStorageEventListener({
+      setPrincipal: (value) => dispatch({ type: ActionType.SET_PRINCIPAL, payload: value }),
+      setAnnualRate: (value) => dispatch({ type: ActionType.SET_ANNUAL_RATE, payload: value }),
+      setMonths: (value) => dispatch({ type: ActionType.SET_MONTHS, payload: value }),
+      setFrequency: (value) => dispatch({ type: ActionType.SET_FREQUENCY, payload: value }),
+    });
 
     window.addEventListener("storage", handleStorageChange);
     return () => window.removeEventListener("storage", handleStorageChange);

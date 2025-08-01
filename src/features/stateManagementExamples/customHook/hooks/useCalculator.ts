@@ -3,24 +3,24 @@ import { DEFAULT_VALUES } from "@features/savingsAndDepositCalculator/config/con
 import { useLocalStorage } from "@shared/hooks";
 import type { PayFrequency } from "@features/savingsAndDepositCalculator/domain/types/compoundingInterestCalculators.types";
 import type { CalculatorHookReturn } from "../../shared/types";
-import { calculateNewState } from "../../shared/utils";
+import { calculateNewState, STORAGE_KEYS } from "../../shared/utils";
 
 export function useCalculator(): CalculatorHookReturn {
   // Use localStorage for persisting calculator values
   const [principal, setPrincipal] = useLocalStorage<number>(
-    "calculator.principal",
+    STORAGE_KEYS.PRINCIPAL,
     DEFAULT_VALUES.PRINCIPAL,
   );
   const [annualRate, setAnnualRate] = useLocalStorage<number>(
-    "calculator.annualRate",
+    STORAGE_KEYS.ANNUAL_RATE,
     DEFAULT_VALUES.INTEREST_RATE,
   );
   const [months, setMonths] = useLocalStorage<number>(
-    "calculator.months",
+    STORAGE_KEYS.MONTHS,
     DEFAULT_VALUES.INVESTMENT_TERM_MONTHS,
   );
   const [frequency, setFrequency] = useLocalStorage<PayFrequency>(
-    "calculator.frequency",
+    STORAGE_KEYS.FREQUENCY,
     DEFAULT_VALUES.FREQUENCY,
   );
 

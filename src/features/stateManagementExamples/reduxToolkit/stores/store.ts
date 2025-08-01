@@ -5,6 +5,7 @@ import calculatorReducer, {
   setMonths,
   setFrequency,
 } from "./calculatorSlice";
+import { saveAllToStorage, setupStorageListener } from "../../shared/utils";
 
 export const store = configureStore({
   reducer: {
@@ -15,35 +16,16 @@ export const store = configureStore({
 // Persist state to localStorage using individual keys
 store.subscribe(() => {
   const state = store.getState().calculator;
-  localStorage.setItem("calculator.principal", JSON.stringify(state.principal));
-  localStorage.setItem("calculator.annualRate", JSON.stringify(state.annualRate));
-  localStorage.setItem("calculator.months", JSON.stringify(state.months));
-  localStorage.setItem("calculator.frequency", JSON.stringify(state.frequency));
+  saveAllToStorage(state);
 });
 
 // Listen for localStorage changes from other tabs/implementations
-if (typeof window !== "undefined") {
-  window.addEventListener("storage", (e) => {
-    if (!e.key || !e.newValue) return;
-    
-    const value = JSON.parse(e.newValue);
-    
-    switch (e.key) {
-      case "calculator.principal":
-        store.dispatch(setPrincipal(value));
-        break;
-      case "calculator.annualRate":
-        store.dispatch(setAnnualRate(value));
-        break;
-      case "calculator.months":
-        store.dispatch(setMonths(value));
-        break;
-      case "calculator.frequency":
-        store.dispatch(setFrequency(value));
-        break;
-    }
-  });
-}
+setupStorageListener({
+  setPrincipal: (value) => store.dispatch(setPrincipal(value)),
+  setAnnualRate: (value) => store.dispatch(setAnnualRate(value)),
+  setMonths: (value) => store.dispatch(setMonths(value)),
+  setFrequency: (value) => store.dispatch(setFrequency(value)),
+});
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

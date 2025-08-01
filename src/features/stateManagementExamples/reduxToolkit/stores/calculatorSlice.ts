@@ -2,29 +2,13 @@ import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { DEFAULT_VALUES } from "@features/savingsAndDepositCalculator/config/constants";
 import type { PayFrequency } from "@features/savingsAndDepositCalculator/domain/types/compoundingInterestCalculators.types";
 import type { CalculatorState } from "../../shared/types";
-import { getInitialState, calculateNewState } from "../../shared/utils";
+import { calculateNewState, loadFromStorage } from "../../shared/utils";
 
 // Load persisted state from individual keys
 const loadState = (): CalculatorState => {
-  try {
-    const principal = localStorage.getItem("calculator.principal");
-    const annualRate = localStorage.getItem("calculator.annualRate");
-    const months = localStorage.getItem("calculator.months");
-    const frequency = localStorage.getItem("calculator.frequency");
-    
-    const loadedState = {
-      principal: principal ? JSON.parse(principal) : DEFAULT_VALUES.PRINCIPAL,
-      annualRate: annualRate ? JSON.parse(annualRate) : DEFAULT_VALUES.INTEREST_RATE,
-      months: months ? JSON.parse(months) : DEFAULT_VALUES.INVESTMENT_TERM_MONTHS,
-      frequency: (frequency ? JSON.parse(frequency) : DEFAULT_VALUES.FREQUENCY) as PayFrequency,
-    };
-    
-    const { schedule, error } = calculateNewState(loadedState);
-    return { ...loadedState, schedule, error };
-  } catch (e) {
-    console.error("Failed to load calculator state from localStorage", e);
-    return getInitialState();
-  }
+  const loadedState = loadFromStorage();
+  const { schedule, error } = calculateNewState(loadedState);
+  return { ...loadedState, schedule, error };
 };
 
 const calculatorSlice = createSlice({
