@@ -75,7 +75,7 @@ export function ErrorDisplay({ error }: ErrorDisplayProps): React.JSX.Element {
               {error.message?.toLowerCase().includes("duration") && (
                 <div className="p-3 bg-red-50/70 rounded-lg">
                   <span className="text-sm text-slate-700">
-                    Choose an investment term between 3 and 60 months
+                    Choose an investment term between 3 and 120 months
                   </span>
                 </div>
               )}

@@ -66,7 +66,7 @@ describe("SavingsAndDepositCalculator", () => {
       expect(
         screen.getByText("Enter rate between 0.00% - 15.00%"),
       ).toBeInTheDocument();
-      expect(screen.getByText("Enter 3 - 60 months")).toBeInTheDocument();
+      expect(screen.getByText("Enter 3 - 120 months")).toBeInTheDocument();
     });
 
     it("should render frequency options appropriate for current investment term", () => {
