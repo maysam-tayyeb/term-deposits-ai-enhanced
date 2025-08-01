@@ -69,10 +69,8 @@ export function FormattedNumberInput({
 
   // Update local value when prop changes
   useEffect(() => {
-    if (!isFocused) {
-      setLocalValue(value.toString());
-    }
-  }, [value, isFocused]);
+    setLocalValue(value.toString());
+  }, [value]);
 
   // Handle input changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
