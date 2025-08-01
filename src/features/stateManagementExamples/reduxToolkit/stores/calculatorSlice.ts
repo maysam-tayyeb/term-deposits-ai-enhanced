@@ -4,24 +4,27 @@ import type { PayFrequency } from "@features/savingsAndDepositCalculator/domain/
 import type { CalculatorState } from "../../shared/types";
 import { getInitialState, calculateNewState } from "../../shared/utils";
 
-// Load persisted state
+// Load persisted state from individual keys
 const loadState = (): CalculatorState => {
   try {
-    const stored = localStorage.getItem("calculatorState");
-    if (stored) {
-      const parsed = JSON.parse(stored);
-      const mergedState = {
-        ...getInitialState(),
-        ...parsed,
-      };
-      // Recalculate schedule and error
-      const { schedule, error } = calculateNewState(mergedState);
-      return { ...mergedState, schedule, error };
-    }
+    const principal = localStorage.getItem("calculator.principal");
+    const annualRate = localStorage.getItem("calculator.annualRate");
+    const months = localStorage.getItem("calculator.months");
+    const frequency = localStorage.getItem("calculator.frequency");
+    
+    const loadedState = {
+      principal: principal ? JSON.parse(principal) : DEFAULT_VALUES.PRINCIPAL,
+      annualRate: annualRate ? JSON.parse(annualRate) : DEFAULT_VALUES.INTEREST_RATE,
+      months: months ? JSON.parse(months) : DEFAULT_VALUES.INVESTMENT_TERM_MONTHS,
+      frequency: (frequency ? JSON.parse(frequency) : DEFAULT_VALUES.FREQUENCY) as PayFrequency,
+    };
+    
+    const { schedule, error } = calculateNewState(loadedState);
+    return { ...loadedState, schedule, error };
   } catch (e) {
     console.error("Failed to load calculator state from localStorage", e);
+    return getInitialState();
   }
-  return getInitialState();
 };
 
 const calculatorSlice = createSlice({

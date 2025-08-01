@@ -10,7 +10,7 @@ export function useValtioCalculator(): CalculatorHookReturn {
     annualRate: snap.annualRate,
     months: snap.months,
     frequency: snap.frequency,
-    schedule: snap.schedule,
+    schedule: [...snap.schedule], // Create mutable copy
     error: snap.error,
     setPrincipal: calculatorActions.setPrincipal,
     setAnnualRate: calculatorActions.setAnnualRate,
