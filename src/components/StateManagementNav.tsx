@@ -57,13 +57,8 @@ export function StateManagementNav() {
     <nav className="bg-gray-800 text-white">
       <div className="max-w-5xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between gap-4">
-          <div className="max-w-2xl">
+          <div>
             <h1 className="text-xl font-bold">State Management Comparison</h1>
-            {currentImpl && (
-              <p className="text-sm text-gray-400 mt-1 truncate">
-                {currentImpl.description} - {currentImpl.details}
-              </p>
-            )}
             <p className="text-xs text-green-400 mt-1">
               ✨ All implementations share the same localStorage state
             </p>
@@ -87,6 +82,13 @@ export function StateManagementNav() {
             ))}
           </div>
         </div>
+        
+        {/* Current Implementation Description - Below the nav */}
+        {currentImpl && (
+          <p className="text-sm text-gray-400 mt-2">
+            {currentImpl.description} - {currentImpl.details}
+          </p>
+        )}
         
         {/* Implementation Details Banner */}
         {currentImpl && (
