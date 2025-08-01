@@ -5,6 +5,7 @@ import { SavingsAndDepositCalculatorWithContext } from "./features/stateManageme
 import { SavingsAndDepositCalculatorWithValtio } from "./features/stateManagementExamples/valtio";
 import { SavingsAndDepositCalculatorWithZustand } from "./features/stateManagementExamples/zustand";
 import { SavingsAndDepositCalculatorWithRedux } from "./features/stateManagementExamples/reduxToolkit";
+import { PerformanceComparison, AutomatedPerformanceTest } from "./features/stateManagementExamples/shared/components";
 import { StateManagementNav } from "./components/StateManagementNav";
 import { SyncIndicator } from "./components/SyncIndicator";
 
@@ -17,6 +18,12 @@ function App() {
         
         {/* Sync Indicator */}
         <SyncIndicator />
+        
+        {/* Performance Comparison */}
+        <PerformanceComparison />
+        
+        {/* Automated Performance Test */}
+        <AutomatedPerformanceTest />
 
         {/* Routes */}
         <Routes>

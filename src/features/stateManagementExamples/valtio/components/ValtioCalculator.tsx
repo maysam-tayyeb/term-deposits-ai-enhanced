@@ -1,6 +1,6 @@
 import React from "react";
 import { CalculatorErrorBoundary } from "@features/savingsAndDepositCalculator/components/ErrorHandling";
-import { BaseCalculatorWrapper } from "../../shared/components";
+import { PerformanceWrapper } from "../../shared/components";
 import { useValtioCalculator } from "../hooks";
 
 export function SavingsAndDepositCalculatorWithValtio(): React.JSX.Element {
@@ -8,7 +8,7 @@ export function SavingsAndDepositCalculatorWithValtio(): React.JSX.Element {
 
   return (
     <CalculatorErrorBoundary>
-      <BaseCalculatorWrapper calculator={calculator} />
+      <PerformanceWrapper calculator={calculator} implementation="Valtio" />
     </CalculatorErrorBoundary>
   );
 }

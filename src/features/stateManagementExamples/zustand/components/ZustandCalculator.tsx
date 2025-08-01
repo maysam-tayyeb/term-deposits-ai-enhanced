@@ -1,14 +1,14 @@
 import React from "react";
 import { CalculatorErrorBoundary } from "@features/savingsAndDepositCalculator/components/ErrorHandling";
-import { BaseCalculatorWrapper } from "../../shared/components";
-import { useZustandCalculator } from "../hooks";
+import { PerformanceWrapper } from "../../shared/components";
+import { useCalculatorStore } from "../stores/calculatorStore";
 
 export function SavingsAndDepositCalculatorWithZustand(): React.JSX.Element {
-  const calculator = useZustandCalculator();
+  const calculator = useCalculatorStore();
 
   return (
     <CalculatorErrorBoundary>
-      <BaseCalculatorWrapper calculator={calculator} />
+      <PerformanceWrapper calculator={calculator} implementation="Zustand" />
     </CalculatorErrorBoundary>
   );
 }

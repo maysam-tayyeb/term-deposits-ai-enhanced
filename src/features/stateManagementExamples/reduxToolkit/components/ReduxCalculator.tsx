@@ -1,13 +1,13 @@
 import React from "react";
 import { Provider } from "react-redux";
 import { CalculatorErrorBoundary } from "@features/savingsAndDepositCalculator/components/ErrorHandling";
-import { BaseCalculatorWrapper } from "../../shared/components";
+import { PerformanceWrapper } from "../../shared/components";
 import { store } from "../stores/store";
 import { useReduxCalculator } from "../hooks";
 
 function ReduxCalculatorInner(): React.JSX.Element {
   const calculator = useReduxCalculator();
-  return <BaseCalculatorWrapper calculator={calculator} />;
+  return <PerformanceWrapper calculator={calculator} implementation="Redux Toolkit" />;
 }
 
 export function SavingsAndDepositCalculatorWithRedux(): React.JSX.Element {

@@ -1,12 +1,12 @@
 import React from "react";
 import { CalculatorErrorBoundary } from "@features/savingsAndDepositCalculator/components/ErrorHandling";
-import { BaseCalculatorWrapper } from "../../shared/components";
+import { PerformanceWrapper } from "../../shared/components";
 import { CalculatorProvider } from "../context";
 import { useContextCalculator } from "../hooks";
 
 function ContextCalculatorInner(): React.JSX.Element {
   const calculator = useContextCalculator();
-  return <BaseCalculatorWrapper calculator={calculator} />;
+  return <PerformanceWrapper calculator={calculator} implementation="Context + Reducer" />;
 }
 
 export function SavingsAndDepositCalculatorWithContext(): React.JSX.Element {
