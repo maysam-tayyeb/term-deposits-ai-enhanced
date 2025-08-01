@@ -1,8 +1,8 @@
 import type { AnnualInterestRate } from "../../types/compoundingInterestCalculators.types";
-import { 
-  createValueObjectFactory, 
-  createPercentageFormatter 
-} from "../../../../../shared/utils/valueObjectFactory";
+import {
+  createValueObjectFactory,
+  createPercentageFormatter,
+} from "@shared/utils/valueObjectFactory";
 
 export const MIN_ALLOWED_INTEREST_RATE = 0;
 export const MAX_ALLOWED_INTEREST_RATE = 15;
@@ -11,16 +11,17 @@ export const DESCRIPTION_MAX_ALLOWED_INTEREST_RATE = `${MAX_ALLOWED_INTEREST_RAT
 
 const percentageFormatter = createPercentageFormatter(2);
 
-export const createAnnualInterestRate = createValueObjectFactory<AnnualInterestRate>({
-  min: MIN_ALLOWED_INTEREST_RATE,
-  max: MAX_ALLOWED_INTEREST_RATE,
-  displayName: "Interest rate",
-  formatValue: percentageFormatter,
-  formatDescription: percentageFormatter,
-  customValidation: (value) => {
-    if (isNaN(value) || !isFinite(value)) {
-      return `Interest rate must be a valid number. Received: ${value}`;
-    }
-    return null;
-  },
-});
+export const createAnnualInterestRate =
+  createValueObjectFactory<AnnualInterestRate>({
+    min: MIN_ALLOWED_INTEREST_RATE,
+    max: MAX_ALLOWED_INTEREST_RATE,
+    displayName: "Interest rate",
+    formatValue: percentageFormatter,
+    formatDescription: percentageFormatter,
+    customValidation: (value) => {
+      if (isNaN(value) || !isFinite(value)) {
+        return `Interest rate must be a valid number. Received: ${value}`;
+      }
+      return null;
+    },
+  });

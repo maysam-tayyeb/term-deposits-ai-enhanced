@@ -4,8 +4,8 @@ import { useCalculator } from "../../logic/hooks";
 import { ErrorDisplay } from "../ErrorHandling";
 import { CalculatorForm } from "../CalculatorForm";
 import { ResultsDisplay } from "../ResultsDisplay";
-import { CalculatorIcon, ClockIcon } from "../../../../shared/components/Icons";
-import { LiveRegion } from "../../../../shared/components/LiveRegion";
+import { CalculatorIcon, ClockIcon } from "@shared/components/Icons";
+import { LiveRegion } from "@shared/components/LiveRegion";
 
 export function SavingsAndDepositCalculator(): React.JSX.Element {
   const {
@@ -21,41 +21,48 @@ export function SavingsAndDepositCalculator(): React.JSX.Element {
     setFrequency,
     resetToDefaults,
   } = useCalculator();
-  
+
   const [liveMessage, setLiveMessage] = useState("");
-  
+
   // Announce calculation results
   useEffect(() => {
     if (!error && schedule.length > 0) {
       const finalBalance = schedule[schedule.length - 1].balance;
       const totalInterest = schedule[schedule.length - 1].interest;
       setLiveMessage(
-        `Calculation updated. Final balance: ${Math.round(finalBalance).toLocaleString("en-US", {
+        `Calculation updated. Final balance: ${Math.round(
+          finalBalance,
+        ).toLocaleString("en-US", {
           style: "currency",
           currency: "USD",
-        })}. Total interest earned: ${Math.round(totalInterest).toLocaleString("en-US", {
-          style: "currency",
-          currency: "USD",
-        })}.`
+        })}. Total interest earned: ${Math.round(totalInterest).toLocaleString(
+          "en-US",
+          {
+            style: "currency",
+            currency: "USD",
+          },
+        )}.`,
       );
     } else if (error) {
-      setLiveMessage("Please correct the input errors to see calculation results.");
+      setLiveMessage(
+        "Please correct the input errors to see calculation results.",
+      );
     }
   }, [schedule, error]);
 
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Skip to main content link */}
-      <a 
-        href="#main-content" 
+      <a
+        href="#main-content"
         className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-blue-600 text-white px-4 py-2 rounded-md z-50"
       >
         Skip to main content
       </a>
-      
+
       {/* Live region for announcements */}
       <LiveRegion message={liveMessage} politeness="polite" />
-      
+
       {/* Header Section */}
       <header className="bg-white border-b border-gray-200">
         <div className="max-w-5xl mx-auto px-6 py-8">
@@ -67,7 +74,9 @@ export function SavingsAndDepositCalculator(): React.JSX.Element {
               <h1 className="text-3xl font-bold text-gray-900">
                 {UI_TEXT.TITLE}
               </h1>
-              <p className="text-gray-600 mt-1">Calculate your compound interest returns with precision</p>
+              <p className="text-gray-600 mt-1">
+                Calculate your compound interest returns with precision
+              </p>
             </div>
           </div>
         </div>
@@ -83,7 +92,9 @@ export function SavingsAndDepositCalculator(): React.JSX.Element {
         {/* Calculator Card */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 mb-8 transition-all duration-200 hover:shadow-md">
           <div className="flex justify-between items-center mb-8">
-            <h2 className="text-2xl font-semibold text-gray-900">Investment Calculator</h2>
+            <h2 className="text-2xl font-semibold text-gray-900">
+              Investment Calculator
+            </h2>
             <button
               type="button"
               onClick={resetToDefaults}
@@ -93,7 +104,7 @@ export function SavingsAndDepositCalculator(): React.JSX.Element {
               Reset to Default
             </button>
           </div>
-          
+
           <CalculatorForm
             principal={principal}
             annualRate={annualRate}
@@ -114,9 +125,12 @@ export function SavingsAndDepositCalculator(): React.JSX.Element {
               <div className="w-16 h-16 bg-gray-100 rounded-full mx-auto mb-6 flex items-center justify-center">
                 <ClockIcon className="w-8 h-8 text-gray-400" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Results Pending</h3>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                Results Pending
+              </h3>
               <p className="text-gray-600 leading-relaxed">
-                Complete the form above with valid values to see your projected investment growth and detailed breakdown.
+                Complete the form above with valid values to see your projected
+                investment growth and detailed breakdown.
               </p>
             </div>
           </div>
@@ -127,4 +141,3 @@ export function SavingsAndDepositCalculator(): React.JSX.Element {
     </div>
   );
 }
-

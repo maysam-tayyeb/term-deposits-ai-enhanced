@@ -4,29 +4,37 @@ import {
   ErrorSeverity as ErrorSeverityValues,
 } from "../../config/errors";
 import { TEST_IDS } from "../../config/constants";
-import { ExclamationTriangleIcon, InformationCircleIcon } from "../../../../shared/components/Icons";
+import {
+  ExclamationTriangleIcon,
+  InformationCircleIcon,
+} from "@shared/components/Icons";
 
 interface ErrorDisplayProps {
   error: BaseCalculatorError;
 }
 
-export function ErrorDisplay({
-  error,
-}: ErrorDisplayProps): React.JSX.Element {
-
+export function ErrorDisplay({ error }: ErrorDisplayProps): React.JSX.Element {
   const getSeverityIcon = (severity: string): React.JSX.Element => {
     const iconClass = "h-5 w-5";
 
     switch (severity) {
       case ErrorSeverityValues.CRITICAL:
       case ErrorSeverityValues.HIGH:
-        return <ExclamationTriangleIcon className={`${iconClass} text-red-500`} />;
+        return (
+          <ExclamationTriangleIcon className={`${iconClass} text-red-500`} />
+        );
       case ErrorSeverityValues.MEDIUM:
-        return <ExclamationTriangleIcon className={`${iconClass} text-yellow-500`} />;
+        return (
+          <ExclamationTriangleIcon className={`${iconClass} text-yellow-500`} />
+        );
       case ErrorSeverityValues.LOW:
-        return <InformationCircleIcon className={`${iconClass} text-blue-500`} />;
+        return (
+          <InformationCircleIcon className={`${iconClass} text-blue-500`} />
+        );
       default:
-        return <InformationCircleIcon className={`${iconClass} text-gray-500`} />;
+        return (
+          <InformationCircleIcon className={`${iconClass} text-gray-500`} />
+        );
     }
   };
 
@@ -43,36 +51,48 @@ export function ErrorDisplay({
         </div>
         <div className="ml-4 flex-1">
           <h3 className="text-lg font-semibold text-slate-800 mb-3">
-            {error.type === "VALIDATION" ? "Please Check Your Input" : "Calculation Error"}
+            {error.type === "VALIDATION"
+              ? "Please Check Your Input"
+              : "Calculation Error"}
           </h3>
-          
+
           {error.type === "VALIDATION" && (
             <div className="space-y-2">
-              {error.message?.toLowerCase().includes('principal') && (
+              {error.message?.toLowerCase().includes("principal") && (
                 <div className="p-3 bg-red-50/70 rounded-lg">
-                  <span className="text-sm text-slate-700">Enter a valid principal amount between $1 and $10,000,000</span>
+                  <span className="text-sm text-slate-700">
+                    Enter a valid principal amount between $1 and $10,000,000
+                  </span>
                 </div>
               )}
-              {error.message?.toLowerCase().includes('interest') && (
+              {error.message?.toLowerCase().includes("interest") && (
                 <div className="p-3 bg-red-50/70 rounded-lg">
-                  <span className="text-sm text-slate-700">Enter an interest rate between 0.00% and 15.00%</span>
+                  <span className="text-sm text-slate-700">
+                    Enter an interest rate between 0.00% and 15.00%
+                  </span>
                 </div>
               )}
-              {error.message?.toLowerCase().includes('duration') && (
+              {error.message?.toLowerCase().includes("duration") && (
                 <div className="p-3 bg-red-50/70 rounded-lg">
-                  <span className="text-sm text-slate-700">Choose an investment term between 3 and 60 months</span>
+                  <span className="text-sm text-slate-700">
+                    Choose an investment term between 3 and 60 months
+                  </span>
                 </div>
               )}
-              {error.message?.toLowerCase().includes('valid number') && (
+              {error.message?.toLowerCase().includes("valid number") && (
                 <div className="p-3 bg-red-50/70 rounded-lg">
-                  <span className="text-sm text-slate-700">Make sure all fields contain valid numbers</span>
+                  <span className="text-sm text-slate-700">
+                    Make sure all fields contain valid numbers
+                  </span>
                 </div>
               )}
             </div>
           )}
-          
+
           {error.type !== "VALIDATION" && (
-            <p className="text-sm text-slate-700 bg-red-50/70 p-3 rounded-lg">{error.userMessage}</p>
+            <p className="text-sm text-slate-700 bg-red-50/70 p-3 rounded-lg">
+              {error.userMessage}
+            </p>
           )}
         </div>
       </div>

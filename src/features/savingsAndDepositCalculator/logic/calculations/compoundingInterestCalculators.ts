@@ -1,4 +1,4 @@
-import { round } from "../../../../utils/currency";
+import { round } from "@/utils/currency";
 import type {
   AnnualInterestRate,
   DurationMonths,
