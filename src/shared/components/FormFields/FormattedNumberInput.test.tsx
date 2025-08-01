@@ -383,6 +383,90 @@ describe("FormattedNumberInput", () => {
     });
   });
 
+  describe("Keyboard navigation", () => {
+    it("increments value with ArrowUp key", async () => {
+      const onChange = vi.fn();
+      render(<FormattedNumberInput {...defaultProps} value={100} onChange={onChange} step={10} testId="test-input" />);
+      
+      const input = screen.getByTestId("test-input");
+      await userEvent.click(input);
+      await userEvent.keyboard("{ArrowUp}");
+      
+      expect(onChange).toHaveBeenCalledWith(110);
+    });
+
+    it("decrements value with ArrowDown key", async () => {
+      const onChange = vi.fn();
+      render(<FormattedNumberInput {...defaultProps} value={100} onChange={onChange} step={10} testId="test-input" />);
+      
+      const input = screen.getByTestId("test-input");
+      await userEvent.click(input);
+      await userEvent.keyboard("{ArrowDown}");
+      
+      expect(onChange).toHaveBeenCalledWith(90);
+    });
+
+    it("respects max value with ArrowUp", async () => {
+      const onChange = vi.fn();
+      render(<FormattedNumberInput {...defaultProps} value={95} max={100} onChange={onChange} step={10} testId="test-input" />);
+      
+      const input = screen.getByTestId("test-input");
+      await userEvent.click(input);
+      await userEvent.keyboard("{ArrowUp}");
+      
+      expect(onChange).toHaveBeenCalledWith(100);
+    });
+
+    it("respects min value with ArrowDown", async () => {
+      const onChange = vi.fn();
+      render(<FormattedNumberInput {...defaultProps} value={5} min={0} onChange={onChange} step={10} testId="test-input" />);
+      
+      const input = screen.getByTestId("test-input");
+      await userEvent.click(input);
+      await userEvent.keyboard("{ArrowDown}");
+      
+      expect(onChange).toHaveBeenCalledWith(0);
+    });
+  });
+
+  describe("Mouse wheel support", () => {
+    it("increments value on wheel up when focused", async () => {
+      const onChange = vi.fn();
+      render(<FormattedNumberInput {...defaultProps} value={100} onChange={onChange} step={10} testId="test-input" />);
+      
+      const input = screen.getByTestId("test-input");
+      await userEvent.click(input); // Focus the input
+      
+      fireEvent.wheel(input, { deltaY: -100 });
+      
+      expect(onChange).toHaveBeenCalledWith(110);
+    });
+
+    it("decrements value on wheel down when focused", async () => {
+      const onChange = vi.fn();
+      render(<FormattedNumberInput {...defaultProps} value={100} onChange={onChange} step={10} testId="test-input" />);
+      
+      const input = screen.getByTestId("test-input");
+      await userEvent.click(input); // Focus the input
+      
+      fireEvent.wheel(input, { deltaY: 100 });
+      
+      expect(onChange).toHaveBeenCalledWith(90);
+    });
+
+    it("does not respond to wheel when not focused", () => {
+      const onChange = vi.fn();
+      render(<FormattedNumberInput {...defaultProps} value={100} onChange={onChange} testId="test-input" />);
+      
+      const input = screen.getByTestId("test-input");
+      // Don't focus the input
+      
+      fireEvent.wheel(input, { deltaY: -100 });
+      
+      expect(onChange).not.toHaveBeenCalled();
+    });
+  });
+
   describe("Edge cases", () => {
     it("handles empty input on blur", async () => {
       const onChange = vi.fn();

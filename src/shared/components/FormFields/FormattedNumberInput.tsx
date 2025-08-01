@@ -119,6 +119,18 @@ export function FormattedNumberInput({
 
   // Handle keyboard events to prevent invalid characters
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    // Handle arrow keys for stepping
+    if (e.key === "ArrowUp") {
+      e.preventDefault();
+      handleStep('up');
+      return;
+    }
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      handleStep('down');
+      return;
+    }
+
     // Allow control keys
     if (
       e.key === "Backspace" ||
@@ -214,6 +226,18 @@ export function FormattedNumberInput({
     onChange(newValue);
   };
 
+  // Handle mouse wheel events
+  const handleWheel = (e: React.WheelEvent<HTMLInputElement>) => {
+    if (!isFocused) return;
+    
+    e.preventDefault();
+    if (e.deltaY < 0) {
+      handleStep('up');
+    } else if (e.deltaY > 0) {
+      handleStep('down');
+    }
+  };
+
   return (
     <div className="relative">
       <input
@@ -224,10 +248,11 @@ export function FormattedNumberInput({
         onChange={handleChange}
         onPaste={handlePaste}
         onKeyDown={handleKeyDown}
+        onWheel={handleWheel}
         onFocus={handleFocus}
         onBlur={handleBlur}
         placeholder={getPlaceholder()}
-        className={`${inputClassName} ${showSteppers ? 'pr-8' : ''}`}
+        className={`${inputClassName} ${showSteppers ? 'pr-7' : ''}`}
         data-testid={testId}
         aria-label={ariaLabel}
         aria-describedby={ariaDescribedBy}
@@ -237,30 +262,29 @@ export function FormattedNumberInput({
         autoComplete="off"
       />
       {showSteppers && (
-        <div className="absolute inset-y-0 right-0 flex flex-col border-l border-gray-300">
+        <div className="absolute inset-y-0 right-0 flex flex-col">
           <button
             type="button"
             onClick={() => handleStep('up')}
-            className="flex-1 px-2 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-inset"
+            className="flex-1 px-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-50 transition-colors duration-150 rounded-tr-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-inset"
             aria-label={`Increase ${ariaLabel || 'value'}`}
             tabIndex={-1}
             data-testid={testId ? `${testId}-increment` : undefined}
           >
-            <svg className="w-3 h-3 mx-auto" viewBox="0 0 12 12">
-              <path d="M6 3L10 8H2L6 3Z" fill="currentColor" />
+            <svg className="w-2.5 h-2.5 mx-auto" viewBox="0 0 10 10">
+              <path d="M5 2L8.5 6H1.5L5 2Z" fill="currentColor" />
             </svg>
           </button>
-          <div className="border-t border-gray-300" />
           <button
             type="button"
             onClick={() => handleStep('down')}
-            className="flex-1 px-2 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-inset"
+            className="flex-1 px-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-50 transition-colors duration-150 rounded-br-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-inset"
             aria-label={`Decrease ${ariaLabel || 'value'}`}
             tabIndex={-1}
             data-testid={testId ? `${testId}-decrement` : undefined}
           >
-            <svg className="w-3 h-3 mx-auto" viewBox="0 0 12 12">
-              <path d="M6 9L2 4H10L6 9Z" fill="currentColor" />
+            <svg className="w-2.5 h-2.5 mx-auto" viewBox="0 0 10 10">
+              <path d="M5 8L1.5 4H8.5L5 8Z" fill="currentColor" />
             </svg>
           </button>
         </div>
