@@ -42,6 +42,7 @@ export function FormattedNumberInput({
   const [displayValue, setDisplayValue] = useState("");
   const [isFocused, setIsFocused] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [isStepping, setIsStepping] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const stepIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const stepTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -85,12 +86,12 @@ export function FormattedNumberInput({
   useEffect(() => {
     if (isTransitioning) return;
     
-    if (!isFocused) {
+    if (!isFocused && !isStepping) {
       setDisplayValue(formatNumber(value));
     } else {
       setDisplayValue(value.toString());
     }
-  }, [value, isFocused, isTransitioning, formatNumber]);
+  }, [value, isFocused, isStepping, isTransitioning, formatNumber]);
 
   // Handle input changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -286,6 +287,10 @@ export function FormattedNumberInput({
 
   // Handle auto-repeat stepping when holding mouse down
   const startAutoStep = useCallback((direction: 'up' | 'down') => {
+    // Switch to number type for better performance during stepping
+    setIsStepping(true);
+    setDisplayValue(value.toString());
+    
     // Clear any existing intervals
     if (stepIntervalRef.current) {
       clearInterval(stepIntervalRef.current);
@@ -328,7 +333,7 @@ export function FormattedNumberInput({
       
       stepIntervalRef.current = setInterval(performStep, currentDelay);
     }, 300); // Initial delay before auto-repeat starts
-  }, [handleStep]);
+  }, [handleStep, value]);
 
   const stopAutoStep = useCallback(() => {
     if (stepIntervalRef.current) {
@@ -340,7 +345,15 @@ export function FormattedNumberInput({
       stepTimeoutRef.current = null;
     }
     stepCountRef.current = 0;
-  }, []);
+    
+    // Switch back to text type and format the value
+    setTimeout(() => {
+      setIsStepping(false);
+      if (!isFocused) {
+        setDisplayValue(formatNumber(value));
+      }
+    }, 100);
+  }, [isFocused, value, formatNumber]);
 
   // Clean up intervals and timeouts on unmount
   useEffect(() => {
@@ -382,7 +395,7 @@ export function FormattedNumberInput({
     <div className="relative group">
       <input
         ref={inputRef}
-        type={isFocused && !isTransitioning ? "number" : "text"}
+        type={(isFocused || isStepping) && !isTransitioning ? "number" : "text"}
         id={id}
         value={displayValue}
         onChange={handleChange}
