@@ -18,6 +18,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CHANGELOG.md for version tracking
 - Comprehensive documentation structure in `/docs`
 - LiveRegion component for accessibility announcements
+- Input validation with real-time feedback
+- Currency formatting with thousand separators ($10,000.00)
+- Percentage formatting for interest rates (5.50%)
+- Input masking to prevent invalid characters
+- Paste handling that strips non-numeric characters
+- Helpful placeholder text with examples
+- FormattedNumberInput component for enhanced input handling
 
 ### Changed
 - Updated README.md with accurate project information
@@ -25,6 +32,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Enhanced tech stack details with specific versions
 - Updated Git repository URL references
 - Reorganized documentation with active and archived sections
+- Replaced basic number inputs with formatted inputs
+- Updated field labels to be more user-friendly
+- Enhanced help text with formatted examples
+- Improved validation error messages for clarity
 
 ### Fixed
 - GitHub issue template now correctly references IMPROVEMENTS-V2.md
