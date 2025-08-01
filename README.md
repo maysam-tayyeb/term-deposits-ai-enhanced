@@ -8,7 +8,7 @@ A React-based web application for calculating compound interest returns on fixed
 - **Flexible Investment Options**:
   - Starting deposit: $1 to $10,000,000
   - Interest rate: 0.00% to 15.00%
-  - Investment term: 3 to 60 months
+  - Investment term: 3 to 120 months
   - Multiple reinvestment frequencies
 - **Detailed Results**: Month-by-month breakdown, total interest earned, and final balance
 - **Accessibility**: WCAG 2.1 AA compliant with screen reader support
@@ -139,7 +139,7 @@ Where:
 - **Interest Rate**: 0.00% - 15.00%
   - Formatted with percentage symbol
   - Example: 5.50%
-- **Investment Term**: 3 - 60 months
+- **Investment Term**: 3 - 120 months
   - Must be a whole number
   - Example: 12 months
 - **Reinvestment Frequencies**:

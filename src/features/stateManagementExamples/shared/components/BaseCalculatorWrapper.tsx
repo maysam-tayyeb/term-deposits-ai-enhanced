@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { UI_TEXT } from "../../config/constants";
-import { useCalculator } from "../../logic/hooks";
-import { ErrorDisplay } from "../ErrorHandling";
-import { CalculatorForm } from "../CalculatorForm";
-import { ResultsDisplay } from "../ResultsDisplay";
+import { UI_TEXT } from "@features/savingsAndDepositCalculator/config/constants";
+import { ErrorDisplay } from "@features/savingsAndDepositCalculator/components/ErrorHandling";
+import { CalculatorForm } from "@features/savingsAndDepositCalculator/components/CalculatorForm";
+import { ResultsDisplay } from "@features/savingsAndDepositCalculator/components/ResultsDisplay";
 import { CalculatorIcon, ClockIcon } from "@shared/components/Icons";
 import { LiveRegion } from "@shared/components/LiveRegion";
+import type { CalculatorHookReturn } from "../types";
 
-export function SavingsAndDepositCalculator(): React.JSX.Element {
+interface BaseCalculatorWrapperProps {
+  calculator: CalculatorHookReturn;
+}
+
+export function BaseCalculatorWrapper({ calculator }: BaseCalculatorWrapperProps): React.JSX.Element {
   const {
     principal,
     annualRate,
@@ -20,7 +24,7 @@ export function SavingsAndDepositCalculator(): React.JSX.Element {
     setMonths,
     setFrequency,
     resetToDefaults,
-  } = useCalculator();
+  } = calculator;
 
   const [liveMessage, setLiveMessage] = useState("");
 
@@ -51,44 +55,30 @@ export function SavingsAndDepositCalculator(): React.JSX.Element {
   }, [schedule, error]);
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Skip to main content link */}
-      <a
-        href="#main-content"
-        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-blue-600 text-white px-4 py-2 rounded-md z-50"
-      >
-        Skip to main content
-      </a>
-
-      {/* Live region for announcements */}
-      <LiveRegion message={liveMessage} politeness="polite" />
-
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
       {/* Header Section */}
-      <header className="bg-white border-b border-gray-200">
-        <div className="max-w-5xl mx-auto px-6 py-8">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center">
-              <CalculatorIcon className="w-7 h-7 text-white" />
+      <header className="bg-white shadow-sm border-b border-gray-200">
+        <div className="max-w-5xl mx-auto px-6 py-6">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center shadow-md">
+              <CalculatorIcon className="w-6 h-6 text-white" />
             </div>
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900">
-                {UI_TEXT.TITLE}
-              </h1>
-              <p className="text-gray-600 mt-1">
-                Calculate your compound interest returns with precision
-              </p>
-            </div>
+            <h1 className="text-2xl font-bold text-gray-900">{UI_TEXT.TITLE}</h1>
           </div>
         </div>
       </header>
 
       {/* Main Content */}
       <main id="main-content" className="max-w-5xl mx-auto px-6 py-8">
+        {/* Live Region for Screen Readers */}
+        <LiveRegion message={liveMessage} />
+
         {error && (
           <div className="mb-8">
             <ErrorDisplay error={error} />
           </div>
         )}
+
         {/* Calculator Card */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 mb-8 transition-all duration-200 hover:shadow-md">
           <div className="flex justify-between items-center mb-8">
@@ -110,7 +100,6 @@ export function SavingsAndDepositCalculator(): React.JSX.Element {
             annualRate={annualRate}
             months={months}
             frequency={frequency}
-            error={error}
             onPrincipalChange={setPrincipal}
             onAnnualRateChange={setAnnualRate}
             onMonthsChange={setMonths}
@@ -135,7 +124,7 @@ export function SavingsAndDepositCalculator(): React.JSX.Element {
             </div>
           </div>
         ) : (
-          schedule.length > 0 && <ResultsDisplay schedule={schedule} />
+          <ResultsDisplay schedule={schedule} />
         )}
       </main>
     </div>

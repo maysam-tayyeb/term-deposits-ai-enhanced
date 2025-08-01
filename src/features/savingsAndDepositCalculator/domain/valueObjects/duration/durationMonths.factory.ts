@@ -5,7 +5,7 @@ import {
 } from "@shared/utils/valueObjectFactory";
 
 export const MIN_ALLOWED_COMPOUNDING_MONTHS = 3;
-export const MAX_ALLOWED_COMPOUNDING_MONTHS = 5 * 12;
+export const MAX_ALLOWED_COMPOUNDING_MONTHS = 10 * 12;
 
 const monthsFormatter = createUnitFormatter("month");
 

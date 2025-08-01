@@ -55,10 +55,10 @@ test("constrains investment term to valid range", async ({ page }) => {
   await page.goto("http://localhost:5173/");
 
   // Try to enter value above max
-  await page.getByTestId("investment-term-input").fill("61");
+  await page.getByTestId("investment-term-input").fill("121");
   await page.getByTestId("investment-term-input").blur();
-  // Value should be constrained to max (60)
-  await expect(page.getByTestId("investment-term-input")).toHaveValue("60");
+  // Value should be constrained to max (120)
+  await expect(page.getByTestId("investment-term-input")).toHaveValue("120");
   
   // Try to enter value below min
   await page.getByTestId("investment-term-input").fill("2");

@@ -69,6 +69,7 @@ describe("Input Validation", () => {
       expect(validateDuration(3)).toEqual({ isValid: true });
       expect(validateDuration(12)).toEqual({ isValid: true });
       expect(validateDuration(60)).toEqual({ isValid: true });
+      expect(validateDuration(120)).toEqual({ isValid: true });
     });
 
     it("should reject NaN values", () => {
@@ -96,7 +97,7 @@ describe("Input Validation", () => {
     });
 
     it("should reject values above maximum", () => {
-      const result = validateDuration(61);
+      const result = validateDuration(121);
       expect(result.isValid).toBe(false);
       expect(result.error).toContain("cannot exceed");
     });

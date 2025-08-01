@@ -21,6 +21,7 @@ import {
   ErrorFactory,
   ErrorService,
 } from "../../config/errors";
+import { useLocalStorage } from "@shared/hooks";
 
 export interface CalculatorState {
   principal: number;
@@ -41,16 +42,25 @@ export interface CalculatorActions {
 }
 
 export function useCalculator(): CalculatorState & CalculatorActions {
-  const [principal, setPrincipal] = useState<number>(DEFAULT_VALUES.PRINCIPAL);
-  const [annualRate, setAnnualRate] = useState<number>(
+  // Use localStorage for persisting calculator values
+  const [principal, setPrincipal] = useLocalStorage<number>(
+    "calculator.principal",
+    DEFAULT_VALUES.PRINCIPAL,
+  );
+  const [annualRate, setAnnualRate] = useLocalStorage<number>(
+    "calculator.annualRate",
     DEFAULT_VALUES.INTEREST_RATE,
   );
-  const [months, setMonths] = useState<number>(
+  const [months, setMonths] = useLocalStorage<number>(
+    "calculator.months",
     DEFAULT_VALUES.INVESTMENT_TERM_MONTHS,
   );
-  const [frequency, setFrequency] = useState<PayFrequency>(
+  const [frequency, setFrequency] = useLocalStorage<PayFrequency>(
+    "calculator.frequency",
     DEFAULT_VALUES.FREQUENCY,
   );
+  
+  // Non-persisted state
   const [schedule, setSchedule] = useState<CalculationResult[]>([]);
   const [error, setError] = useState<BaseCalculatorError | null>(null);
   const errorService = ErrorService.getInstance();

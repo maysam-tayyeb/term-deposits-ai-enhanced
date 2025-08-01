@@ -74,7 +74,7 @@ React-based term deposit calculator that computes compound interest returns for 
 **Business Rules**:
 
 - Interest rate: 0.00% - 15.00%
-- Duration: 3-60 months
+- Duration: 3-120 months
 - Reinvestment frequencies: Monthly, Quarterly, Annually, At Maturity
 - All interest is automatically reinvested at selected frequency
 
