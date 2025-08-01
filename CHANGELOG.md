@@ -25,6 +25,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Paste handling that strips non-numeric characters
 - Helpful placeholder text with examples
 - FormattedNumberInput component for enhanced input handling
+- Auto-repeat functionality for stepper buttons
+- Overlay approach for formatted display
+- Floating point precision fixes for decimal calculations
+- Native wheel event handling with passive: false
 
 ### Changed
 - Updated README.md with accurate project information
@@ -36,8 +40,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated field labels to be more user-friendly
 - Enhanced help text with formatted examples
 - Improved validation error messages for clarity
+- Implemented overlay approach for cleaner formatted display
+- Always use type="number" input for consistent behavior
 
 ### Fixed
+- Passive event listener warnings for wheel events
+- Floating point precision issues (3.7 + 0.1 now correctly equals 3.8)
+- Input value not updating during scroll events
+- Native number spinners hidden via CSS
 - GitHub issue template now correctly references IMPROVEMENTS-V2.md
 - Corrected repository URL in installation instructions
 
