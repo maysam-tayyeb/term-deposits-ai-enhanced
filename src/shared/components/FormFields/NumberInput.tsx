@@ -10,6 +10,11 @@ export interface NumberInputProps {
   placeholder?: string;
   className?: string;
   testId?: string;
+  ariaLabel?: string;
+  ariaDescribedBy?: string;
+  ariaInvalid?: boolean;
+  ariaErrorMessage?: string;
+  id?: string;
 }
 
 export function NumberInput({
@@ -22,6 +27,11 @@ export function NumberInput({
   placeholder,
   className = "",
   testId,
+  ariaLabel,
+  ariaDescribedBy,
+  ariaInvalid,
+  ariaErrorMessage,
+  id,
 }: NumberInputProps): React.JSX.Element {
   const baseClass = "w-full px-4 py-3 rounded-lg border transition-all duration-200 text-gray-900 bg-white placeholder-gray-400";
   const errorClass = hasError 
@@ -33,6 +43,7 @@ export function NumberInput({
   return (
     <input
       type="number"
+      id={id}
       value={value}
       onChange={(e) => onChange(parseFloat(e.target.value))}
       min={min}
@@ -41,6 +52,12 @@ export function NumberInput({
       placeholder={placeholder}
       className={inputClassName}
       data-testid={testId}
+      aria-label={ariaLabel}
+      aria-describedby={ariaDescribedBy}
+      aria-invalid={ariaInvalid ?? hasError}
+      aria-errormessage={ariaErrorMessage}
+      inputMode="decimal"
+      autoComplete="off"
     />
   );
 }

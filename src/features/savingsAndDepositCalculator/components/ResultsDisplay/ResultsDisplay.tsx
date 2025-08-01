@@ -1,7 +1,6 @@
 import React from "react";
 import type { CalculationResult } from "../../domain/types";
 import { UI_CONFIG, UI_TEXT, TEST_IDS } from "../../config/constants";
-import { TableIcon } from "../../../../shared/components/Icons";
 
 interface ResultsDisplayProps {
   schedule: CalculationResult[];
@@ -22,20 +21,21 @@ export function ResultsDisplay({ schedule }: ResultsDisplayProps): React.JSX.Ele
           </h2>
         </div>
         
-        <div className="max-h-96 overflow-y-auto flex-1">
-          <table className="w-full">
+        <div className="max-h-96 overflow-y-auto flex-1" role="region" aria-label="Projected savings table">
+          <table className="w-full" role="table" aria-label="Monthly breakdown of investment growth">
+            <caption className="sr-only">Monthly breakdown showing interest earned and balance for your term deposit</caption>
             <thead className="bg-gray-50 sticky top-0">
               <tr>
-                <th className="px-6 py-3 text-left text-sm font-medium text-gray-900">
+                <th scope="col" className="px-6 py-3 text-left text-sm font-medium text-gray-900">
                   {UI_TEXT.TABLE_HEADERS.MONTH}
                 </th>
-                <th className="px-6 py-3 text-left text-sm font-medium text-gray-900">
+                <th scope="col" className="px-6 py-3 text-left text-sm font-medium text-gray-900">
                   {UI_TEXT.TABLE_HEADERS.INTEREST_RATE}
                 </th>
-                <th className="px-6 py-3 text-left text-sm font-medium text-gray-900">
+                <th scope="col" className="px-6 py-3 text-left text-sm font-medium text-gray-900">
                   {UI_TEXT.TABLE_HEADERS.INTEREST_EARNED}
                 </th>
-                <th className="px-6 py-3 text-left text-sm font-medium text-gray-900">
+                <th scope="col" className="px-6 py-3 text-left text-sm font-medium text-gray-900">
                   {UI_TEXT.TABLE_HEADERS.BALANCE}
                 </th>
               </tr>
@@ -43,7 +43,7 @@ export function ResultsDisplay({ schedule }: ResultsDisplayProps): React.JSX.Ele
             <tbody className="divide-y divide-gray-200">
               {schedule.map((row) => (
                 <tr key={row.month} className="hover:bg-gray-50 transition-colors duration-150">
-                  <td className="px-6 py-4 text-sm font-medium text-gray-900">{row.month}</td>
+                  <td className="px-6 py-4 text-sm font-medium text-gray-900" scope="row">{row.month}</td>
                   <td className="px-6 py-4 text-sm text-gray-600">
                     {row.annualRate.toFixed(UI_CONFIG.DECIMAL_PLACES)}%
                   </td>
@@ -77,16 +77,26 @@ export function ResultsDisplay({ schedule }: ResultsDisplayProps): React.JSX.Ele
         <div className="px-6 py-6 space-y-6 flex-1">
           {/* Final Balance */}
           <div>
-            <h4 className="text-sm font-medium text-gray-600 mb-2">{UI_TEXT.SUMMARY.FINAL_BALANCE}</h4>
-            <div data-testid={TEST_IDS.FINAL_BALANCE} className="text-3xl font-bold text-green-600">
+            <h4 id="final-balance-label" className="text-sm font-medium text-gray-600 mb-2">{UI_TEXT.SUMMARY.FINAL_BALANCE}</h4>
+            <div 
+              data-testid={TEST_IDS.FINAL_BALANCE} 
+              className="text-3xl font-bold text-green-600"
+              aria-labelledby="final-balance-label"
+              role="status"
+            >
               ${Math.round(schedule[schedule.length - 1].balance).toLocaleString(UI_CONFIG.CURRENCY.LOCALE)}
             </div>
           </div>
           
           {/* Total Interest */}
           <div>
-            <h4 className="text-sm font-medium text-gray-600 mb-2">{UI_TEXT.SUMMARY.TOTAL_INTEREST_EARNED}</h4>
-            <div data-testid={TEST_IDS.TOTAL_INTEREST_EARNED} className="text-3xl font-bold text-blue-600">
+            <h4 id="total-interest-label" className="text-sm font-medium text-gray-600 mb-2">{UI_TEXT.SUMMARY.TOTAL_INTEREST_EARNED}</h4>
+            <div 
+              data-testid={TEST_IDS.TOTAL_INTEREST_EARNED} 
+              className="text-3xl font-bold text-blue-600"
+              aria-labelledby="total-interest-label"
+              role="status"
+            >
               ${Math.round(schedule[schedule.length - 1].interest).toLocaleString(UI_CONFIG.CURRENCY.LOCALE)}
             </div>
           </div>
