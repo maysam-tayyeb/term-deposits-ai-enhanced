@@ -42,6 +42,9 @@ export function FormattedNumberInput({
   const [displayValue, setDisplayValue] = useState("");
   const [isFocused, setIsFocused] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const stepIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const stepTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const stepCountRef = useRef(0);
 
   // Format number for display
   const formatNumber = useCallback((num: number): string => {
@@ -230,19 +233,73 @@ export function FormattedNumberInput({
       newValue = Math.round(newValue * Math.pow(10, stepDecimals)) / Math.pow(10, stepDecimals);
     }
     
-    // Debug logging
-    if (process.env.NODE_ENV === 'development') {
-      console.log('handleStep debug:', {
-        currentValue,
-        step,
-        stepValue,
-        direction,
-        newValue
-      });
-    }
-    
     onChange(newValue);
   }, [value, step, min, max, onChange]);
+
+  // Handle auto-repeat stepping when holding mouse down
+  const startAutoStep = useCallback((direction: 'up' | 'down') => {
+    // Clear any existing intervals
+    if (stepIntervalRef.current) {
+      clearInterval(stepIntervalRef.current);
+    }
+    if (stepTimeoutRef.current) {
+      clearTimeout(stepTimeoutRef.current);
+    }
+    
+    // Reset step count
+    stepCountRef.current = 0;
+    
+    // Immediately do the first step
+    handleStep(direction);
+    stepCountRef.current++;
+    
+    // Start repeating after a delay
+    stepTimeoutRef.current = setTimeout(() => {
+      // Initial repeat interval (slower)
+      let currentDelay = 200;
+      
+      const performStep = () => {
+        handleStep(direction);
+        stepCountRef.current++;
+        
+        // Accelerate the stepping speed based on how long the button is held
+        if (stepCountRef.current > 5 && currentDelay > 100) {
+          currentDelay = 100;
+          clearInterval(stepIntervalRef.current!);
+          stepIntervalRef.current = setInterval(performStep, currentDelay);
+        } else if (stepCountRef.current > 10 && currentDelay > 50) {
+          currentDelay = 50;
+          clearInterval(stepIntervalRef.current!);
+          stepIntervalRef.current = setInterval(performStep, currentDelay);
+        } else if (stepCountRef.current > 20 && currentDelay > 25) {
+          currentDelay = 25;
+          clearInterval(stepIntervalRef.current!);
+          stepIntervalRef.current = setInterval(performStep, currentDelay);
+        }
+      };
+      
+      stepIntervalRef.current = setInterval(performStep, currentDelay);
+    }, 300); // Initial delay before auto-repeat starts
+  }, [handleStep]);
+
+  const stopAutoStep = useCallback(() => {
+    if (stepIntervalRef.current) {
+      clearInterval(stepIntervalRef.current);
+      stepIntervalRef.current = null;
+    }
+    if (stepTimeoutRef.current) {
+      clearTimeout(stepTimeoutRef.current);
+      stepTimeoutRef.current = null;
+    }
+    stepCountRef.current = 0;
+  }, []);
+
+  // Clean up intervals on unmount
+  useEffect(() => {
+    return () => {
+      stopAutoStep();
+    };
+  }, [stopAutoStep]);
 
   // Add wheel event listener with proper options
   useEffect(() => {
@@ -297,7 +354,11 @@ export function FormattedNumberInput({
           <div className="flex flex-col h-5">
             <button
               type="button"
-              onClick={() => handleStep('up')}
+              onMouseDown={() => startAutoStep('up')}
+              onMouseUp={stopAutoStep}
+              onMouseLeave={stopAutoStep}
+              onTouchStart={() => startAutoStep('up')}
+              onTouchEnd={stopAutoStep}
               className="flex items-center justify-center h-2.5 w-5 text-gray-400 hover:text-gray-700 transition-colors"
               aria-label={`Increase ${ariaLabel || 'value'}`}
               tabIndex={-1}
@@ -309,7 +370,11 @@ export function FormattedNumberInput({
             </button>
             <button
               type="button"
-              onClick={() => handleStep('down')}
+              onMouseDown={() => startAutoStep('down')}
+              onMouseUp={stopAutoStep}
+              onMouseLeave={stopAutoStep}
+              onTouchStart={() => startAutoStep('down')}
+              onTouchEnd={stopAutoStep}
               className="flex items-center justify-center h-2.5 w-5 text-gray-400 hover:text-gray-700 transition-colors"
               aria-label={`Decrease ${ariaLabel || 'value'}`}
               tabIndex={-1}
