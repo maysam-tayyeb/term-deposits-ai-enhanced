@@ -50,7 +50,7 @@ describe("SavingsAndDepositCalculator", () => {
         DEFAULT_VALUES.PRINCIPAL,
       );
       expect(screen.getByTestId(TEST_IDS.INTEREST_RATE_INPUT)).toHaveValue(
-        DEFAULT_VALUES.ANNUAL_INTEREST_RATE,
+        DEFAULT_VALUES.INTEREST_RATE,
       );
       expect(screen.getByTestId(TEST_IDS.INVESTMENT_TERM_INPUT)).toHaveValue(
         DEFAULT_VALUES.INVESTMENT_TERM_MONTHS,
