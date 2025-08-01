@@ -17,6 +17,7 @@ This document provides a prioritized roadmap of improvements based on criticalit
 ### 1. Accessibility Features (WCAG Compliance)
 - **Criticality**: 10/10
 - **Status**: ✅ COMPLETED
+- **Branch**: `feature/accessibility-wcag-compliance`
 - **Effort**: Medium (5-6 hours)
 - **Why Critical**: Legal compliance, excludes users with disabilities, brand reputation risk
 - **Business Impact**: Opens app to 15% more users, avoids legal issues
@@ -35,10 +36,12 @@ This document provides a prioritized roadmap of improvements based on criticalit
 ### 2. Input Validation & Error Prevention
 - **Criticality**: 9/10
 - **Status**: 🔴 Not Started
+- **Branch**: `feature/input-validation-error-prevention`
 - **Effort**: Medium (5-6 hours)
 - **Why Critical**: Users can enter invalid data causing confusion, poor UX
 - **Business Impact**: Reduces support tickets, improves user satisfaction
 - **Tasks**:
+  - [ ] Create feature branch from main
   - [ ] Add input masks for currency ($1,234.56)
   - [ ] Add percentage formatting (5.50%)
   - [ ] Implement paste handling (strip non-numeric)
@@ -56,10 +59,12 @@ This document provides a prioritized roadmap of improvements based on criticalit
 ### 3. Performance Optimizations
 - **Criticality**: 8/10
 - **Status**: 🔴 Not Started
+- **Branch**: `feature/performance-optimizations`
 - **Effort**: Medium (4-5 hours)
 - **Why High**: Unnecessary re-renders impact performance on slower devices
 - **Business Impact**: Better mobile experience, reduced bounce rate
 - **Tasks**:
+  - [ ] Create feature branch from main
   - [ ] Implement React.memo on ResultsDisplay
   - [ ] Add useMemo for expensive calculations
   - [ ] Debounce input changes (300ms)
@@ -72,6 +77,7 @@ This document provides a prioritized roadmap of improvements based on criticalit
 ### 4. State Management Architecture
 - **Criticality**: 7/10
 - **Status**: 🟢 Partially Complete
+- **Branch**: `feature/state-management-architecture`
 - **Effort**: Medium (4-5 hours)
 - **Why High**: Current local state limits feature growth and testing
 - **Business Impact**: Enables new features, improves maintainability
@@ -79,6 +85,7 @@ This document provides a prioritized roadmap of improvements based on criticalit
   - [x] Implement custom hook pattern (useCalculator)
   - [x] Centralize state logic
 - **Remaining Tasks**:
+  - [ ] Create feature branch from main
   - [ ] Evaluate need for global state
   - [ ] Add state persistence if needed
   - [ ] Consider Context API or Zustand for future features
@@ -88,6 +95,7 @@ This document provides a prioritized roadmap of improvements based on criticalit
 ### 5. Mobile Responsiveness
 - **Criticality**: 7/10
 - **Status**: 🟢 Partially Complete
+- **Branch**: `feature/mobile-responsiveness`
 - **Effort**: Small (3-4 hours)
 - **Why High**: 60%+ users on mobile, current table scrolling is poor
 - **Business Impact**: Improves mobile conversion rates
@@ -95,6 +103,7 @@ This document provides a prioritized roadmap of improvements based on criticalit
   - [x] Responsive design with Tailwind CSS
   - [x] Mobile-friendly form layout
 - **Remaining Tasks**:
+  - [ ] Create feature branch from main
   - [ ] Optimize table horizontal scrolling
   - [ ] Ensure touch targets are 48x48px minimum
   - [ ] Test on real devices
@@ -109,6 +118,7 @@ This document provides a prioritized roadmap of improvements based on criticalit
 ### 6. Code Architecture Refactoring
 - **Criticality**: 6/10
 - **Status**: ✅ COMPLETED
+- **Branch**: `feature/code-architecture-refactoring`
 - **Effort**: Large (6-8 hours)
 - **Why Medium**: Technical debt but not blocking features
 - **Business Impact**: Faster feature development, easier onboarding
@@ -125,6 +135,7 @@ This document provides a prioritized roadmap of improvements based on criticalit
 ### 7. TypeScript Strictness
 - **Criticality**: 6/10
 - **Status**: ✅ COMPLETED
+- **Branch**: `feature/typescript-strictness`
 - **Effort**: Small (3-4 hours)
 - **Why Medium**: Prevents bugs but not user-facing
 - **Completed Tasks**:
@@ -139,6 +150,7 @@ This document provides a prioritized roadmap of improvements based on criticalit
 ### 8. Quick Wins Bundle
 - **Criticality**: 6/10
 - **Status**: 🟢 Partially Complete
+- **Branch**: `feature/quick-wins-bundle`
 - **Effort**: Small (1-2 hours)
 - **Why Medium**: Easy improvements with good impact
 - **Completed Tasks**:
@@ -146,6 +158,7 @@ This document provides a prioritized roadmap of improvements based on criticalit
   - [x] Extract constants to configuration
   - [x] Improve error messages
 - **Remaining Tasks**:
+  - [ ] Create feature branch from main
   - [ ] Add autocomplete attributes to inputs
   - [ ] Add loading states for calculations
   - [ ] Add input masks for currency formatting
@@ -155,6 +168,7 @@ This document provides a prioritized roadmap of improvements based on criticalit
 ### 9. Testing Enhancements
 - **Criticality**: 5/10
 - **Status**: ✅ COMPLETED
+- **Branch**: `feature/testing-enhancements`
 - **Effort**: Large (6-8 hours)
 - **Why Medium**: Good for quality but not blocking
 - **Completed Tasks**:
@@ -174,9 +188,11 @@ This document provides a prioritized roadmap of improvements based on criticalit
 ### 10. Design System Implementation
 - **Criticality**: 4/10
 - **Status**: 🔴 Not Started
+- **Branch**: `feature/design-system`
 - **Effort**: Large (8-10 hours)
 - **Why Low**: Nice for consistency but app is small
 - **Tasks**:
+  - [ ] Create feature branch from main
   - [ ] Set up Storybook
   - [ ] Create component library
   - [ ] Add design tokens
@@ -187,9 +203,11 @@ This document provides a prioritized roadmap of improvements based on criticalit
 ### 11. Advanced Features
 - **Criticality**: 3/10
 - **Status**: 🔴 Not Started
+- **Branch**: `feature/advanced-features-[specific-feature]`
 - **Effort**: Large (8-10 hours per feature)
 - **Why Low**: Current features meet core needs
 - **Features to consider**:
+  - [ ] Create feature branch for each specific feature
   - [ ] Export to CSV/PDF
   - [ ] Save/load scenarios
   - [ ] Comparison mode
@@ -201,6 +219,7 @@ This document provides a prioritized roadmap of improvements based on criticalit
 ### 12. Developer Experience
 - **Criticality**: 3/10
 - **Status**: 🟢 Partially Complete
+- **Branch**: `feature/developer-experience`
 - **Effort**: Medium (4-5 hours)
 - **Why Low**: Team is small, patterns established
 - **Completed Tasks**:
@@ -208,6 +227,7 @@ This document provides a prioritized roadmap of improvements based on criticalit
   - [x] Update all documentation
   - [x] Add CLAUDE.md for AI development
 - **Remaining Tasks**:
+  - [ ] Create feature branch from main
   - [ ] Add pre-commit hooks
   - [ ] Create component generators
   - [ ] Add more code examples
