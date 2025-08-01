@@ -34,16 +34,32 @@ src/
 ├── main.tsx                         # Application entry point
 ├── features/                        # Feature-based modules
 │   └── savingsAndDepositCalculator/
+│       ├── __tests__/               # Feature tests
+│       │   └── integration/         # Integration tests
 │       ├── components/              # UI components
+│       │   ├── CalculatorForm/      # Main form component
+│       │   ├── ErrorHandling/       # Error components
+│       │   ├── ResultsDisplay/      # Results view
+│       │   └── SavingsAndDepositCalculator/  # Main container
+│       ├── config/                  # Configuration
 │       ├── domain/                  # Business logic & types
-│       ├── logic/                   # Hooks & calculations
-│       └── config/                  # Configuration
+│       │   ├── types/               # Domain types
+│       │   └── valueObjects/        # Value objects
+│       │       ├── duration/        # Duration value object
+│       │       └── interestRate/    # Interest rate value object
+│       └── logic/                   # Hooks & calculations
+│           ├── calculations/        # Calculation functions
+│           └── hooks/               # Custom React hooks
 ├── shared/                          # Shared utilities
 │   ├── components/                  # Reusable UI components
+│   │   ├── ErrorBoundary/          # Error boundary wrapper
+│   │   ├── FormFields/             # Form field components
+│   │   └── LiveRegion/             # Accessibility announcements
+│   ├── config/                      # Shared configuration
 │   ├── errors/                      # Error handling system
 │   ├── types/                       # Shared TypeScript types
 │   └── utils/                       # Utility functions
-└── utils/                           # Global utilities
+└── test/                            # Test setup and utilities
 ```
 
 ### Current Patterns
@@ -53,10 +69,15 @@ Each feature is self-contained with its own components, logic, and domain models
 
 ```typescript
 // features/savingsAndDepositCalculator/
-├── components/          # Feature-specific UI
-├── domain/             # Business rules & types
-├── logic/              # Hooks & calculations
-└── config/             # Feature configuration
+├── __tests__/          # Feature-specific tests
+├── components/         # Feature-specific UI
+├── config/            # Feature configuration
+├── domain/            # Business rules & types
+│   ├── types/         # Domain type definitions
+│   └── valueObjects/  # Branded types with validation
+└── logic/             # Hooks & calculations
+    ├── calculations/  # Pure calculation functions
+    └── hooks/         # React hooks for UI logic
 ```
 
 #### 2. **Domain-Driven Design**

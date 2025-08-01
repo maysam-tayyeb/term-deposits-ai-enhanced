@@ -8,7 +8,7 @@ assignees: ''
 ---
 
 ## Improvement Item
-Reference: Item #___ from IMPROVEMENTS.md
+Reference: Item #___ from IMPROVEMENTS-V2.md
 
 ## Priority
 - [ ] 🔴 High
