@@ -41,10 +41,12 @@ export function FormattedNumberInput({
 }: FormattedNumberInputProps): React.JSX.Element {
   const [displayValue, setDisplayValue] = useState("");
   const [isFocused, setIsFocused] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const stepIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const stepTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const stepCountRef = useRef(0);
+  const focusTimeoutRef = useRef<NodeJS.Timeout>();
 
   // Format number for display
   const formatNumber = useCallback((num: number): string => {
@@ -81,26 +83,41 @@ export function FormattedNumberInput({
 
   // Update display value when value prop changes or focus changes
   useEffect(() => {
+    if (isTransitioning) return;
+    
     if (!isFocused) {
       setDisplayValue(formatNumber(value));
     } else {
       setDisplayValue(value.toString());
     }
-  }, [value, isFocused, format, decimalPlaces, formatNumber]);
+  }, [value, isFocused, isTransitioning, formatNumber]);
 
   // Handle input changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target.value;
     setDisplayValue(input);
 
-    const parsed = parseInput(input);
-    if (parsed !== null) {
-      // Apply min/max constraints
-      let constrained = parsed;
-      if (min !== undefined && parsed < min) constrained = min;
-      if (max !== undefined && parsed > max) constrained = max;
-      
-      onChange(constrained);
+    if (isFocused) {
+      // When focused (type="number"), parse directly
+      const numValue = parseFloat(input);
+      if (!isNaN(numValue)) {
+        let constrained = numValue;
+        if (min !== undefined && numValue < min) constrained = min;
+        if (max !== undefined && numValue > max) constrained = max;
+        onChange(constrained);
+      } else if (input === "" || input === "-") {
+        // Allow empty or minus sign while typing
+        setDisplayValue(input);
+      }
+    } else {
+      // When not focused (type="text"), use parseInput for formatting
+      const parsed = parseInput(input);
+      if (parsed !== null) {
+        let constrained = parsed;
+        if (min !== undefined && parsed < min) constrained = min;
+        if (max !== undefined && parsed > max) constrained = max;
+        onChange(constrained);
+      }
     }
   };
 
@@ -122,7 +139,13 @@ export function FormattedNumberInput({
 
   // Handle keyboard events to prevent invalid characters
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    // Handle arrow keys for stepping
+    // When type="number" and focused, let browser handle arrow keys natively
+    if (isFocused && !isTransitioning) {
+      // Don't interfere with number input's native behavior
+      return;
+    }
+    
+    // Handle arrow keys for stepping when type="text"
     if (e.key === "ArrowUp") {
       e.preventDefault();
       handleStep('up');
@@ -168,27 +191,52 @@ export function FormattedNumberInput({
     e.preventDefault();
   };
 
-  // Handle focus events
+  // Handle focus events with debouncing
   const handleFocus = () => {
-    setIsFocused(true);
+    // Clear any pending blur
+    if (focusTimeoutRef.current) {
+      clearTimeout(focusTimeoutRef.current);
+    }
+    
+    if (!isFocused && !isTransitioning) {
+      setIsTransitioning(true);
+      setIsFocused(true);
+      
+      // Set numeric value for number input
+      setDisplayValue(value.toString());
+      
+      setTimeout(() => {
+        setIsTransitioning(false);
+      }, 50);
+    }
   };
 
   const handleBlur = () => {
-    setIsFocused(false);
-    // Format number when blurred
-    const parsed = parseInput(displayValue);
-    if (parsed !== null) {
-      let constrained = parsed;
-      if (min !== undefined && parsed < min) constrained = min;
-      if (max !== undefined && parsed > max) constrained = max;
-      
-      onChange(constrained);
-      setDisplayValue(formatNumber(constrained));
-    } else {
-      // Reset to current value if input is invalid
-      onChange(value);
-      setDisplayValue(formatNumber(value));
-    }
+    // Debounce blur to prevent rapid switching
+    focusTimeoutRef.current = setTimeout(() => {
+      if (isFocused && !isTransitioning) {
+        setIsTransitioning(true);
+        setIsFocused(false);
+        
+        // Parse and validate the current input
+        const currentInput = inputRef.current?.value || displayValue;
+        const parsed = parseFloat(currentInput);
+        
+        let validValue = value;
+        if (!isNaN(parsed)) {
+          validValue = parsed;
+          if (min !== undefined && validValue < min) validValue = min;
+          if (max !== undefined && validValue > max) validValue = max;
+        }
+        
+        onChange(validValue);
+        setDisplayValue(formatNumber(validValue));
+        
+        setTimeout(() => {
+          setIsTransitioning(false);
+        }, 50);
+      }
+    }, 100);
   };
 
   const baseClass = "w-full px-4 py-3 rounded-lg border transition-all duration-200 text-gray-900 bg-white placeholder-gray-400";
@@ -294,10 +342,13 @@ export function FormattedNumberInput({
     stepCountRef.current = 0;
   }, []);
 
-  // Clean up intervals on unmount
+  // Clean up intervals and timeouts on unmount
   useEffect(() => {
     return () => {
       stopAutoStep();
+      if (focusTimeoutRef.current) {
+        clearTimeout(focusTimeoutRef.current);
+      }
     };
   }, [stopAutoStep]);
 
@@ -331,7 +382,7 @@ export function FormattedNumberInput({
     <div className="relative group">
       <input
         ref={inputRef}
-        type="text"
+        type={isFocused && !isTransitioning ? "number" : "text"}
         id={id}
         value={displayValue}
         onChange={handleChange}
@@ -348,6 +399,9 @@ export function FormattedNumberInput({
         aria-errormessage={ariaErrorMessage}
         inputMode="decimal"
         autoComplete="off"
+        min={min}
+        max={max}
+        step={step}
       />
       {showSteppers && (
         <div className="absolute inset-y-0 right-2 flex items-center opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity duration-200">
